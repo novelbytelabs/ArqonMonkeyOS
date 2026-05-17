@@ -1,12 +1,17 @@
 openapi: 3.1.0
 info:
   title: Arqon Science Monkeys Actions
-  version: 0.2.0-read-resume
+  version: 0.3.0-contextbus-command-action-schema
   description: >
     Role-scoped Science Monkeys Action surface for Arqon Zero GPTs.
     This schema integrates the bounded read/resume surface while preserving
     backend role enforcement. Raw GPT output is not evidence. Routed artifacts
     are governed records, not scientific truth. No harness = No truth. Required status labels: REQUIRES_HUMAN_REVIEW; development diagnostic only; NOT SEALED-TEST CERTIFIED; not promotable.
+x-arqon_schema_id: SCIENCE_MONKEYS_CONTEXTBUS_COMMAND_ACTION_SCHEMA_INTEGRATION_001
+x-arqon_schema_status: CANDIDATE_UNTIL_GATE_PASS_AND_HASH_LOCKED_IMPORT
+x-arqon_import_rule: >
+  Compute SHA256 of this exact file after commit. Import that exact schema into each Science Monkey GPT Action config.
+  Record the schema SHA256, commit SHA, GPT name, and import timestamp before any live-smoke evidence.
 servers:
   - url: https://arqon-contextos-broker.sonarum.workers.dev
 security:
@@ -403,6 +408,241 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
+
+  /v1/context:
+    get:
+      operationId: syncContext
+      summary: Sync project and role context for the authenticated role.
+      description: >
+        Shared ContextBus read command. Returns project/role context only.
+        Context is not Science evidence, not a finding, and not certification.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
+        - in: query
+          name: role
+          schema:
+            type: string
+          description: Optional requested role context. Backend bearer-token role remains authoritative.
+      responses:
+        "200":
+          description: Role-scoped project context response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /v1/constitution:
+    get:
+      operationId: syncConstitution
+      summary: Sync active shared/role constitution for the authenticated role.
+      description: >
+        Shared ContextBus read command. Constitution text is governance context,
+        not Science evidence and not a runtime authority grant.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
+        - in: query
+          name: role
+          schema:
+            type: string
+          description: Optional requested role constitution. Backend bearer-token role remains authoritative.
+      responses:
+        "200":
+          description: Constitution response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /v1/notes:
+    post:
+      operationId: saveContextNote
+      summary: Save a non-official ContextBus note.
+      description: >
+        Shared ContextBus write command for non-official notes only. Notes are not Science artifacts,
+        not evidence, not findings, not certification, not promotion,
+        not deployment approval, and not production readiness.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContextNoteRequest"
+      responses:
+        "201":
+          description: Non-official context note saved.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /v1/messages:
+    post:
+      operationId: sendRoleMessage
+      summary: Send a non-official ContextBus role message.
+      description: >
+        Shared ContextBus message command. Messages are directed non-official role
+        notes only. They are not Science evidence, not findings, not promotion,
+        not Human approval, and not authority grants.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContextMessageRequest"
+      responses:
+        "201":
+          description: Non-official role message sent.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /v1/messages/inbox:
+    get:
+      operationId: readRoleInbox
+      summary: Read the authenticated role inbox.
+      description: >
+        Shared ContextBus inbox command. Non-Human roles may read only their own
+        role inbox as enforced by backend bearer-token auth.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
+        - in: query
+          name: role
+          schema:
+            type: string
+          description: Optional role filter. Backend bearer-token role remains authoritative.
+      responses:
+        "200":
+          description: Role inbox response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /v1/messages/{message_id}:
+    get:
+      operationId: openRoleMessage
+      summary: Open one message visible to the authenticated role.
+      description: >
+        Shared ContextBus message-read command. Message contents are non-official
+        context and must not be treated as Science evidence.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: message_id
+          required: true
+          schema:
+            type: string
+          description: Message id to open.
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
+      responses:
+        "200":
+          description: Message body/metadata response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    post:
+      operationId: archiveRoleMessage
+      summary: Archive one message visible to the authenticated role.
+      description: >
+        Shared ContextBus cleanup command for message archival only. This must not
+        create Science artifacts, advance flows, or authorize evidence claims.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: message_id
+          required: true
+          schema:
+            type: string
+          description: Message id to archive.
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
+      responses:
+        "200":
+          description: Message archived response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
   /v1/science/research:
     post:
       operationId: scienceResearch
@@ -632,6 +872,43 @@ components:
           properties:
             code: { type: string }
             message: { type: string }
+    ContextNoteRequest:
+      type: object
+      additionalProperties: true
+      required: [body]
+      properties:
+        project: { type: string, enum: [ArqonZero], default: ArqonZero }
+        title:
+          type: string
+          description: Non-official note title.
+        body:
+          type: string
+          description: Non-official context note body. Must not contain secrets.
+        tags:
+          type: array
+          items: { type: string }
+          description: Optional non-authoritative tags.
+    ContextMessageRequest:
+      type: object
+      additionalProperties: true
+      required: [body]
+      properties:
+        project: { type: string, enum: [ArqonZero], default: ArqonZero }
+        to_role:
+          type: string
+          description: Target role inbox. Backend validates allowed recipients.
+        to:
+          type: string
+          description: Target role alias if backend uses to instead of to_role.
+        subject:
+          type: string
+          description: Non-official message subject.
+        body:
+          type: string
+          description: Non-official message body. Must not contain secrets.
+        flow_ref:
+          type: string
+          description: Optional flow reference for context only; does not create evidence.
     ScienceArtifactSummary:
       type: object
       additionalProperties: true
