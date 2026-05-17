@@ -24,8 +24,10 @@ def main() -> int:
     science_path = ROOT / "worker/src/science.ts"
     flow_policy_path = ROOT / "worker/src/flow_policy.ts"
     openapi_path = ROOT / "openapi/arqon_contextos.openapi.yaml"
+    read_resume_path = ROOT / "worker/src/read_resume.ts"
+    hardening_test_path = ROOT / "worker/test_support/science_monkeys_read_resume_surface_hardening_policy_unit.ts"
 
-    for path in [index_path, science_path, flow_policy_path, openapi_path]:
+    for path in [index_path, science_path, flow_policy_path, openapi_path, read_resume_path, hardening_test_path]:
         if not path.exists():
             failures.append(f"missing expected file: {path.relative_to(ROOT)}")
 
@@ -33,6 +35,16 @@ def main() -> int:
     science_text = science_path.read_text(encoding="utf-8") if science_path.exists() else ""
     flow_policy_text = flow_policy_path.read_text(encoding="utf-8") if flow_policy_path.exists() else ""
     openapi_text = openapi_path.read_text(encoding="utf-8") if openapi_path.exists() else ""
+    read_resume_text = read_resume_path.read_text(encoding="utf-8") if read_resume_path.exists() else ""
+
+    for required_hardening_marker in [
+        "SECRET_LIKE_PATTERNS",
+        "ARTIFACT_CONTENT_POLICY_DENIED",
+        "UNKNOWN_UNSAFE_PATH",
+        "UNSAFE_ARTIFACT_SOURCE_PATH_PRESENT",
+    ]:
+        if required_hardening_marker not in read_resume_text:
+            failures.append(f"missing read/resume hardening marker: {required_hardening_marker}")
 
     if re.search(r"/v1/queue", index_text):
         failures.append("queue route added to worker/src/index.ts")
@@ -73,6 +85,8 @@ def main() -> int:
     print("- /v1/science/share remains HUMAN-only")
     print("- /v1/science/execute-experiment remains SCIENCE_EXECUTOR_AI-only")
     print("- no new Science artifact type activated")
+    print("- artifact body secret-like content is refused")
+    print("- unsafe artifact source paths are hidden/fail-closed")
     return 0
 
 

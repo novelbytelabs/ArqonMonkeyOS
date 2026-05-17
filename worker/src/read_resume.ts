@@ -64,6 +64,19 @@ interface FlowIndex {
   flows: FlowIndexEntry[];
 }
 
+interface SecretLikePattern {
+  name: string;
+  pattern: RegExp;
+}
+
+const SECRET_LIKE_PATTERNS: SecretLikePattern[] = [
+  { name: "PRIVATE_KEY_BLOCK", pattern: /-----BEGIN [A-Z ]*PRIVATE KEY-----/ },
+  { name: "GITHUB_TOKEN", pattern: /\bgh[pousr]_[A-Za-z0-9_]{20,}\b/ },
+  { name: "OPENAI_STYLE_API_KEY", pattern: /\bsk-[A-Za-z0-9_-]{20,}\b/ },
+  { name: "BEARER_TOKEN", pattern: /\bBearer\s+[A-Za-z0-9._~+\/=:-]{20,}/i },
+  { name: "SECRET_ASSIGNMENT", pattern: /\b(?:api[_-]?key|secret|token|password|private[_-]?key)\s*[:=]\s*[\"']?[A-Za-z0-9._~+\/=:-]{12,}/i }
+];
+
 type ReadResumeAction =
   | "whoami"
   | "capabilities"
@@ -236,20 +249,58 @@ function artifactSortDescending(a: FlowArtifactSummary, b: FlowArtifactSummary):
   return Date.parse(b.created_at) - Date.parse(a.created_at) || a.artifact_id.localeCompare(b.artifact_id);
 }
 
-function latestArtifacts(manifest: FlowManifest): Record<string, FlowArtifactSummary> {
-  const latest: Record<string, FlowArtifactSummary> = {};
+function safeArtifactMetadata(artifact: FlowArtifactSummary): Record<string, unknown> {
+  const base = {
+    artifact_id: artifact.artifact_id || "UNKNOWN",
+    artifact_type: artifact.artifact_type || "UNKNOWN",
+    title: artifact.title || "UNKNOWN",
+    created_by_role: artifact.role || "UNKNOWN",
+    created_at_if_known: artifact.created_at || "UNKNOWN",
+    source_sha: artifact.source_sha || "UNKNOWN"
+  };
+  try {
+    assertSafeArtifactId(artifact.artifact_id);
+    assertSafeArtifactPath(artifact.source_path);
+    return {
+      ...base,
+      path_or_ref_if_safe: artifact.source_path,
+      path_safety: "SAFE",
+      body_available: true,
+      unknowns: []
+    };
+  } catch {
+    return {
+      ...base,
+      path_or_ref_if_safe: "UNKNOWN_UNSAFE_PATH",
+      path_safety: "UNSAFE",
+      body_available: false,
+      unknowns: ["UNSAFE_ARTIFACT_SOURCE_PATH"]
+    };
+  }
+}
+
+function latestArtifacts(manifest: FlowManifest): Record<string, Record<string, unknown>> {
+  const latest: Record<string, Record<string, unknown>> = {};
   for (const artifact of [...manifest.artifacts].sort(artifactSortDescending)) {
-    if (!latest[artifact.artifact_type]) latest[artifact.artifact_type] = artifact;
+    if (!latest[artifact.artifact_type]) latest[artifact.artifact_type] = safeArtifactMetadata(artifact);
   }
   return latest;
 }
 
-function latestByRole(manifest: FlowManifest): Record<string, FlowArtifactSummary> {
-  const latest: Record<string, FlowArtifactSummary> = {};
+function latestByRole(manifest: FlowManifest): Record<string, Record<string, unknown>> {
+  const latest: Record<string, Record<string, unknown>> = {};
   for (const artifact of [...manifest.artifacts].sort(artifactSortDescending)) {
-    if (!latest[artifact.role]) latest[artifact.role] = artifact;
+    if (!latest[artifact.role]) latest[artifact.role] = safeArtifactMetadata(artifact);
   }
   return latest;
+}
+
+function countUnsafeArtifacts(artifacts: FlowArtifactSummary[]): number {
+  return artifacts.map(safeArtifactMetadata).filter(artifact => artifact.path_safety === "UNSAFE").length;
+}
+
+function findSecretLikeMarkers(content: string): string[] {
+  return SECRET_LIKE_PATTERNS.filter(rule => rule.pattern.test(content)).map(rule => rule.name);
 }
 
 function summarizeFlow(entry: FlowIndexEntry, manifest?: FlowManifest): Record<string, unknown> {
@@ -262,7 +313,7 @@ function summarizeFlow(entry: FlowIndexEntry, manifest?: FlowManifest): Record<s
     status: entry.status,
     current_gate: entry.current_gate,
     updated_at: entry.updated_at,
-    latest_artifact: artifacts[0] || "UNKNOWN",
+    latest_artifact: artifacts[0] ? safeArtifactMetadata(artifacts[0]) : "UNKNOWN",
     next_allowed_action: manifest ? deriveNext(manifest).next_allowed_action : "UNKNOWN"
   };
 }
@@ -426,7 +477,8 @@ async function buildFlowResume(env: Env, projectName: string, role: Role, flowRe
   if (resolved instanceof Response) return resolved;
   const manifest = await loadFlowManifest(env, projectName, resolved.flowId, store);
   const next = deriveNext(manifest);
-  const latestHumanDecision = [...manifest.artifacts].sort(artifactSortDescending).find(artifact => artifact.role === "HUMAN") || "UNKNOWN";
+  const latestHumanDecisionRaw = [...manifest.artifacts].sort(artifactSortDescending).find(artifact => artifact.role === "HUMAN");
+  const latestHumanDecision = latestHumanDecisionRaw ? safeArtifactMetadata(latestHumanDecisionRaw) : "UNKNOWN";
   return jsonResponse({
     ok: true,
     project: projectName,
@@ -490,10 +542,10 @@ async function handleFlowHistory(request: Request, env: Env, flowRef: string, st
     flow_id: manifest.flow_id,
     flow_name: manifest.name,
     events: manifest.history || [],
-    human_decisions: (manifest.artifacts || []).filter(artifact => artifact.role === "HUMAN"),
+    human_decisions: (manifest.artifacts || []).filter(artifact => artifact.role === "HUMAN").map(safeArtifactMetadata),
     artifact_events: (manifest.history || []).filter(event => event.event_type === "write_artifact"),
     gate_events: (manifest.history || []).filter(event => event.event_type === "advance_flow"),
-    audit_events: (manifest.artifacts || []).filter(artifact => artifact.role === "AUDITOR_AI" || artifact.role === "SCIENCE_AUDITOR_AI"),
+    audit_events: (manifest.artifacts || []).filter(artifact => artifact.role === "AUDITOR_AI" || artifact.role === "SCIENCE_AUDITOR_AI").map(safeArtifactMetadata),
     status_labels: requiredStatusLabels(),
     truth_boundary: TRUTH_BOUNDARY,
     unknowns: (manifest.history || []).length === 0 ? ["NO_HISTORY_EVENTS_RECORDED"] : []
@@ -512,18 +564,13 @@ async function handleFlowArtifacts(request: Request, env: Env, flowRef: string, 
     project: projectName,
     flow_id: manifest.flow_id,
     flow_name: manifest.name,
-    artifacts: manifest.artifacts.map(artifact => ({
-      artifact_id: artifact.artifact_id,
-      artifact_type: artifact.artifact_type,
-      title: artifact.title,
-      created_by_role: artifact.role,
-      created_at_if_known: artifact.created_at || "UNKNOWN",
-      path_or_ref_if_safe: artifact.source_path,
-      body_available: Boolean(artifact.source_path)
-    })),
+    artifacts: manifest.artifacts.map(safeArtifactMetadata),
     status_labels: requiredStatusLabels(),
     truth_boundary: TRUTH_BOUNDARY,
-    unknowns: manifest.artifacts.length === 0 ? ["NO_ARTIFACTS_RECORDED"] : []
+    unknowns: [
+      ...(manifest.artifacts.length === 0 ? ["NO_ARTIFACTS_RECORDED"] : []),
+      ...(countUnsafeArtifacts(manifest.artifacts) > 0 ? ["UNSAFE_ARTIFACT_SOURCE_PATH_PRESENT"] : [])
+    ]
   });
 }
 
@@ -632,6 +679,11 @@ async function handleArtifactOpen(request: Request, env: Env, artifactId: string
   const { manifest, artifact } = matches[0];
   assertSafeArtifactPath(artifact.source_path);
   const file = await store.fetchFile(env, project, artifact.source_path);
+  assertSafeArtifactPath(file.path);
+  const secretMarkers = findSecretLikeMarkers(file.content);
+  if (secretMarkers.length > 0) {
+    return errorResponse("ARTIFACT_CONTENT_POLICY_DENIED", "Artifact body contains secret-like content and is not returned by this read/resume route.", 403);
+  }
   return jsonResponse({
     ok: true,
     project: projectName,
@@ -686,7 +738,7 @@ export async function handleReadResumeRequest(
     const message = err instanceof Error ? err.message : String(err);
     if (message.startsWith("Invalid") || message.startsWith("Unsafe") || message.includes("must be")) return errorResponse("BAD_REQUEST", message, 400);
     if (message.startsWith("Unknown project")) return errorResponse("UNKNOWN_PROJECT", message, 404);
-    if (message.includes("Forbidden path") || message.includes("outside governed flow artifacts")) return errorResponse("POLICY_DENIED", message, 403);
+    if (message.includes("Forbidden path") || message.includes("outside governed flow artifacts") || message.includes("Artifact source path")) return errorResponse("POLICY_DENIED", message, 403);
     return errorResponse("INTERNAL_ERROR", message, 500);
   }
 }

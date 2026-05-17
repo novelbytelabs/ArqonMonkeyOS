@@ -303,7 +303,7 @@ paths:
     get:
       operationId: openArtifact
       summary: Read one governed artifact body by artifact_id.
-      description: Read-only. Resolves only artifact IDs known through flow manifests; rejects path traversal and arbitrary repo paths.
+      description: Read-only. Resolves only artifact IDs known through flow manifests; rejects path traversal, arbitrary repo paths, ambiguous artifact IDs, and secret-like artifact body content.
       parameters:
         - in: path
           name: artifact_id
@@ -734,7 +734,7 @@ paths:
   /v1/flows/{flow_ref}/artifacts:
     get:
       operationId: listFlowArtifacts
-      summary: List governed artifacts on a flow without returning artifact bodies.
+      summary: List governed artifacts on a flow without returning artifact bodies; unsafe source paths are hidden as UNKNOWN_UNSAFE_PATH.
       parameters:
         - in: path
           name: flow_ref
