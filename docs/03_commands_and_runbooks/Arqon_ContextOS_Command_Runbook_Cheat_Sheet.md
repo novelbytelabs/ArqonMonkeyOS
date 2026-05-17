@@ -6,7 +6,8 @@ Doctrine note:
 
 - MonkeyOS is the umbrella platform.
 - ContextBus is the infrastructure layer formerly called ContextOS.
-- Runtime/API behavior in this runbook remains unchanged in v0.2.
+- This runbook is the operator-facing quick reference and must track currently validated behavior.
+- Current Science GPT Action schema version is `0.3.1-contextbus-archive-action-cache-binding`.
 
 ## 1. Quick Start
 - **Load role context** — `/sync-context project=ArqonZero role=PM_AI` — Yes
@@ -16,7 +17,7 @@ Doctrine note:
 - **Send message** — `/send-message project=ArqonZero from=CODER_AI to=PM_AI subject="..."` — Yes
 - **Read inbox** — `/inbox project=ArqonZero role=PM_AI` — Yes
 - **Open message** — `/open-message project=ArqonZero role=PM_AI message_id=MSG-...` — Yes
-- **Archive message** — `/archive-message project=ArqonZero role=PM_AI message_id=MSG-...` — Yes; safe copy in v0.2
+- **Archive message** — `/archive-message project=ArqonZero role=PM_AI message_id=MSG-...` — Yes; current Science GPT Action binding uses `POST /v1/messages/{message_id}/archive`
 - **Create task run** — `/create-run project=ArqonZero title="..." owner=PM_AI` — Legacy/planned; superseded by Flow Core `/create-flow`
 - **Load task run** — `/load-run project=ArqonZero run_id=AZ-... role=AUDITOR_AI` — Legacy/planned; superseded by Flow Core `/load-flow`
 - **Write artifact** — `/write-artifact project=ArqonZero run_id=AZ-... type=pm_spec` — Legacy/planned; superseded by `/write-flow`
@@ -26,7 +27,7 @@ Core rule: PM proposes. Coder implements. Helper executes. Auditor verifies. Hum
 
 ## 3. Role Access Rules
 
-## 4. Implemented Commands — v0.2
+## 4. Implemented commands
 ### /sync-context
 - Purpose: Load role-specific live project context.
 - Example: `/sync-context project=ArqonZero role=CODER_AI`
@@ -65,7 +66,7 @@ Core rule: PM proposes. Coder implements. Helper executes. Auditor verifies. Hum
 ### /archive-message
 - Purpose: Copy message to role archive.
 - Example: `/archive-message project=ArqonZero role=PM_AI message_id=MSG-...`
-- Notes: v0.2 copies to archive; inbox deletion is deferred.
+- Notes: Current GPT Action binding targets `POST /v1/messages/{message_id}/archive`. Archive is still safe copy-to-archive; inbox deletion is deferred.
 
 - `/create-run` — Create official run folder/manifest. Example: `/create-run project=ArqonZero title="Add claim-language guard" owner=PM_AI` Status: Planned
 - `/load-run` — Load official run state and role-relevant artifacts. Example: `/load-run project=ArqonZero run_id=AZ-2026-0001 role=AUDITOR_AI` Status: Planned
@@ -90,12 +91,10 @@ Core rule: PM proposes. Coder implements. Helper executes. Auditor verifies. Hum
 - `/research`
 - `/hypothesize`
 - `/design-experiment`
-- `/execute-experiment`
 - `/audit-experiment`
 - `/interpret`
 - `/iterate`
 - `/record-finding`
-- `/share`
 
 ### Future Code Monkeys command family
 
@@ -121,6 +120,15 @@ Core rule: PM proposes. Coder implements. Helper executes. Auditor verifies. Hum
 7. Open Auditor AI and run /sync-context project=ArqonZero role=AUDITOR_AI before reviewing evidence or risk notes.
 8. Use notes/messages for context and communication only. Use run artifacts later for official PM/Coder/Helper/Auditor outputs.
 
+## 6A. Current Science GPT action boundary
+
+- Current Science GPT Action schema version: `0.3.1-contextbus-archive-action-cache-binding`
+- ContextBus commands now exposed in Science GPT Actions include context, constitution, notes, messages, inbox, open message, and archive message
+- Archive message is bound to `POST /v1/messages/{message_id}/archive`
+- `POST /v1/messages/{message_id}` must not be used for archive
+- `/v1/science/share` is not exposed to GPTs
+- `/v1/science/execute-experiment` is not exposed to GPTs
+
 ## 7. Common Workflows
 ### 7.1 Save a Coder suggestion for PM
 `/sync-context project=ArqonZero role=CODER_AI`
@@ -145,8 +153,9 @@ Core rule: PM proposes. Coder implements. Helper executes. Auditor verifies. Hum
 - **403 on /sync-context**: Wrong/missing/stale broker key or wrong role key. Fix: Recreate Action, set API Key -> Bearer, paste raw role key, save GPT, start fresh preview.
 - **403 on /v1/health inside GPT but curl works**: GPT Action auth/config is stale or malformed. Fix: Delete duplicate actions, recreate action, verify schema and auth field.
 - **ROLE_MISMATCH**: Authenticated role key does not match requested role. Fix: Use the matching role command or switch to the correct GPT.
-- **/inbox hits wrong path**: Old schema still uses /v1/messages instead of /v1/messages/inbox. Fix: Update schema to OpenAPI 3.0.3 with /v1/messages/inbox.
-- **GPT Builder crashes on schema**: Schema too fancy or incompatible auth block. Fix: Use OpenAPI 3.0.3 and keep auth in GPT Builder UI, not schema.
+- **/inbox hits wrong path**: Old schema still uses `/v1/messages` instead of `/v1/messages/inbox`. Fix: refresh to the current schema import.
+- **Archive returns METHOD_NOT_ALLOWED**: stale GPT Action binding is still using `POST /v1/messages/{message_id}`. Fix: re-import the current schema and verify archive binds to `POST /v1/messages/{message_id}/archive`.
+- **GPT Builder rejects long operation descriptions**: shorten the schema description text while preserving route structure, then re-hash-lock the imported schema used by GPTs.
 - **409 from GitHub Contents API**: Concurrent write conflict. Fix: Retry sequentially. Add v0.3 retry-on-409 hardening later.
 - **Archive leaves inbox copy**: v0.2 safe copy-to-archive behavior. Fix: Accept limitation until v0.3 safe delete/move is implemented.
 
@@ -159,5 +168,6 @@ Core rule: PM proposes. Coder implements. Helper executes. Auditor verifies. Hum
 ## 12. Version Notes
 - **v0.1** — Read-only /sync-context and /sync-constitution through Cloudflare broker.
 - **v0.2** — Notes/messages: /save-context, /send-message, /inbox, /open-message, /archive-message.
+- **v0.3.1 current Science GPT schema** — ContextBus commands exposed inside Science GPT Actions; archive uses `POST /v1/messages/{message_id}/archive`.
 - **v0.3 planned** — Write conflict retry, archive move/delete safety, run artifact endpoints.
 - **Step 8 planned** — /create-run, /load-run, /write-artifact for official role artifacts.

@@ -17,12 +17,39 @@ ContextBus (legacy name: ContextOS) v0.2 is operational for:
 
 ## Current phase
 
-MonkeyOS doctrine reset and docs hierarchy migration are underway.
+The active delivery sequence is:
+
+1. Stage 1 closeout: read/resume surface
+2. Stage 2A: Science GPT ContextBus command schema and import lock
+3. Stage 2B: role-by-role Science command smoke
+4. Stage 2C: Science command audit and closeout
+5. Stage 3: Option C queue core planning and implementation
+6. Stage 4: Human decision ledger
+7. Stage 5: unified Science and Code model
+8. Stage 6: production hardening
+
+Current execution is in Stage 2A.
+
+- Read/resume closeout is functionally complete as a bounded diagnostic pass.
+- Science GPT command-surface normalization is in progress.
+- Option C queue work remains blocked until Stage 2A/2B/2C are complete and Human-closed.
+
+## Current control point
+
+The current command surface for Science GPTs is governed by the ContextBus command schema import-lock workflow.
+
+- Active Science GPT Action schema version: `0.3.1-contextbus-archive-action-cache-binding`
+- Current archive route shape: `POST /v1/messages/{message_id}/archive`
+- `/v1/science/share` remains out of GPT scope here
+- `/v1/science/execute-experiment` remains non-GPT/local only
+
+MonkeyOS doctrine reset and docs hierarchy migration are still underway, but they are not the active implementation milestone.
 
 ## Next implementation milestone
 
-Flow Core v0.3 is now implementation in progress as the first official implementation slice.
-Status remains diagnostic only and not certified/promoted.
+The next milestone on the critical path is Stage 2B: role-by-role Science command smoke after schema/import normalization is fully locked and audited.
+
+Flow Core remains a foundational workstream, but it is not the next operator-facing gating step.
 
 Required Flow Core command family:
 
@@ -39,18 +66,19 @@ Flow Core must support generic flow families:
 - `audit_flow`
 - `governance_flow`
 
-## After Flow Core foundation
+## After current Stage 2 closeout
 
-1. Spec Kit-aware Code Monkeys command layers.
-2. Science Monkeys lifecycle command layers.
-3. 409 retry hardening for GitHub Contents write conflicts.
-4. Context rebuild automation after broker writes.
-5. Multi-user identity progression (temporary labels to OAuth).
-6. Multi-repo swarm replication support.
+1. Option C queue core planning and implementation.
+2. Human decision ledger.
+3. Unified Science and Code workflow model.
+4. 409 retry hardening for GitHub Contents write conflicts.
+5. Context rebuild automation after broker writes.
+6. Multi-user identity progression (temporary labels to OAuth).
+7. Multi-repo swarm replication support.
 
-## Orchestration Alignment Before Routes 001
+## Historical planning context
 
-Before implementing Science Monkeys v0.1 Routes 001, ArqonMonkeyOS now has a doctrine alignment step:
+The earlier Routes 001 and Share Integration planning remains useful as historical context, but it is not the current execution spine:
 
 1. Role/Auth Foundation 001
 2. Role/Auth Foundation Audit 001
