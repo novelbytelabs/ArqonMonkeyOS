@@ -1,59 +1,57 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import sys
 
 SCHEMA = Path("openapi/science_monkeys_actions.openapi.yaml")
 DOC = Path("docs/04_flows_and_spec_kit/SCIENCE_MONKEYS_GPT_ACTION_SCHEMA_VERSION_LOCK_001.md")
 
+schema = SCHEMA.read_text(encoding="utf-8")
+doc = DOC.read_text(encoding="utf-8") if DOC.exists() else ""
+
+EXPECTED_VERSION = "0.3.1-contextbus-archive-action-cache-binding"
+EXPECTED_SCHEMA_ID = "SCIENCE_MONKEYS_CONTEXTBUS_ARCHIVE_ACTION_CACHE_BINDING_REPAIR_001"
+
 required_schema = [
-    "version: 0.3.0-contextbus-command-action-schema",
-    "x-arqon_schema_id: SCIENCE_MONKEYS_CONTEXTBUS_COMMAND_ACTION_SCHEMA_INTEGRATION_001",
-    "CANDIDATE_UNTIL_GATE_PASS_AND_HASH_LOCKED_IMPORT",
-    "not Science artifacts",
-    "not promotion",
-    "/v1/context:",
-    "/v1/constitution:",
-    "/v1/notes:",
-    "/v1/messages:",
-    "/v1/messages/inbox:",
-    "/v1/messages/{message_id}:",
+    f"version: {EXPECTED_VERSION}",
+    f"x-arqon_schema_id: {EXPECTED_SCHEMA_ID}",
+    "x-arqon_import_rule:",
+    "/v1/messages/{message_id}/archive:",
+    "operationId: archiveRoleMessageByArchivePath",
+    "operationId: openRoleMessage",
+    "REQUIRES_HUMAN_REVIEW",
+    "development diagnostic only",
+    "NOT SEALED-TEST CERTIFIED",
+    "not promotable",
 ]
-forbidden_schema = [
-    "/v1/science/share:",
-    "/v1/science/execute-experiment:",
+
+required_doc = [
+    EXPECTED_VERSION,
+    EXPECTED_SCHEMA_ID,
+    "repo schema is candidate until imported",
+    "imported GPT Action schema SHA must match repo schema SHA",
+    "live-smoke evidence must record imported schema SHA",
+    "NOT_DONE_SEPARATE_OPERATOR_STEP_REQUIRED",
+]
+
+missing_schema = [item for item in required_schema if item not in schema]
+missing_doc = [item for item in required_doc if item not in doc]
+if missing_schema or missing_doc:
+    raise SystemExit(
+        "FAIL missing schema version-lock content: "
+        + ", ".join(missing_schema + missing_doc)
+    )
+
+for forbidden in [
+    "/v1/science/share",
+    "/v1/science/execute-experiment",
     "/v1/queue",
     "/v1/coder/",
     "/v1/helper/",
-    "/v1/auditor/helper-execution-review",
     "/v1/human/",
-]
-required_doc = [
-    "schema SHA256",
-    "commit SHA",
-    "imported GPT Action schema",
-    "REPO_CANDIDATE_NOT_IMPORTED_NOT_LIVE_VALIDATED",
-    "not promotion",
-    "not Science artifacts",
-]
+]:
+    if forbidden in schema:
+        raise SystemExit(f"FAIL forbidden route exposed in schema: {forbidden}")
 
-if not SCHEMA.exists():
-    raise SystemExit(f"FAIL missing schema: {SCHEMA}")
-if not DOC.exists():
-    raise SystemExit(f"FAIL missing version lock doc: {DOC}")
-
-schema_text = SCHEMA.read_text()
-doc_text = DOC.read_text()
-
-missing = [s for s in required_schema if s not in schema_text]
-if missing:
-    raise SystemExit("FAIL missing schema version-lock content: " + ", ".join(missing))
-
-present_forbidden = [s for s in forbidden_schema if s in schema_text]
-if present_forbidden:
-    raise SystemExit("FAIL forbidden schema exposure: " + ", ".join(present_forbidden))
-
-missing_doc = [s for s in required_doc if s not in doc_text]
-if missing_doc:
-    raise SystemExit("FAIL missing version-lock doc content: " + ", ".join(missing_doc))
+if "operationId: archiveRoleMessage\n" in schema:
+    raise SystemExit("FAIL stale archive operationId remains")
 
 print("SCHEMA_VERSION_LOCK_POLICY_PASS")

@@ -1,73 +1,74 @@
 # Science Monkeys GPT Action Schema Version Lock 001
 
 Required status:
-
 - REQUIRES_HUMAN_REVIEW
 - development diagnostic only
 - NOT SEALED-TEST CERTIFIED
 - not promotable
 
-## Purpose
+## Current candidate schema
 
-Prevent drift between the repository schema, the schema imported into GPT Actions, and live-smoke evidence.
+Schema file:
 
-## Canonical rule
+````text
+openapi/science_monkeys_actions.openapi.yaml
+````
 
-`openapi/science_monkeys_actions.openapi.yaml` is not considered live-canonical merely because it exists in the repository.
+Schema version:
 
-A Science GPT Action schema becomes live-canonical for evidence only after all of the following are true:
+````text
+0.3.1-contextbus-archive-action-cache-binding
+````
 
-1. The schema gates pass.
-2. The schema is committed and pushed.
-3. The exact committed file SHA256 is computed.
-4. That exact schema file is imported into the intended GPT Action configuration.
-5. The import evidence records:
-   - schema path
-   - schema SHA256
-   - commit SHA
-   - GPT name
-   - operator
-   - timestamp
-   - required status labels
+Schema id:
 
-## Evidence rule
+````text
+SCIENCE_MONKEYS_CONTEXTBUS_ARCHIVE_ACTION_CACHE_BINDING_REPAIR_001
+````
 
-Live-smoke evidence is valid only for the exact imported schema SHA256 recorded in the evidence file.
+## Version-lock rule
 
-If a later repo schema differs from the imported GPT Action schema, mark the later schema:
+The repo schema is candidate until imported.
 
-`REPO_CANDIDATE_NOT_IMPORTED_NOT_LIVE_VALIDATED`
+A repo schema is not live-canonical until:
 
-and do not mix evidence between schema versions.
+1. all policy/tripwire gates pass,
+2. commit/push completes,
+3. the exact repo schema SHA256 is computed,
+4. that exact file is imported into GPT Actions,
+5. imported GPT Action schema SHA must match repo schema SHA,
+6. live-smoke evidence must record imported schema SHA.
 
-## ContextBus command integration rule
+Until then:
 
-For `SCIENCE_MONKEYS_CONTEXTBUS_COMMAND_ACTION_SCHEMA_INTEGRATION_001`, the target schema may expose only shared ContextBus commands and already-approved Science read/resume and role-scoped write routes.
+````text
+GPT Action import status: NOT_DONE_SEPARATE_OPERATOR_STEP_REQUIRED
+````
+
+## Boundary
+
+This schema does not certify, promote, approve deployment, claim production readiness, or authorize autonomous Science operation.
 
 It must not expose:
-
 - `/v1/science/share`
 - `/v1/science/execute-experiment`
 - Option C queue mutation routes
 - Code Monkey routes
 - Human authority routes
 - Science Executor authority routes
-- deployment routes
-- certification routes
-- promotion routes
 
-## Notes/messages boundary
+## Archive cache-binding note
 
-ContextBus notes and messages are non-official role coordination records.
+The archive command must use:
 
-They are:
+````text
+POST /v1/messages/{message_id}/archive
+operationId: archiveRoleMessageByArchivePath
+````
 
-- not Science artifacts
-- not evidence
-- not findings
-- not certification
-- not promotion
-- not deployment approval
-- not production readiness
-- not Human approval
-- not authority grants
+Open-message remains:
+
+````text
+GET /v1/messages/{message_id}
+operationId: openRoleMessage
+````
