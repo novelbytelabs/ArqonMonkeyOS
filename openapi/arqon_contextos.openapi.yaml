@@ -315,6 +315,7 @@ paths:
       responses:
         '200': { description: Governed artifact body with truth-boundary warning }
         '400': { description: Invalid or unsafe artifact_id }
+        '403': { description: Secret-like artifact body content refused with ARTIFACT_CONTENT_POLICY_DENIED }
         '404': { description: Artifact not found }
         '409': { description: Ambiguous artifact id }
   /v1/coder/work-plan:

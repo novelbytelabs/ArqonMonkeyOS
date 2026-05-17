@@ -1,0 +1,643 @@
+openapi: 3.1.0
+info:
+  title: Arqon Science Monkeys Actions
+  version: 0.2.0-read-resume
+  description: >
+    Role-scoped Science Monkeys Action surface for Arqon Zero GPTs.
+    This schema integrates the bounded read/resume surface while preserving
+    backend role enforcement. Raw GPT output is not evidence. Routed artifacts
+    are governed records, not scientific truth. No harness = No truth. Required status labels: REQUIRES_HUMAN_REVIEW; development diagnostic only; NOT SEALED-TEST CERTIFIED; not promotable.
+servers:
+  - url: https://arqon-contextos-broker.sonarum.workers.dev
+security:
+  - bearerAuth: []
+paths:
+  /v1/health:
+    get:
+      operationId: health
+      summary: Broker health check.
+      responses:
+        "200":
+          description: Health response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+
+  /v1/whoami:
+    get:
+      operationId: whoami
+      summary: Show authenticated role, status labels, allowed write routes, and forbidden authorities.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/ProjectQuery"
+      responses:
+        "200":
+          description: Authenticated role and governance capability summary.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /v1/capabilities:
+    get:
+      operationId: capabilities
+      summary: Show role-specific read/write permissions, forbidden routes, and non-authorizations.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/ProjectQuery"
+      responses:
+        "200":
+          description: Capability response for the bearer-token-authenticated role.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /v1/show:
+    get:
+      operationId: showFlows
+      summary: List active, recent, blocked, and Human-review flows by friendly name.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/ProjectQuery"
+        - in: query
+          name: status
+          schema:
+            type: string
+          description: Optional flow status filter.
+        - in: query
+          name: type
+          schema:
+            type: string
+          description: Optional flow type filter.
+      responses:
+        "200":
+          description: Read-only flow overview.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /v1/resume:
+    get:
+      operationId: resumeMostRelevantFlow
+      summary: Return the most relevant role-specific resume packet without mutating state.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/ProjectQuery"
+        - in: query
+          name: flow_ref
+          schema:
+            type: string
+          description: Optional flow id/name. If omitted, backend selects the most relevant active flow.
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: Optional friendly flow name alias.
+      responses:
+        "200":
+          description: Read-only resume packet.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /v1/flows/{flow_ref}/resume:
+    get:
+      operationId: resumeFlowByRef
+      summary: Return a role-specific resume packet for a flow id or friendly name.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/FlowRefPath"
+        - $ref: "#/components/parameters/ProjectQuery"
+      responses:
+        "200":
+          description: Role-specific flow resume packet.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /v1/flows/{flow_ref}/history:
+    get:
+      operationId: getFlowHistory
+      summary: Return flow history and decision trace without mutating state.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/FlowRefPath"
+        - $ref: "#/components/parameters/ProjectQuery"
+      responses:
+        "200":
+          description: Flow history response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /v1/flows/{flow_ref}/artifacts:
+    get:
+      operationId: listFlowArtifacts
+      summary: List artifact metadata for a flow. Unsafe source paths are hidden as UNKNOWN_UNSAFE_PATH.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/FlowRefPath"
+        - $ref: "#/components/parameters/ProjectQuery"
+      responses:
+        "200":
+          description: Flow artifact metadata list; artifact bodies are not returned.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /v1/flows/{flow_ref}/latest:
+    get:
+      operationId: getFlowLatestArtifacts
+      summary: Return latest artifact summaries for a flow, optionally filtered by artifact_type.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/FlowRefPath"
+        - $ref: "#/components/parameters/ProjectQuery"
+        - in: query
+          name: artifact_type
+          schema:
+            type: string
+          description: Optional artifact type filter.
+      responses:
+        "200":
+          description: Latest artifact summaries.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /v1/flows/{flow_ref}/next:
+    get:
+      operationId: getFlowNextAction
+      summary: Recommend the next allowed action for the authenticated role without executing it.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/FlowRefPath"
+        - $ref: "#/components/parameters/ProjectQuery"
+      responses:
+        "200":
+          description: Next allowed action recommendation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /v1/flows/{flow_ref}/stop-conditions:
+    get:
+      operationId: getFlowStopConditions
+      summary: Return current stop/quarantine conditions for the flow and role.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/FlowRefPath"
+        - $ref: "#/components/parameters/ProjectQuery"
+      responses:
+        "200":
+          description: Stop and quarantine conditions.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /v1/artifacts/{artifact_id}:
+    get:
+      operationId: openArtifact
+      summary: Read one governed artifact body by artifact_id.
+      description: >
+        Read-only artifact body access. Backend resolves only artifact IDs known through
+        flow manifests and rejects path traversal, arbitrary repo paths, ambiguous artifact IDs,
+        and secret-like artifact body content. A 403 with ARTIFACT_CONTENT_POLICY_DENIED means
+        the body was refused by policy and must not be reconstructed from chat.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: artifact_id
+          required: true
+          schema:
+            type: string
+        - $ref: "#/components/parameters/ProjectQuery"
+      responses:
+        "200":
+          description: Governed artifact body with truth-boundary warning.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "403":
+          description: Artifact content refused by policy, including ARTIFACT_CONTENT_POLICY_DENIED.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          description: Ambiguous artifact_id; backend refuses duplicate artifact matches.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /v1/science/research:
+    post:
+      operationId: scienceResearch
+      summary: Explorer-only research route. Creates a science_flow if flow_ref is omitted.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScienceResearchRequest"
+      responses:
+        "201":
+          description: Research artifact created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScienceArtifactResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /v1/science/hypothesize:
+    post:
+      operationId: scienceHypothesize
+      summary: Hypothesizer-only hypothesis route.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScienceHypothesizeRequest"
+      responses:
+        "201":
+          description: Hypothesis artifact created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScienceArtifactResponse"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /v1/science/interpret:
+    post:
+      operationId: scienceInterpret
+      summary: Hypothesizer-only interpretation route.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScienceInterpretRequest"
+      responses:
+        "201":
+          description: Interpretation artifact created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScienceArtifactResponse"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /v1/science/design-experiment:
+    post:
+      operationId: scienceDesignExperiment
+      summary: Designer-only experiment design route.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScienceDesignExperimentRequest"
+      responses:
+        "201":
+          description: Design artifact created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScienceArtifactResponse"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /v1/science/iterate:
+    post:
+      operationId: scienceIterate
+      summary: Hypothesizer/Designer iteration route. Backend enforces artifact subset by authenticated role.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScienceIterateRequest"
+      responses:
+        "201":
+          description: Iteration artifact created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScienceArtifactResponse"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /v1/science/audit-experiment:
+    post:
+      operationId: scienceAuditExperiment
+      summary: Science Auditor-only audit route.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScienceAuditExperimentRequest"
+      responses:
+        "201":
+          description: Audit artifact created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScienceArtifactResponse"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /v1/science/record-finding:
+    post:
+      operationId: scienceRecordFinding
+      summary: Science Auditor-only finding record route.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScienceRecordFindingRequest"
+      responses:
+        "201":
+          description: Finding artifact created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScienceArtifactResponse"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  parameters:
+    ProjectQuery:
+      in: query
+      name: project
+      schema:
+        type: string
+        enum: [ArqonZero]
+        default: ArqonZero
+      description: Project scope. Defaults to ArqonZero.
+    FlowRefPath:
+      in: path
+      name: flow_ref
+      required: true
+      schema:
+        type: string
+      description: Existing flow id or friendly flow name.
+  responses:
+    BadRequest:
+      description: Bad request.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorResponse" }
+    Unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorResponse" }
+    Forbidden:
+      description: Role forbidden or policy denied.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorResponse" }
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorResponse" }
+  schemas:
+    GenericObjectResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        ok: { type: boolean }
+        status: { type: string }
+        version: { type: string }
+        required_status_labels:
+          type: array
+          items: { type: string }
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      required: [ok, error]
+      properties:
+        ok: { type: boolean }
+        error:
+          type: object
+          additionalProperties: false
+          properties:
+            code: { type: string }
+            message: { type: string }
+    ScienceArtifactSummary:
+      type: object
+      additionalProperties: true
+      properties:
+        artifact_id: { type: string }
+        artifact_type: { type: string }
+        title: { type: string }
+        role: { type: string }
+        created_at: { type: string }
+        source_path: { type: string }
+        source_sha: { type: string }
+    ScienceArtifactResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        ok: { type: boolean }
+        project: { type: string }
+        flow_id: { type: string }
+        flow_ref: { type: string }
+        artifact:
+          $ref: "#/components/schemas/ScienceArtifactSummary"
+        manifest_path: { type: string }
+        manifest_sha: { type: string }
+        source_path: { type: string }
+        source_sha: { type: string }
+        required_status_labels:
+          type: array
+          items: { type: string }
+    ScienceResearchRequest:
+      type: object
+      additionalProperties: false
+      required: [name, title, body]
+      properties:
+        project: { type: string, enum: [ArqonZero], default: ArqonZero }
+        name: { type: string, description: Fresh science flow name if creating a new science_flow. }
+        title: { type: string, description: Flow title if creating a new science_flow. }
+        summary: { type: string }
+        flow_ref: { type: string, description: Optional existing science flow id/name. }
+        artifact_type:
+          type: string
+          enum: [research_dossier, source_map, contradiction_map, open_questions]
+          default: research_dossier
+        artifact_title: { type: string }
+        body: { type: string, description: Markdown/text body for the research artifact. }
+    ScienceHypothesizeRequest:
+      type: object
+      additionalProperties: false
+      required: [flow_ref, body]
+      properties:
+        project: { type: string, enum: [ArqonZero], default: ArqonZero }
+        flow_ref: { type: string, description: Existing science flow id/name. }
+        artifact_type:
+          type: string
+          enum: [hypothesis_card, null_hypothesis, prediction_record]
+          default: hypothesis_card
+        artifact_title: { type: string }
+        body: { type: string }
+    ScienceInterpretRequest:
+      type: object
+      additionalProperties: false
+      required: [flow_ref, body]
+      properties:
+        project: { type: string, enum: [ArqonZero], default: ArqonZero }
+        flow_ref: { type: string }
+        artifact_type:
+          type: string
+          enum: [interpretation_draft, alternative_explanation_review]
+          default: interpretation_draft
+        artifact_title: { type: string }
+        body: { type: string }
+    ScienceDesignExperimentRequest:
+      type: object
+      additionalProperties: false
+      required: [flow_ref, body]
+      properties:
+        project: { type: string, enum: [ArqonZero], default: ArqonZero }
+        flow_ref: { type: string, description: Existing science flow id/name. }
+        artifact_type:
+          type: string
+          enum: [experiment_protocol, metric_plan, control_plan, execution_packet, sealed_boundary_plan]
+          default: experiment_protocol
+        artifact_title: { type: string }
+        body: { type: string }
+    ScienceIterateRequest:
+      type: object
+      additionalProperties: false
+      required: [flow_ref, body]
+      properties:
+        project: { type: string, enum: [ArqonZero], default: ArqonZero }
+        flow_ref: { type: string }
+        artifact_type:
+          type: string
+          enum: [iteration_proposal, revised_hypothesis_card, revised_experiment_protocol]
+        artifact_title: { type: string }
+        body: { type: string }
+    ScienceAuditExperimentRequest:
+      type: object
+      additionalProperties: false
+      required: [flow_ref, body]
+      properties:
+        project: { type: string, enum: [ArqonZero], default: ArqonZero }
+        flow_ref: { type: string, description: Existing science flow id/name. }
+        artifact_type:
+          type: string
+          enum: [science_checklist, protocol_audit, evidence_audit, claim_scope_audit, audit_report, quarantine_recommendation]
+          default: audit_report
+        artifact_title: { type: string }
+        body: { type: string }
+    ScienceRecordFindingRequest:
+      type: object
+      additionalProperties: false
+      required: [flow_ref, body]
+      properties:
+        project: { type: string, enum: [ArqonZero], default: ArqonZero }
+        flow_ref: { type: string }
+        artifact_type:
+          type: string
+          enum: [finding_record, negative_finding_record, inconclusive_finding_record, finding_boundary_record, share_recommendation]
+          default: finding_record
+        artifact_title: { type: string }
+        body: { type: string }
