@@ -158,3 +158,36 @@ Explorer archive rerun result: PASS_WITH_WARNINGS
 Imported/resized schema used by Explorer: YES
 schema_ui_length_reconciled_sha256_before_commit: c73bc8c331a5dda7bdb71ce22b272afa386c4eabf3cbb22ba31ddcf9cf2bc297
 Boundary: Explorer-only archive check; no broader smoke.
+
+---
+
+## Remaining Science GPT Import Evidence (Operator-Provided)
+
+Timestamp (UTC): 2026-05-17T21:56:41Z
+Schema version: 0.3.1-contextbus-archive-action-cache-binding
+Controlling schema SHA256: c73bc8c331a5dda7bdb71ce22b272afa386c4eabf3cbb22ba31ddcf9cf2bc297
+
+Current controlling schema SHA:
+c73bc8c331a5dda7bdb71ce22b272afa386c4eabf3cbb22ba31ddcf9cf2bc297
+
+Superseded historical schema SHA:
+b7792f8af7e77e16ad96222100d88458b5f516af13a3f9a77efc8bcbb6060724
+
+Current import status:
+EXPLORER_IMPORTED_RESIZED_SCHEMA
+HYPOTHESIZER_IMPORTED_RESIZED_SCHEMA: NO
+DESIGNER_IMPORTED_RESIZED_SCHEMA: NO
+SCIENCE_AUDITOR_IMPORTED_RESIZED_SCHEMA: NO
+
+Broader smoke:
+NOT_RUN
+
+### Remaining Import Lock Route Assertions (Explicit)
+- archive route present: POST /v1/messages/{message_id}/archive
+- archive operationId: archiveRoleMessageByArchivePath
+- open-message route present: GET /v1/messages/{message_id}
+- open-message operationId: openRoleMessage
+- stale archive route absent: POST /v1/messages/{message_id}
+- stale operationId absent: archiveRoleMessage
+- forbidden routes absent: YES
+- broader smoke: NOT_RUN
