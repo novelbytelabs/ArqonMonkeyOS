@@ -8,6 +8,7 @@ Doctrine note:
 - ContextBus is the infrastructure layer formerly called ContextOS.
 - This runbook is the operator-facing quick reference and must track currently validated behavior.
 - Current Science GPT Action schema version is `0.3.1-contextbus-archive-action-cache-binding`.
+- Current controlling Science GPT Action schema SHA256 is `c73bc8c331a5dda7bdb71ce22b272afa386c4eabf3cbb22ba31ddcf9cf2bc297`.
 
 ## 1. Quick Start
 - **Load role context** — `/sync-context project=ArqonZero role=PM_AI` — Yes
@@ -128,6 +129,7 @@ Core rule: PM proposes. Coder implements. Helper executes. Auditor verifies. Hum
 - `POST /v1/messages/{message_id}` must not be used for archive
 - `/v1/science/share` is not exposed to GPTs
 - `/v1/science/execute-experiment` is not exposed to GPTs
+- broader smoke status is `NOT_RUN`
 
 ## 7. Common Workflows
 ### 7.1 Save a Coder suggestion for PM

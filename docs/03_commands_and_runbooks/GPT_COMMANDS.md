@@ -40,6 +40,10 @@ Current validated Science GPT Action schema version:
 
 - `0.3.1-contextbus-archive-action-cache-binding`
 
+Current controlling Science GPT Action schema SHA256:
+
+- `c73bc8c331a5dda7bdb71ce22b272afa386c4eabf3cbb22ba31ddcf9cf2bc297`
+
 Current read/context routes exposed to Science GPTs:
 
 - `GET /v1/health`
@@ -110,6 +114,7 @@ Current boundary:
 
 - `POST /v1/science/execute-experiment` is not exposed to GPTs
 - `POST /v1/science/share` is not exposed to GPTs
+- broader smoke status remains `NOT_RUN`
 
 ## Future Science Monkeys command family
 
