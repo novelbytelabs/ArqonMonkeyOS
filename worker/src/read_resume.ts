@@ -69,6 +69,9 @@ interface SecretLikePattern {
   pattern: RegExp;
 }
 
+const ARTIFACT_OPEN_DEFAULT_SCAN_LIMIT = 4;
+const ARTIFACT_OPEN_MAX_SCAN_LIMIT = 8;
+
 const SECRET_LIKE_PATTERNS: SecretLikePattern[] = [
   { name: "PRIVATE_KEY_BLOCK", pattern: /-----BEGIN [A-Z ]*PRIVATE KEY-----/ },
   { name: "GITHUB_TOKEN", pattern: /\bgh[pousr]_[A-Za-z0-9_]{20,}\b/ },
@@ -656,27 +659,28 @@ function assertSafeArtifactPath(path: string): void {
   assertSafeReadPath(path);
 }
 
-async function handleArtifactOpen(request: Request, env: Env, artifactId: string, store: RepoStore): Promise<Response> {
-  requireRole(request, env);
-  assertSafeArtifactId(artifactId);
-  const url = new URL(request.url);
-  const projectName = projectNameFrom(url);
+function artifactsMatchingId(manifest: FlowManifest, artifactId: string): { manifest: FlowManifest; artifact: FlowArtifactSummary }[] {
+  return manifest.artifacts
+    .filter(candidate => candidate.artifact_id === artifactId)
+    .map(artifact => ({ manifest, artifact }));
+}
+
+function artifactScanLimitFrom(url: URL): number {
+  const requested = Number.parseInt(getParam(url, "scan_limit") || "", 10);
+  if (!Number.isFinite(requested)) return ARTIFACT_OPEN_DEFAULT_SCAN_LIMIT;
+  return Math.min(Math.max(requested, 1), ARTIFACT_OPEN_MAX_SCAN_LIMIT);
+}
+
+async function artifactOpenResponse(
+  env: Env,
+  projectName: string,
+  manifest: FlowManifest,
+  artifact: FlowArtifactSummary,
+  store: RepoStore,
+  lookupMetadata: Record<string, unknown>
+): Promise<Response> {
   const project = getProject(projectName);
   if (!project) return errorResponse("UNKNOWN_PROJECT", `Unknown project: ${projectName}`, 404);
-  const index = await loadFlowIndex(env, projectName, store);
-  const matches: { manifest: FlowManifest; artifact: FlowArtifactSummary }[] = [];
-  for (const entry of index.flows) {
-    try {
-      const manifest = await loadFlowManifest(env, projectName, entry.flow_id, store);
-      const artifact = manifest.artifacts.find(candidate => candidate.artifact_id === artifactId);
-      if (artifact) matches.push({ manifest, artifact });
-    } catch {
-      // Ignore malformed/missing manifests; unknowns are represented by a fail-closed no-match if the artifact cannot be proven governed.
-    }
-  }
-  if (matches.length === 0) return errorResponse("ARTIFACT_NOT_FOUND", `No governed artifact found for id: ${artifactId}`, 404);
-  if (matches.length > 1) return errorResponse("ARTIFACT_ID_AMBIGUOUS", `Multiple governed artifacts found for id: ${artifactId}`, 409);
-  const { manifest, artifact } = matches[0];
   assertSafeArtifactPath(artifact.source_path);
   const file = await store.fetchFile(env, project, artifact.source_path);
   assertSafeArtifactPath(file.path);
@@ -697,9 +701,72 @@ async function handleArtifactOpen(request: Request, env: Env, artifactId: string
     source_sha: file.sha,
     body: file.content,
     body_truncated: false,
+    lookup: lookupMetadata,
     status_labels: requiredStatusLabels(),
     truth_boundary: TRUTH_BOUNDARY,
     unknowns: []
+  });
+}
+
+async function handleArtifactOpen(request: Request, env: Env, artifactId: string, store: RepoStore): Promise<Response> {
+  requireRole(request, env);
+  assertSafeArtifactId(artifactId);
+  const url = new URL(request.url);
+  const projectName = projectNameFrom(url);
+  if (!getProject(projectName)) return errorResponse("UNKNOWN_PROJECT", `Unknown project: ${projectName}`, 404);
+
+  const requestedFlow = getParam(url, "flow_ref") || getParam(url, "flow") || getParam(url, "name");
+  if (requestedFlow) {
+    const resolved = await resolveFlow(env, projectName, requestedFlow, store);
+    if (resolved instanceof Response) return resolved;
+    const manifest = await loadFlowManifest(env, projectName, resolved.flowId, store);
+    const matches = artifactsMatchingId(manifest, artifactId);
+    if (matches.length === 0) return errorResponse("ARTIFACT_NOT_FOUND", `No governed artifact found for id ${artifactId} in flow ${resolved.flowId}`, 404);
+    if (matches.length > 1) return errorResponse("ARTIFACT_ID_AMBIGUOUS", `Multiple governed artifacts found for id ${artifactId} in flow ${resolved.flowId}`, 409);
+    return artifactOpenResponse(env, projectName, matches[0].manifest, matches[0].artifact, store, {
+      mode: "FLOW_SCOPED_LOOKUP",
+      flow_ref: requestedFlow,
+      scanned_flow_count: 1,
+      strict_duplicate_scope: "single_flow_manifest"
+    });
+  }
+
+  const index = await loadFlowIndex(env, projectName, store);
+  const scanLimit = artifactScanLimitFrom(url);
+  const scannedFlowIds: string[] = [];
+  const matches: { manifest: FlowManifest; artifact: FlowArtifactSummary }[] = [];
+  const candidates = [...index.flows]
+    .sort((a, b) => Date.parse(b.updated_at) - Date.parse(a.updated_at))
+    .slice(0, scanLimit);
+
+  for (const entry of candidates) {
+    try {
+      const manifest = await loadFlowManifest(env, projectName, entry.flow_id, store);
+      scannedFlowIds.push(entry.flow_id);
+      matches.push(...artifactsMatchingId(manifest, artifactId));
+      if (matches.length > 1) break;
+    } catch {
+      scannedFlowIds.push(entry.flow_id);
+      // Ignore malformed/missing manifests; this route fails closed if a governed artifact cannot be proven within the bounded scan.
+    }
+  }
+
+  if (matches.length === 0) {
+    return errorResponse(
+      "ARTIFACT_FLOW_REF_REQUIRED",
+      `Artifact id ${artifactId} was not found within the bounded recent-flow scan. Retry with flow_ref to avoid Worker subrequest limits.`,
+      404
+    );
+  }
+  if (matches.length > 1) return errorResponse("ARTIFACT_ID_AMBIGUOUS", `Multiple governed artifacts found for id: ${artifactId}`, 409);
+
+  return artifactOpenResponse(env, projectName, matches[0].manifest, matches[0].artifact, store, {
+    mode: "BOUNDED_RECENT_FLOW_SCAN",
+    scan_limit: scanLimit,
+    scanned_flow_count: scannedFlowIds.length,
+    scanned_flow_ids: scannedFlowIds,
+    strict_duplicate_scope: scannedFlowIds.length === index.flows.length ? "all_indexed_flows" : "bounded_recent_flows",
+    recommendation: "Pass flow_ref for deterministic low-subrequest artifact body reads."
   });
 }
 

@@ -312,11 +312,21 @@ paths:
         - in: query
           name: project
           schema: { type: string, default: ArqonZero }
+        - in: query
+          name: flow_ref
+          required: false
+          schema: { type: string }
+          description: Optional flow id/name for deterministic low-subrequest artifact lookup.
+        - in: query
+          name: scan_limit
+          required: false
+          schema: { type: integer, minimum: 1, maximum: 8, default: 4 }
+          description: Optional bounded recent-flow scan limit when flow_ref is omitted.
       responses:
         '200': { description: Governed artifact body with truth-boundary warning }
         '400': { description: Invalid or unsafe artifact_id }
         '403': { description: Secret-like artifact body content refused with ARTIFACT_CONTENT_POLICY_DENIED }
-        '404': { description: Artifact not found }
+        '404': { description: Artifact not found, or ARTIFACT_FLOW_REF_REQUIRED when bounded scan cannot prove the artifact without flow_ref }
         '409': { description: Ambiguous artifact id }
   /v1/coder/work-plan:
   post:
