@@ -31,7 +31,13 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/ProjectQuery"
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
       responses:
         "200":
           description: Authenticated role and governance capability summary.
@@ -49,7 +55,13 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/ProjectQuery"
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
       responses:
         "200":
           description: Capability response for the bearer-token-authenticated role.
@@ -67,7 +79,13 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/ProjectQuery"
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
         - in: query
           name: status
           schema:
@@ -95,7 +113,13 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/ProjectQuery"
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
         - in: query
           name: flow_ref
           schema:
@@ -125,8 +149,19 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/FlowRefPath"
-        - $ref: "#/components/parameters/ProjectQuery"
+        - in: path
+          name: flow_ref
+          required: true
+          schema:
+            type: string
+          description: Existing flow id or friendly flow name.
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
       responses:
         "200":
           description: Role-specific flow resume packet.
@@ -146,8 +181,19 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/FlowRefPath"
-        - $ref: "#/components/parameters/ProjectQuery"
+        - in: path
+          name: flow_ref
+          required: true
+          schema:
+            type: string
+          description: Existing flow id or friendly flow name.
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
       responses:
         "200":
           description: Flow history response.
@@ -167,8 +213,19 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/FlowRefPath"
-        - $ref: "#/components/parameters/ProjectQuery"
+        - in: path
+          name: flow_ref
+          required: true
+          schema:
+            type: string
+          description: Existing flow id or friendly flow name.
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
       responses:
         "200":
           description: Flow artifact metadata list; artifact bodies are not returned.
@@ -188,8 +245,19 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/FlowRefPath"
-        - $ref: "#/components/parameters/ProjectQuery"
+        - in: path
+          name: flow_ref
+          required: true
+          schema:
+            type: string
+          description: Existing flow id or friendly flow name.
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
         - in: query
           name: artifact_type
           schema:
@@ -214,8 +282,19 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/FlowRefPath"
-        - $ref: "#/components/parameters/ProjectQuery"
+        - in: path
+          name: flow_ref
+          required: true
+          schema:
+            type: string
+          description: Existing flow id or friendly flow name.
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
       responses:
         "200":
           description: Next allowed action recommendation.
@@ -235,8 +314,19 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/FlowRefPath"
-        - $ref: "#/components/parameters/ProjectQuery"
+        - in: path
+          name: flow_ref
+          required: true
+          schema:
+            type: string
+          description: Existing flow id or friendly flow name.
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
       responses:
         "200":
           description: Stop and quarantine conditions.
@@ -254,10 +344,7 @@ paths:
       operationId: openArtifact
       summary: Read one governed artifact body by artifact_id.
       description: >
-        Read-only artifact body access. Backend resolves only artifact IDs known through
-        flow manifests and rejects path traversal, arbitrary repo paths, ambiguous artifact IDs,
-        and secret-like artifact body content. A 403 with ARTIFACT_CONTENT_POLICY_DENIED means
-        the body was refused by policy and must not be reconstructed from chat.
+        Read artifact body by known artifact_id only. Rejects unsafe paths, ambiguous IDs, and secret-like content. 403 ARTIFACT_CONTENT_POLICY_DENIED means body access is refused by policy.
       security:
         - bearerAuth: []
       parameters:
@@ -266,7 +353,13 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: "#/components/parameters/ProjectQuery"
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
       responses:
         "200":
           description: Governed artifact body with truth-boundary warning.
