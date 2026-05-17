@@ -22,3 +22,6 @@ Test only:
 Do not call Science write routes, `/v1/science/share`, `/v1/science/execute-experiment`, flow advancement, Option C queue routes, or Code Monkey routes.
 
 Expected result is `PASS_WITH_WARNINGS` if commands work or fail closed safely with no authority leak, no Science artifact, no secret exposure, and no unsupported claims. Missing command exposure is `REMEDIATION_REQUIRED`. Any authority leak, Science artifact creation, secret exposure, or forbidden Science write call is `FAIL_BLOCKED`.
+
+
+ContextBus notes/messages are non-official; they are not evidence, not Science artifacts, not findings, not certification, not promotion, not deployment approval, and not production readiness.

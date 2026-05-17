@@ -3,10 +3,10 @@ info:
   title: Arqon Science Monkeys Actions
   version: 0.3.0-contextbus-command-action-schema
   description: >
-    Role-scoped Science Monkeys Action surface for Arqon Zero GPTs.
+    Role-scoped Science Monkeys Action surface for Arqon Zero GPTs. Archive command uses POST /v1/messages/{message_id}/archive.
     This schema integrates the bounded read/resume surface while preserving
     backend role enforcement. Raw GPT output is not evidence. Routed artifacts
-    are governed records, not scientific truth. No harness = No truth. Required status labels: REQUIRES_HUMAN_REVIEW; development diagnostic only; NOT SEALED-TEST CERTIFIED; not promotable.
+    are governed records, not scientific truth. No harness = No truth. ContextBus notes/messages are not evidence, not Science artifacts, not findings, not certification, not promotion, not deployment approval, and not production readiness. Required status labels: REQUIRES_HUMAN_REVIEW; development diagnostic only; NOT SEALED-TEST CERTIFIED; not promotable.
 x-arqon_schema_id: SCIENCE_MONKEYS_CONTEXTBUS_COMMAND_ACTION_SCHEMA_INTEGRATION_001
 x-arqon_schema_status: CANDIDATE_UNTIL_GATE_PASS_AND_HASH_LOCKED_IMPORT
 x-arqon_import_rule: >
@@ -607,6 +607,8 @@ paths:
           $ref: "#/components/responses/Forbidden"
         "404":
           $ref: "#/components/responses/NotFound"
+
+  /v1/messages/{message_id}/archive:
     post:
       operationId: archiveRoleMessage
       summary: Archive one message visible to the authenticated role.

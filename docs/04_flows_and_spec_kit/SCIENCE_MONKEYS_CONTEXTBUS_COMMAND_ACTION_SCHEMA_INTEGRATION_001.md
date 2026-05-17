@@ -19,7 +19,7 @@ Expose shared ContextBus commands to Science Monkey GPT Action schemas without e
 - `/send-message` -> `POST /v1/messages`
 - `/inbox` -> `GET /v1/messages/inbox`
 - `/open-message` -> `GET /v1/messages/{message_id}`
-- `/archive-message` -> `POST /v1/messages/{message_id}`
+- `/archive-message` -> `POST /v1/messages/{message_id}/archive`
 
 ## Evidence boundary
 
