@@ -613,10 +613,10 @@ paths:
       operationId: archiveRoleMessageByArchivePath
       summary: Archive one message visible to the authenticated role.
       description: >
-        Shared ContextBus cleanup command for message archival only. This must not
-        create Science artifacts, advance flows, or authorize evidence claims.
-        Messages are non-official context notes only and are not Science evidence,
-        not findings, not promotion, not deployment approval, and not production readiness.
+        Shared ContextBus cleanup command for message archival only. Must not create
+        Science artifacts, advance flows, or authorize evidence claims. Messages are
+        non-official context notes only and are not Science evidence, findings,
+        promotion, deployment approval, or production readiness.
       security:
         - bearerAuth: []
       parameters:
