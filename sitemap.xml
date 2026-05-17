@@ -337,6 +337,14 @@
          <lastmod>2026-05-17</lastmod>
     </url>
     <url>
+         <loc>https://novelbytelabs.github.io/ArqonMonkeyOS/04_flows_and_spec_kit/SCIENCE_MONKEYS_CONTEXTBUS_COMMAND_ACTION_SCHEMA_INTEGRATION_001/</loc>
+         <lastmod>2026-05-17</lastmod>
+    </url>
+    <url>
+         <loc>https://novelbytelabs.github.io/ArqonMonkeyOS/04_flows_and_spec_kit/SCIENCE_MONKEYS_CONTEXTBUS_COMMAND_EXPLORER_SMOKE_PACKET_001/</loc>
+         <lastmod>2026-05-17</lastmod>
+    </url>
+    <url>
          <loc>https://novelbytelabs.github.io/ArqonMonkeyOS/04_flows_and_spec_kit/SCIENCE_MONKEYS_DIAGNOSTIC_OPERATIONAL_ACCEPTANCE_AUDIT_REQUEST_001/</loc>
          <lastmod>2026-05-17</lastmod>
     </url>
@@ -430,6 +438,10 @@
     </url>
     <url>
          <loc>https://novelbytelabs.github.io/ArqonMonkeyOS/04_flows_and_spec_kit/SCIENCE_MONKEYS_GPT_ACTION_ROUTE_MATRIX_001/</loc>
+         <lastmod>2026-05-17</lastmod>
+    </url>
+    <url>
+         <loc>https://novelbytelabs.github.io/ArqonMonkeyOS/04_flows_and_spec_kit/SCIENCE_MONKEYS_GPT_ACTION_SCHEMA_VERSION_LOCK_001/</loc>
          <lastmod>2026-05-17</lastmod>
     </url>
     <url>
