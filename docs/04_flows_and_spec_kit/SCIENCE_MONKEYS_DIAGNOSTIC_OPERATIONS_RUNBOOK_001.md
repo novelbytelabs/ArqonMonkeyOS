@@ -19,6 +19,8 @@ This runbook does not authorize certification, promotion, deployment, production
 
 ## Operating Mode
 
+Current operating mode: Option A: Human-Gated Manual Lane.
+
 Current mode:
 
 ```text
