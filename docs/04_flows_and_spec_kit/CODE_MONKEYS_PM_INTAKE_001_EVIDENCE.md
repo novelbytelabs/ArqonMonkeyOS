@@ -21,18 +21,18 @@ This evidence records the PM intake boundary after adding the PM-side intake rou
 
 ## Files Created
 
-- [worker/src/pm_intake.ts](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/worker/src/pm_intake.ts)
-- [worker/test_support/code_monkeys_pm_intake_live_smoke.ts](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/worker/test_support/code_monkeys_pm_intake_live_smoke.ts)
-- [worker/test_support/code_monkeys_pm_intake_offline_smoke.ts](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/worker/test_support/code_monkeys_pm_intake_offline_smoke.ts)
-- [worker/test_support/code_monkeys_pm_intake_policy_unit.ts](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/worker/test_support/code_monkeys_pm_intake_policy_unit.ts)
-- [worker/test_support/code_monkeys_pm_intake_tripwire.py](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/worker/test_support/code_monkeys_pm_intake_tripwire.py)
-- [docs/04_flows_and_spec_kit/CODE_MONKEYS_PM_INTAKE_001.md](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/docs/04_flows_and_spec_kit/CODE_MONKEYS_PM_INTAKE_001.md)
+- `worker/src/pm_intake.ts`
+- `worker/test_support/code_monkeys_pm_intake_live_smoke.ts`
+- `worker/test_support/code_monkeys_pm_intake_offline_smoke.ts`
+- `worker/test_support/code_monkeys_pm_intake_policy_unit.ts`
+- `worker/test_support/code_monkeys_pm_intake_tripwire.py`
+- [docs/04_flows_and_spec_kit/CODE_MONKEYS_PM_INTAKE_001.md](CODE_MONKEYS_PM_INTAKE_001.md)
 
 ## Files Updated
 
-- [openapi/arqon_contextos.openapi.yaml](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/openapi/arqon_contextos.openapi.yaml)
-- [worker/src/index.ts](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/worker/src/index.ts)
-- [worker/src/flows.ts](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/worker/src/flows.ts)
+- `openapi/arqon_contextos.openapi.yaml`
+- `worker/src/index.ts`
+- `worker/src/flows.ts`
 
 ## Validation Commands
 

@@ -27,13 +27,13 @@ Science Monkeys v0.1 Routes 001 adds dedicated `/v1/science/*` command routes as
 
 ## Files updated
 
-- [docs/00_active_state/ROADMAP.md](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/docs/00_active_state/ROADMAP.md)
-- [docs/03_commands_and_runbooks/GPT_COMMANDS.md](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/docs/03_commands_and_runbooks/GPT_COMMANDS.md)
-- [openapi/arqon_contextos.openapi.yaml](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/openapi/arqon_contextos.openapi.yaml)
-- [worker/src/auth.ts](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/worker/src/auth.ts)
-- [worker/src/flow_policy.ts](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/worker/src/flow_policy.ts)
-- [worker/src/flows.ts](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/worker/src/flows.ts)
-- [worker/src/index.ts](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/worker/src/index.ts)
+- [docs/00_active_state/ROADMAP.md](../00_active_state/ROADMAP.md)
+- [docs/03_commands_and_runbooks/GPT_COMMANDS.md](../03_commands_and_runbooks/GPT_COMMANDS.md)
+- `openapi/arqon_contextos.openapi.yaml`
+- `worker/src/auth.ts`
+- `worker/src/flow_policy.ts`
+- `worker/src/flows.ts`
+- `worker/src/index.ts`
 
 ## Validation
 
@@ -116,4 +116,3 @@ Result: PASS
 - Routes 001 adds the science command layer only.
 - Share remains reserved for the later Share Integration slice.
 - The deployed worker must be updated separately for live route smoke to pass.
-

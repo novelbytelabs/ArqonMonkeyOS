@@ -21,8 +21,8 @@ This evidence records the Science to Code handoff boundary after the runtime har
 
 ## Files Updated
 
-- [worker/src/github_app.ts](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/worker/src/github_app.ts)
-- [docs/04_flows_and_spec_kit/SCIENCE_TO_CODE_HANDOFF_001_EVIDENCE.md](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/docs/04_flows_and_spec_kit/SCIENCE_TO_CODE_HANDOFF_001_EVIDENCE.md)
+- `worker/src/github_app.ts`
+- [docs/04_flows_and_spec_kit/SCIENCE_TO_CODE_HANDOFF_001_EVIDENCE.md](SCIENCE_TO_CODE_HANDOFF_001_EVIDENCE.md)
 
 ## Validation Commands
 

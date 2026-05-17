@@ -42,10 +42,9 @@ Status:
 - the new empty push forced a rebuild and resolved it
 
 ## Evidence Files
-- [CODE_MONKEYS_PM_SPECIFY_001_EVIDENCE.md](/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/docs/04_flows_and_spec_kit/CODE_MONKEYS_PM_SPECIFY_001_EVIDENCE.md)
+- [CODE_MONKEYS_PM_SPECIFY_001_EVIDENCE.md](CODE_MONKEYS_PM_SPECIFY_001_EVIDENCE.md)
 
 ## PM Takeaway
 - source/offline acceptance is complete
 - live acceptance is now complete
 - the boundary remains diagnostic only and does not authorize promotion or downstream implementation
-
