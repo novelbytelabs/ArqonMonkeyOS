@@ -122,6 +122,14 @@ Use this section to keep smaller ideas visible without promoting them into the a
   [`docs/04_flows_and_spec_kit/CODE_MONKEYS_CODER_TASKS_001.md`](../04_flows_and_spec_kit/CODE_MONKEYS_CODER_TASKS_001.md)
   [`docs/04_flows_and_spec_kit/CODE_MONKEYS_CODER_IMPLEMENTATION_BUNDLE_001.md`](../04_flows_and_spec_kit/CODE_MONKEYS_CODER_IMPLEMENTATION_BUNDLE_001.md)
 
+### High-priority checkpoint after Stage 4
+
+- Code Monkeys Spec-Kit Fidelity Alignment:
+  - Must occur after Stage 4 Human decision ledger and before Stage 5 Unified Science + Code model.
+  - Code Monkeys currently does not mimic GitHub Spec-Kit closely enough.
+  - Missing command surface includes `/constitution` and `/dossier`.
+  - Need to align Code Monkeys process, scripts, templates, artifact flow, slash commands, and operator model as closely as possible with GitHub Spec-Kit before unification.
+
 ### Infrastructure and platform evolution ideas
 
 - Flow Core command family and generic flow model:

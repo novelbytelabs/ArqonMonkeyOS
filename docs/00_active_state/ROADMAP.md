@@ -19,19 +19,22 @@ ContextBus (legacy name: ContextOS) v0.2 is operational for:
 
 The active delivery sequence is:
 
-1. Stage 1 closeout: read/resume surface
-2. Stage 2A: Science GPT ContextBus command schema and import lock
-3. Stage 2B: role-by-role Science command smoke
-4. Stage 2C: Science command audit and closeout
-5. Stage 3: Option C queue core planning and implementation
+1. Stage 1: Read / resume surface
+2. Stage 2A: Science command schema/import/doc normalization
+3. Stage 2B: Science ContextBus command smoke
+4. Stage 2C: Science command surface closeout
+5. Stage 3: Option C queue core
 6. Stage 4: Human decision ledger
-7. Stage 5: unified Science and Code model
-8. Stage 6: production hardening
+7. Stage 4.5: Code Monkeys Spec-Kit Fidelity Alignment
+8. Stage 5: Unified Science + Code model
+9. Stage 6: Production hardening
 
 Current execution is in Stage 2A.
 
-- Read/resume closeout is functionally complete as a bounded diagnostic pass.
-- Science GPT command-surface normalization is in progress.
+- Stage 1 is completed as bounded diagnostic `PASS_WITH_WARNINGS` evidence.
+- Stage 2A is the current active work.
+- Stage 2B starts only after Stage 2A audit.
+- Stage 2C follows Stage 2B smoke and closes the Science command surface.
 - Option C queue work remains blocked until Stage 2A/2B/2C are complete and Human-closed.
 
 ## Current control point
@@ -47,7 +50,13 @@ MonkeyOS doctrine reset and docs hierarchy migration are still underway, but the
 
 ## Next implementation milestone
 
-The next milestone on the critical path is Stage 2B: role-by-role Science command smoke after schema/import normalization is fully locked and audited.
+The next milestone on the critical path is Stage 2B: Science ContextBus command smoke after Stage 2A schema/import/doc normalization is fully locked and audited.
+
+Stage goals:
+
+- Stage 2A goal: lock all Science GPTs to reconciled schema SHA `c73bc8c331a5dda7bdb71ce22b272afa386c4eabf3cbb22ba31ddcf9cf2bc297`, align docs, and audit.
+- Stage 2B goal: role-by-role smoke for `/sync-context`, `/sync-constitution`, `/save-context`, `/send-message`, `/inbox`, `/open-message`, and `/archive-message`.
+- Stage 2C goal: normalize evidence, audit, and Human-close Stage 2.
 
 Flow Core remains a foundational workstream, but it is not the next operator-facing gating step.
 
@@ -70,11 +79,33 @@ Flow Core must support generic flow families:
 
 1. Option C queue core planning and implementation.
 2. Human decision ledger.
-3. Unified Science and Code workflow model.
-4. 409 retry hardening for GitHub Contents write conflicts.
-5. Context rebuild automation after broker writes.
-6. Multi-user identity progression (temporary labels to OAuth).
-7. Multi-repo swarm replication support.
+3. Code Monkeys Spec-Kit Fidelity Alignment.
+4. Unified Science and Code workflow model.
+5. 409 retry hardening for GitHub Contents write conflicts.
+6. Context rebuild automation after broker writes.
+7. Multi-user identity progression (temporary labels to OAuth).
+8. Multi-repo swarm replication support.
+
+## Stage 4.5 checkpoint
+
+Stage 4.5 is a required high-priority checkpoint after Stage 4 and before Stage 5.
+
+Goal:
+
+- Make Code Monkeys closely mimic GitHub Spec-Kit process, scripts, templates, slash commands, and operator flow before unifying Science and Code.
+
+Known gaps:
+
+- Missing `/constitution` command
+- Missing `/dossier` command
+- Code Monkeys process does not yet resemble Spec-Kit closely enough
+- Need stronger alignment with Spec-Kit templates, flow order, artifacts, and command semantics
+
+Boundary:
+
+- This is not production hardening.
+- This is not certification.
+- This is a required architecture and process alignment checkpoint before Stage 5 Unified Science + Code model.
 
 ## Historical planning context
 
