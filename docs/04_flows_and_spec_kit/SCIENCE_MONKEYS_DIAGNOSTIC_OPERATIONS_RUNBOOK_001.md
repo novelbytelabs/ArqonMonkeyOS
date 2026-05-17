@@ -50,6 +50,7 @@ Science flows eventually move through a governed queue where each role processes
 ```
 
 Option C is **not active** in this runbook.
+Option C: Diagnostic Queue Lane is future-only and is not active in Runbook 001.
 
 ## Core Principle
 
