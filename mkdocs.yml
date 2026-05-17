@@ -118,6 +118,9 @@ plugins:
   - minify:
       minify_html: true
 
+validation:
+  omitted_files: ignore
+
 
 nav:
   - Home: index.md
