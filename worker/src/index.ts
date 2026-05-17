@@ -20,6 +20,7 @@ import { handleHelperExecutionReportRequest } from "./helper_execution_report";
 import { handleAuditorHelperExecutionReviewRequest } from "./auditor_helper_execution_review";
 import { handleHumanAdvancementDecisionRequest } from "./human_advancement_decision";
 import { handleCoderHandoffRequest } from "./coder_handoff";
+import { handleReadResumeRequest } from "./read_resume";
 import type { RepoStore } from "./repo_store";
 
 function getParam(url: URL, name: string): string | null {
@@ -89,6 +90,10 @@ export async function handleWorkerFetch(
     if (url.pathname === "/v1/context" && request.method === "GET") return handleContext(request, env);
     if (url.pathname === "/v1/constitution" && request.method === "GET") return handleContext(request, env);
     if (url.pathname === "/v1/manifest" && request.method === "GET") return handleManifest(request, env);
+    if (url.pathname === "/v1/whoami") return handleReadResumeRequest(request, env, "whoami", { repoStore: options.flowRepoStore });
+    if (url.pathname === "/v1/capabilities") return handleReadResumeRequest(request, env, "capabilities", { repoStore: options.flowRepoStore });
+    if (url.pathname === "/v1/show") return handleReadResumeRequest(request, env, "show", { repoStore: options.flowRepoStore });
+    if (url.pathname === "/v1/resume") return handleReadResumeRequest(request, env, "resume", { repoStore: options.flowRepoStore });
     if (url.pathname === "/v1/notes") return handleNotesRequest(request, env);
     if (url.pathname === "/v1/messages") return handleMessagesRequest(request, env);
     if (url.pathname === "/v1/messages/inbox") return handleMessagesRequest(request, env);
@@ -113,9 +118,22 @@ export async function handleWorkerFetch(
     if (url.pathname === "/v1/auditor/helper-execution-review") return handleAuditorHelperExecutionReviewRequest(request, env, options.flowRepoStore);
     if (url.pathname === "/v1/human/advancement-decision") return handleHumanAdvancementDecisionRequest(request, env, options.flowRepoStore);
     if (url.pathname === "/v1/flows") return handleFlowsRequest(request, env, undefined, "collection", options.flowRepoStore);
+    const artifactOpenMatch = url.pathname.match(/^\/v1\/artifacts\/([^/]+)$/);
+    if (artifactOpenMatch) return handleReadResumeRequest(request, env, "artifact_open", { artifactId: decodeURIComponent(artifactOpenMatch[1]), repoStore: options.flowRepoStore });
+    const flowResumeMatch = url.pathname.match(/^\/v1\/flows\/([^/]+)\/resume$/);
+    if (flowResumeMatch) return handleReadResumeRequest(request, env, "flow_resume", { flowRef: decodeURIComponent(flowResumeMatch[1]), repoStore: options.flowRepoStore });
+    const flowHistoryMatch = url.pathname.match(/^\/v1\/flows\/([^/]+)\/history$/);
+    if (flowHistoryMatch) return handleReadResumeRequest(request, env, "flow_history", { flowRef: decodeURIComponent(flowHistoryMatch[1]), repoStore: options.flowRepoStore });
+    const flowLatestMatch = url.pathname.match(/^\/v1\/flows\/([^/]+)\/latest$/);
+    if (flowLatestMatch) return handleReadResumeRequest(request, env, "flow_latest", { flowRef: decodeURIComponent(flowLatestMatch[1]), repoStore: options.flowRepoStore });
+    const flowNextMatch = url.pathname.match(/^\/v1\/flows\/([^/]+)\/next$/);
+    if (flowNextMatch) return handleReadResumeRequest(request, env, "flow_next", { flowRef: decodeURIComponent(flowNextMatch[1]), repoStore: options.flowRepoStore });
+    const flowStopConditionsMatch = url.pathname.match(/^\/v1\/flows\/([^/]+)\/stop-conditions$/);
+    if (flowStopConditionsMatch) return handleReadResumeRequest(request, env, "flow_stop_conditions", { flowRef: decodeURIComponent(flowStopConditionsMatch[1]), repoStore: options.flowRepoStore });
     const flowStatusMatch = url.pathname.match(/^\/v1\/flows\/([^/]+)\/status$/);
     if (flowStatusMatch) return handleFlowsRequest(request, env, decodeURIComponent(flowStatusMatch[1]), "status", options.flowRepoStore);
     const flowArtifactsMatch = url.pathname.match(/^\/v1\/flows\/([^/]+)\/artifacts$/);
+    if (flowArtifactsMatch && request.method === "GET") return handleReadResumeRequest(request, env, "flow_artifacts", { flowRef: decodeURIComponent(flowArtifactsMatch[1]), repoStore: options.flowRepoStore });
     if (flowArtifactsMatch) return handleFlowsRequest(request, env, decodeURIComponent(flowArtifactsMatch[1]), "artifacts", options.flowRepoStore);
     const flowAdvanceMatch = url.pathname.match(/^\/v1\/flows\/([^/]+)\/advance$/);
     if (flowAdvanceMatch) return handleFlowsRequest(request, env, decodeURIComponent(flowAdvanceMatch[1]), "advance", options.flowRepoStore);

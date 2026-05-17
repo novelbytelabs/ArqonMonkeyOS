@@ -83,6 +83,82 @@ paths:
             application/json:
               schema:
                 type: object
+  /v1/whoami:
+    get:
+      operationId: whoami
+      summary: Show authenticated role, read routes, write routes, and authority boundaries.
+      parameters:
+        - name: project
+          in: query
+          required: false
+          schema: { type: string, default: ArqonZero }
+      responses:
+        "200":
+          description: Authenticated role authority summary.
+          content:
+            application/json:
+              schema: { type: object }
+  /v1/capabilities:
+    get:
+      operationId: getCapabilities
+      summary: Show role-specific read/write capabilities and forbidden capabilities.
+      parameters:
+        - name: project
+          in: query
+          required: false
+          schema: { type: string, default: ArqonZero }
+      responses:
+        "200":
+          description: Role capability summary.
+          content:
+            application/json:
+              schema: { type: object }
+  /v1/show:
+    get:
+      operationId: showFlows
+      summary: Show active, recent, blocked, and Human-review flow summaries.
+      parameters:
+        - name: project
+          in: query
+          required: false
+          schema: { type: string, default: ArqonZero }
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer, minimum: 1, maximum: 50, default: 10 }
+      responses:
+        "200":
+          description: Morning flow overview.
+          content:
+            application/json:
+              schema: { type: object }
+  /v1/resume:
+    get:
+      operationId: resumeDefaultFlow
+      summary: Return a role-specific resume packet for one requested flow or safe candidates.
+      parameters:
+        - name: project
+          in: query
+          required: false
+          schema: { type: string, default: ArqonZero }
+        - name: flow_ref
+          in: query
+          required: false
+          schema: { type: string }
+        - name: flow
+          in: query
+          required: false
+          schema: { type: string }
+        - name: name
+          in: query
+          required: false
+          schema: { type: string }
+      responses:
+        "200":
+          description: Role-specific resume packet or safe candidate list.
+          content:
+            application/json:
+              schema: { type: object }
   /v1/notes:
     get:
       operationId: listContextNotes
@@ -223,6 +299,24 @@ paths:
             application/json:
               schema:
                 type: object
+  /v1/artifacts/{artifact_id}:
+    get:
+      operationId: openArtifact
+      summary: Read one governed artifact body by artifact_id.
+      description: Read-only. Resolves only artifact IDs known through flow manifests; rejects path traversal and arbitrary repo paths.
+      parameters:
+        - in: path
+          name: artifact_id
+          required: true
+          schema: { type: string }
+        - in: query
+          name: project
+          schema: { type: string, default: ArqonZero }
+      responses:
+        '200': { description: Governed artifact body with truth-boundary warning }
+        '400': { description: Invalid or unsafe artifact_id }
+        '404': { description: Artifact not found }
+        '409': { description: Ambiguous artifact id }
   /v1/coder/work-plan:
   post:
     operationId: coderWorkPlan
@@ -567,7 +661,90 @@ paths:
           schema: { type: string, default: ArqonZero }
       responses:
         '200': { description: Flow status }
+  /v1/flows/{flow_ref}/resume:
+    get:
+      operationId: resumeFlow
+      summary: Return role-specific resume packet for a flow by ID or friendly name.
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema: { type: string }
+        - in: query
+          name: project
+          schema: { type: string, default: ArqonZero }
+      responses:
+        '200': { description: Flow resume packet }
+  /v1/flows/{flow_ref}/history:
+    get:
+      operationId: getFlowHistory
+      summary: Return flow history, artifact events, gate events, Human decisions, and audit events.
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema: { type: string }
+        - in: query
+          name: project
+          schema: { type: string, default: ArqonZero }
+      responses:
+        '200': { description: Flow history }
+  /v1/flows/{flow_ref}/latest:
+    get:
+      operationId: getFlowLatestArtifacts
+      summary: Return latest governed artifacts by artifact type and role.
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema: { type: string }
+        - in: query
+          name: project
+          schema: { type: string, default: ArqonZero }
+      responses:
+        '200': { description: Latest flow artifacts }
+  /v1/flows/{flow_ref}/next:
+    get:
+      operationId: getFlowNextAction
+      summary: Recommend next allowed action without mutating state.
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema: { type: string }
+        - in: query
+          name: project
+          schema: { type: string, default: ArqonZero }
+      responses:
+        '200': { description: Next allowed action recommendation }
+  /v1/flows/{flow_ref}/stop-conditions:
+    get:
+      operationId: getFlowStopConditions
+      summary: Return global, role-specific, and flow-specific stop/quarantine conditions.
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema: { type: string }
+        - in: query
+          name: project
+          schema: { type: string, default: ArqonZero }
+      responses:
+        '200': { description: Stop and quarantine conditions }
   /v1/flows/{flow_ref}/artifacts:
+    get:
+      operationId: listFlowArtifacts
+      summary: List governed artifacts on a flow without returning artifact bodies.
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema: { type: string }
+        - in: query
+          name: project
+          schema: { type: string, default: ArqonZero }
+      responses:
+        '200': { description: Flow artifact metadata list }
     post:
       summary: Write flow artifact
       description: Writes an official flow artifact. Artifact types are role-gated.
