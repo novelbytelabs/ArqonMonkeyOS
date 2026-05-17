@@ -309,6 +309,10 @@
          <lastmod>2026-05-17</lastmod>
     </url>
     <url>
+         <loc>https://novelbytelabs.github.io/ArqonMonkeyOS/04_flows_and_spec_kit/SCIENCE_MONKEYS_ACTIVE_DIAGNOSTIC_PROTOCOL_INDEX_001/</loc>
+         <lastmod>2026-05-17</lastmod>
+    </url>
+    <url>
          <loc>https://novelbytelabs.github.io/ArqonMonkeyOS/04_flows_and_spec_kit/SCIENCE_MONKEYS_ARQONZERO_EVIDENCE_HARDENING_REPORT_001/</loc>
          <lastmod>2026-05-17</lastmod>
     </url>
@@ -370,6 +374,14 @@
     </url>
     <url>
          <loc>https://novelbytelabs.github.io/ArqonMonkeyOS/04_flows_and_spec_kit/SCIENCE_MONKEYS_DIAGNOSTIC_OPERATIONS_RUNBOOK_001_SEED/</loc>
+         <lastmod>2026-05-17</lastmod>
+    </url>
+    <url>
+         <loc>https://novelbytelabs.github.io/ArqonMonkeyOS/04_flows_and_spec_kit/SCIENCE_MONKEYS_DIAGNOSTIC_OPERATIONS_RUNBOOK_ACTIVATION_AUDIT_REQUEST_001/</loc>
+         <lastmod>2026-05-17</lastmod>
+    </url>
+    <url>
+         <loc>https://novelbytelabs.github.io/ArqonMonkeyOS/04_flows_and_spec_kit/SCIENCE_MONKEYS_DIAGNOSTIC_OPERATIONS_RUNBOOK_ACTIVATION_DECISION_001/</loc>
          <lastmod>2026-05-17</lastmod>
     </url>
     <url>
