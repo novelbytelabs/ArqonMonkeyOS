@@ -879,6 +879,134 @@ paths:
       responses:
         '200': { description: Queue history response }
 
+  /v1/science/queue/{queue_item_id}/claim:
+    post:
+      operationId: claimScienceQueueItem
+      summary: Claim a queue item for the authenticated Science role.
+      description: Bounded governance queue mutation. Queue records are not scientific truth or evidence by themselves.
+      parameters:
+        - in: path
+          name: queue_item_id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [project, idempotency_key]
+              properties:
+                project: { type: string, enum: [ArqonZero], default: ArqonZero }
+                reason: { type: string }
+                idempotency_key: { type: string }
+      responses:
+        '201': { description: Queue item claimed }
+
+  /v1/science/queue/{queue_item_id}/complete:
+    post:
+      operationId: completeScienceQueueItem
+      summary: Mark a claimed or owned queue step complete.
+      description: Bounded governance queue mutation. Queue records are not scientific truth or evidence by themselves.
+      parameters:
+        - in: path
+          name: queue_item_id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [project, completion_summary, idempotency_key]
+              properties:
+                project: { type: string, enum: [ArqonZero], default: ArqonZero }
+                completion_summary: { type: string }
+                evidence_refs:
+                  type: array
+                  items: { type: string }
+                idempotency_key: { type: string }
+      responses:
+        '201': { description: Queue step completed }
+
+  /v1/science/queue/{queue_item_id}/block:
+    post:
+      operationId: blockScienceQueueItem
+      summary: Mark a queue item blocked with a required reason.
+      description: Bounded governance queue mutation. Queue records are not scientific truth or evidence by themselves.
+      parameters:
+        - in: path
+          name: queue_item_id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [project, blocked_reason, idempotency_key]
+              properties:
+                project: { type: string, enum: [ArqonZero], default: ArqonZero }
+                blocked_reason: { type: string }
+                severity: { type: string, enum: [LOW, MEDIUM, HIGH] }
+                idempotency_key: { type: string }
+      responses:
+        '201': { description: Queue item blocked }
+
+  /v1/science/queue/{queue_item_id}/quarantine:
+    post:
+      operationId: quarantineScienceQueueItem
+      summary: Quarantine an unsafe or invalid queue item.
+      description: Bounded governance queue mutation. Queue records are not scientific truth or evidence by themselves.
+      parameters:
+        - in: path
+          name: queue_item_id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [project, quarantine_reason, idempotency_key]
+              properties:
+                project: { type: string, enum: [ArqonZero], default: ArqonZero }
+                quarantine_reason: { type: string }
+                risk_type: { type: string, enum: [scope, evidence, safety, authority, secret, other] }
+                idempotency_key: { type: string }
+      responses:
+        '201': { description: Queue item quarantined }
+
+  /v1/science/queue/{queue_item_id}/handoff:
+    post:
+      operationId: handoffScienceQueueItem
+      summary: Request handoff of a queue item to an allowed next role.
+      description: Bounded governance queue mutation. Queue records are not scientific truth or evidence by themselves.
+      parameters:
+        - in: path
+          name: queue_item_id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [project, target_role, handoff_reason, idempotency_key]
+              properties:
+                project: { type: string, enum: [ArqonZero], default: ArqonZero }
+                target_role:
+                  type: string
+                  enum: [EXPLORER_AI, HYPOTHESIZER_AI, DESIGNER_AI, SCIENCE_AUDITOR_AI, HUMAN]
+                handoff_reason: { type: string }
+                idempotency_key: { type: string }
+      responses:
+        '201': { description: Queue item handoff requested }
+
   /v1/science/research:
     post:
       operationId: scienceResearch

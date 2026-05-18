@@ -22,6 +22,7 @@ import { handleHumanAdvancementDecisionRequest } from "./human_advancement_decis
 import { handleCoderHandoffRequest } from "./coder_handoff";
 import { handleReadResumeRequest } from "./read_resume";
 import { handleScienceQueueReadRequest } from "./science_queue_read";
+import { handleScienceQueueMutationRequest } from "./science_queue_mutation";
 import type { RepoStore } from "./repo_store";
 
 function getParam(url: URL, name: string): string | null {
@@ -110,6 +111,56 @@ export async function handleWorkerFetch(
         env,
         "history",
         { queueItemId: decodeURIComponent(scienceQueueItemHistoryMatch[1]) },
+        options.flowRepoStore
+      );
+    }
+    const scienceQueueClaimMatch = url.pathname.match(/^\/v1\/science\/queue\/([^/]+)\/claim$/);
+    if (scienceQueueClaimMatch) {
+      return handleScienceQueueMutationRequest(
+        request,
+        env,
+        "claim",
+        { queueItemId: decodeURIComponent(scienceQueueClaimMatch[1]) },
+        options.flowRepoStore
+      );
+    }
+    const scienceQueueCompleteMatch = url.pathname.match(/^\/v1\/science\/queue\/([^/]+)\/complete$/);
+    if (scienceQueueCompleteMatch) {
+      return handleScienceQueueMutationRequest(
+        request,
+        env,
+        "complete",
+        { queueItemId: decodeURIComponent(scienceQueueCompleteMatch[1]) },
+        options.flowRepoStore
+      );
+    }
+    const scienceQueueBlockMatch = url.pathname.match(/^\/v1\/science\/queue\/([^/]+)\/block$/);
+    if (scienceQueueBlockMatch) {
+      return handleScienceQueueMutationRequest(
+        request,
+        env,
+        "block",
+        { queueItemId: decodeURIComponent(scienceQueueBlockMatch[1]) },
+        options.flowRepoStore
+      );
+    }
+    const scienceQueueQuarantineMatch = url.pathname.match(/^\/v1\/science\/queue\/([^/]+)\/quarantine$/);
+    if (scienceQueueQuarantineMatch) {
+      return handleScienceQueueMutationRequest(
+        request,
+        env,
+        "quarantine",
+        { queueItemId: decodeURIComponent(scienceQueueQuarantineMatch[1]) },
+        options.flowRepoStore
+      );
+    }
+    const scienceQueueHandoffMatch = url.pathname.match(/^\/v1\/science\/queue\/([^/]+)\/handoff$/);
+    if (scienceQueueHandoffMatch) {
+      return handleScienceQueueMutationRequest(
+        request,
+        env,
+        "handoff",
+        { queueItemId: decodeURIComponent(scienceQueueHandoffMatch[1]) },
         options.flowRepoStore
       );
     }

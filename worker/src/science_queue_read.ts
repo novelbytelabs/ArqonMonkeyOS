@@ -50,7 +50,7 @@ interface FlowManifest {
   history?: FlowHistoryEvent[];
 }
 
-interface QueueTruthBoundary {
+export interface QueueTruthBoundary {
   queue_record_is_truth: false;
   queue_record_is_evidence: false;
   raw_gpt_output_is_evidence: false;
@@ -58,7 +58,7 @@ interface QueueTruthBoundary {
   requires_harness: true;
 }
 
-interface QueueItem {
+export interface QueueItem {
   queue_item_id: string;
   project: string;
   flow_id: string;
@@ -77,7 +77,7 @@ interface QueueItem {
   truth_boundary: QueueTruthBoundary;
 }
 
-const TRUTH_BOUNDARY: QueueTruthBoundary = {
+export const TRUTH_BOUNDARY: QueueTruthBoundary = {
   queue_record_is_truth: false,
   queue_record_is_evidence: false,
   raw_gpt_output_is_evidence: false,
@@ -85,7 +85,7 @@ const TRUTH_BOUNDARY: QueueTruthBoundary = {
   requires_harness: true
 };
 
-const SCIENCE_QUEUE_ROLES: Role[] = [
+export const SCIENCE_QUEUE_ROLES: Role[] = [
   "EXPLORER_AI",
   "HYPOTHESIZER_AI",
   "DESIGNER_AI",
@@ -94,12 +94,12 @@ const SCIENCE_QUEUE_ROLES: Role[] = [
   "HUMAN"
 ];
 
-function getParam(url: URL, name: string): string | null {
+export function getParam(url: URL, name: string): string | null {
   const value = url.searchParams.get(name);
   return value && value.trim() ? value.trim() : null;
 }
 
-function requiredStatusLabels(): string[] {
+export function requiredStatusLabels(): string[] {
   return [...STATUS_LABELS];
 }
 
@@ -186,7 +186,7 @@ async function loadFlowIndex(env: Env, projectName: string, store: RepoStore): P
   }
 }
 
-async function loadManifest(env: Env, projectName: string, flowId: string, store: RepoStore): Promise<FlowManifest | null> {
+export async function loadManifest(env: Env, projectName: string, flowId: string, store: RepoStore): Promise<FlowManifest | null> {
   const project = getProject(projectName);
   if (!project) throw new Error(`Unknown project: ${projectName}`);
   try {
@@ -199,7 +199,7 @@ async function loadManifest(env: Env, projectName: string, flowId: string, store
   }
 }
 
-async function buildQueueItems(env: Env, projectName: string, role: Role, store: RepoStore): Promise<QueueItem[]> {
+export async function buildQueueItems(env: Env, projectName: string, role: Role, store: RepoStore): Promise<QueueItem[]> {
   const flowIndex = await loadFlowIndex(env, projectName, store);
   const scienceFlows = flowIndex.flows.filter(entry => entry.type === "science_flow");
   const items: QueueItem[] = [];
