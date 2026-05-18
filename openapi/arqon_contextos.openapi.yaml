@@ -807,6 +807,78 @@ paths:
       responses:
         '200': { description: Flow advanced }
 
+  /v1/science/queue:
+    get:
+      operationId: listScienceQueue
+      summary: Read-only Science queue visibility list.
+      description: Read-only diagnostic queue visibility. Must not mutate state.
+      responses:
+        '200': { description: Queue list response }
+
+  /v1/science/queue/{queue_item_id}:
+    get:
+      operationId: getScienceQueueItem
+      summary: Read one queue item.
+      parameters:
+        - in: path
+          name: queue_item_id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Queue item response }
+
+  /v1/science/queue/by-flow/{flow_ref}:
+    get:
+      operationId: listScienceQueueByFlow
+      summary: Read queue items for one flow reference.
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Queue-by-flow response }
+
+  /v1/science/queue/next:
+    get:
+      operationId: getScienceQueueNext
+      summary: Recommend next queue item/action without execution.
+      responses:
+        '200': { description: Queue next response }
+
+  /v1/science/queue/blocked:
+    get:
+      operationId: listScienceQueueBlocked
+      summary: Read blocked queue items.
+      responses:
+        '200': { description: Queue blocked response }
+
+  /v1/science/queue/quarantined:
+    get:
+      operationId: listScienceQueueQuarantined
+      summary: Read quarantined queue items.
+      responses:
+        '200': { description: Queue quarantined response }
+
+  /v1/science/queue/handoffs:
+    get:
+      operationId: listScienceQueueHandoffs
+      summary: Read queue handoff visibility records.
+      responses:
+        '200': { description: Queue handoffs response }
+
+  /v1/science/queue/history/{queue_item_id}:
+    get:
+      operationId: getScienceQueueHistory
+      summary: Read queue item history.
+      parameters:
+        - in: path
+          name: queue_item_id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Queue history response }
+
   /v1/science/research:
     post:
       operationId: scienceResearch

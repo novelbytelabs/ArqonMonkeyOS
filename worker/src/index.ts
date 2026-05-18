@@ -21,6 +21,7 @@ import { handleAuditorHelperExecutionReviewRequest } from "./auditor_helper_exec
 import { handleHumanAdvancementDecisionRequest } from "./human_advancement_decision";
 import { handleCoderHandoffRequest } from "./coder_handoff";
 import { handleReadResumeRequest } from "./read_resume";
+import { handleScienceQueueReadRequest } from "./science_queue_read";
 import type { RepoStore } from "./repo_store";
 
 function getParam(url: URL, name: string): string | null {
@@ -101,6 +102,41 @@ export async function handleWorkerFetch(
     if (messageArchiveMatch) return handleMessagesRequest(request, env, decodeURIComponent(messageArchiveMatch[1]), "archive", options.flowRepoStore);
     const messageMatch = url.pathname.match(/^\/v1\/messages\/([^/]+)$/);
     if (messageMatch) return handleMessagesRequest(request, env, decodeURIComponent(messageMatch[1]), "item", options.flowRepoStore);
+    if (url.pathname === "/v1/science/queue") return handleScienceQueueReadRequest(request, env, "list", {}, options.flowRepoStore);
+    const scienceQueueItemHistoryMatch = url.pathname.match(/^\/v1\/science\/queue\/history\/([^/]+)$/);
+    if (scienceQueueItemHistoryMatch) {
+      return handleScienceQueueReadRequest(
+        request,
+        env,
+        "history",
+        { queueItemId: decodeURIComponent(scienceQueueItemHistoryMatch[1]) },
+        options.flowRepoStore
+      );
+    }
+    const scienceQueueByFlowMatch = url.pathname.match(/^\/v1\/science\/queue\/by-flow\/([^/]+)$/);
+    if (scienceQueueByFlowMatch) {
+      return handleScienceQueueReadRequest(
+        request,
+        env,
+        "by_flow",
+        { flowRef: decodeURIComponent(scienceQueueByFlowMatch[1]) },
+        options.flowRepoStore
+      );
+    }
+    if (url.pathname === "/v1/science/queue/next") return handleScienceQueueReadRequest(request, env, "next", {}, options.flowRepoStore);
+    if (url.pathname === "/v1/science/queue/blocked") return handleScienceQueueReadRequest(request, env, "blocked", {}, options.flowRepoStore);
+    if (url.pathname === "/v1/science/queue/quarantined") return handleScienceQueueReadRequest(request, env, "quarantined", {}, options.flowRepoStore);
+    if (url.pathname === "/v1/science/queue/handoffs") return handleScienceQueueReadRequest(request, env, "handoffs", {}, options.flowRepoStore);
+    const scienceQueueItemMatch = url.pathname.match(/^\/v1\/science\/queue\/([^/]+)$/);
+    if (scienceQueueItemMatch) {
+      return handleScienceQueueReadRequest(
+        request,
+        env,
+        "item",
+        { queueItemId: decodeURIComponent(scienceQueueItemMatch[1]) },
+        options.flowRepoStore
+      );
+    }
     const scienceMatch = url.pathname.match(/^\/v1\/science\/([^/]+)$/);
     if (scienceMatch) return handleScienceRequest(request, env, decodeURIComponent(scienceMatch[1]), options.flowRepoStore);
     if (url.pathname === "/v1/pm/handoff") return handlePmHandoffRequest(request, env, options.flowRepoStore);

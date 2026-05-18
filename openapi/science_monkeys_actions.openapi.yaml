@@ -647,6 +647,249 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
 
+  /v1/science/queue:
+    get:
+      operationId: listScienceQueue
+      summary: Read-only queue listing for role-visible Science workflow coordination items.
+      description: >
+        Read-only Option C diagnostic queue visibility. Queue records are governance coordination records,
+        not Science evidence or scientific truth. Route must not mutate state.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
+        - in: query
+          name: role
+          schema:
+            type: string
+          description: Optional requested role filter. Backend bearer-token role remains authoritative.
+      responses:
+        "200":
+          description: Read-only queue item list.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /v1/science/queue/{queue_item_id}:
+    get:
+      operationId: getScienceQueueItem
+      summary: Read one role-visible queue item.
+      description: >
+        Read-only Option C diagnostic queue visibility. Queue records are governance coordination records,
+        not Science evidence or scientific truth. Route must not mutate state.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: queue_item_id
+          required: true
+          schema:
+            type: string
+          description: Queue item id.
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
+      responses:
+        "200":
+          description: Read-only queue item response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /v1/science/queue/by-flow/{flow_ref}:
+    get:
+      operationId: listScienceQueueByFlow
+      summary: Read role-visible queue items for one flow reference.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema:
+            type: string
+          description: Existing flow id or friendly flow name.
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
+      responses:
+        "200":
+          description: Read-only queue list filtered by flow.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /v1/science/queue/next:
+    get:
+      operationId: getScienceQueueNext
+      summary: Recommend next queue item/action without executing it.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
+      responses:
+        "200":
+          description: Read-only next recommendation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /v1/science/queue/blocked:
+    get:
+      operationId: listScienceQueueBlocked
+      summary: List read-only blocked queue items visible to authenticated role.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
+      responses:
+        "200":
+          description: Read-only blocked queue list.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /v1/science/queue/quarantined:
+    get:
+      operationId: listScienceQueueQuarantined
+      summary: List read-only quarantined queue items visible to authenticated role.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
+      responses:
+        "200":
+          description: Read-only quarantined queue list.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /v1/science/queue/handoffs:
+    get:
+      operationId: listScienceQueueHandoffs
+      summary: List read-only queue handoff visibility records.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
+      responses:
+        "200":
+          description: Read-only handoff visibility list.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /v1/science/queue/history/{queue_item_id}:
+    get:
+      operationId: getScienceQueueHistory
+      summary: Read one queue item's history without mutation.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: queue_item_id
+          required: true
+          schema:
+            type: string
+          description: Queue item id.
+        - in: query
+          name: project
+          schema:
+            type: string
+            enum: [ArqonZero]
+            default: ArqonZero
+          description: Project scope. Defaults to ArqonZero.
+      responses:
+        "200":
+          description: Read-only queue history response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObjectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
   /v1/science/research:
     post:
       operationId: scienceResearch
