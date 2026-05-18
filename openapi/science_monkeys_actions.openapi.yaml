@@ -878,8 +878,8 @@ components:
             message: { type: string }
     ContextNoteRequest:
       type: object
-      additionalProperties: true
-      required: [body]
+      additionalProperties: false
+      required: [project, title, body, tags, visibility]
       properties:
         project: { type: string, enum: [ArqonZero], default: ArqonZero }
         title:
@@ -891,19 +891,21 @@ components:
         tags:
           type: array
           items: { type: string }
-          description: Optional non-authoritative tags.
+          description: Required non-authoritative tags. Use exact request-shape fields only during Stage 2B command smoke.
+        visibility:
+          type: string
+          enum: [team]
+          default: team
+          description: Required note visibility. Current backend accepts only `team`.
     ContextMessageRequest:
       type: object
-      additionalProperties: true
-      required: [body]
+      additionalProperties: false
+      required: [project, to, subject, body]
       properties:
         project: { type: string, enum: [ArqonZero], default: ArqonZero }
-        to_role:
-          type: string
-          description: Target role inbox. Backend validates allowed recipients.
         to:
           type: string
-          description: Target role alias if backend uses to instead of to_role.
+          description: Required target role inbox. Current backend expects `to`.
         subject:
           type: string
           description: Non-official message subject.

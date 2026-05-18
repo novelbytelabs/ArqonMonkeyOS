@@ -55,6 +55,7 @@ These items are no longer open for the current stage:
 - Stage 1 read/resume closeout stays closed as bounded diagnostic pass evidence.
 - Current work remains in Stage 2 Science command surface normalization.
 - Stage 2A schema/import lock must complete before broader Science command smoke.
+- Broad Stage 2B multi-role smoke remains blocked until `SCIENCE_MONKEYS_CONTEXTBUS_COMMAND_CONTRACT_PARITY_001` closes `/v1/notes` and `/v1/messages` request-shape parity and the corrected schema is re-imported.
 - Option C queue work does not begin before Stage 2A, 2B, and 2C are complete.
 - `/v1/science/share` remains HUMAN-only and out of GPT Action scope for the current stage.
 - `/v1/science/execute-experiment` remains non-GPT/local only.
@@ -98,6 +99,8 @@ Use this section to keep smaller ideas visible without promoting them into the a
 - Science operational bring-up and role constitutions:
   [`docs/04_flows_and_spec_kit/SCIENCE_MONKEYS_OPERATIONAL_BRINGUP_001_PLAN.md`](../04_flows_and_spec_kit/SCIENCE_MONKEYS_OPERATIONAL_BRINGUP_001_PLAN.md)
   [`docs/04_flows_and_spec_kit/SCIENCE_MONKEYS_ROLE_CONSTITUTIONS_001.md`](../04_flows_and_spec_kit/SCIENCE_MONKEYS_ROLE_CONSTITUTIONS_001.md)
+- Stage 2B contract-parity remediation slice for ContextBus notes/messages before broad role smoke:
+  [`docs/04_flows_and_spec_kit/SCIENCE_MONKEYS_CONTEXTBUS_COMMAND_CONTRACT_PARITY_001.md`](../04_flows_and_spec_kit/SCIENCE_MONKEYS_CONTEXTBUS_COMMAND_CONTRACT_PARITY_001.md)
 - Full read/resume plus Option C architecture:
   [`docs/04_flows_and_spec_kit/SCIENCE_MONKEYS_FULL_READ_RESUME_OPTION_C_ROUTE_ARCHITECTURE_PLAN_001.md`](../04_flows_and_spec_kit/SCIENCE_MONKEYS_FULL_READ_RESUME_OPTION_C_ROUTE_ARCHITECTURE_PLAN_001.md)
 - Diagnostic operational acceptance and runbook direction:

@@ -4,6 +4,7 @@ import { getProject } from "./projects";
 import { jsonResponse, errorResponse } from "./response";
 import { STATUS_LABELS, isKnownProject, isRole } from "./policy";
 import type { Env, Role } from "./types";
+import { githubRepoStore, type RepoStore } from "./repo_store";
 
 type FrontMatterValue = string | boolean | string[];
 
@@ -240,7 +241,7 @@ async function loadNoteSummary(env: Env, project: ReturnType<typeof getProject>,
   };
 }
 
-async function handleCreateNote(request: Request, env: Env): Promise<Response> {
+async function handleCreateNote(request: Request, env: Env, repoStore: RepoStore): Promise<Response> {
   const authRole = requireRole(request, env);
   const body = await request.json().catch(() => null) as Record<string, unknown> | null;
   if (!body) return errorResponse("INVALID_REQUEST", "Missing JSON body", 400);
@@ -272,7 +273,7 @@ async function handleCreateNote(request: Request, env: Env): Promise<Response> {
     createdAt,
     body: noteBody
   });
-  const written = await writeGithubFile(env, project, path, document, `Write context note ${noteId}`);
+  const written = await repoStore.writeFile(env, project, path, document, `Write context note ${noteId}`);
   return jsonResponse({
     ok: true,
     project: projectName,
@@ -314,9 +315,9 @@ async function handleListNotes(request: Request, env: Env): Promise<Response> {
   });
 }
 
-export async function handleNotesRequest(request: Request, env: Env): Promise<Response> {
+export async function handleNotesRequest(request: Request, env: Env, repoStore: RepoStore = githubRepoStore): Promise<Response> {
   try {
-    if (request.method === "POST") return await handleCreateNote(request, env);
+    if (request.method === "POST") return await handleCreateNote(request, env, repoStore);
     if (request.method === "GET") return await handleListNotes(request, env);
     return errorResponse("METHOD_NOT_ALLOWED", `Unsupported method: ${request.method}`, 405);
   } catch (err) {

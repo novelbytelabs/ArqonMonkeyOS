@@ -9,13 +9,14 @@ Doctrine note:
 - This runbook is the operator-facing quick reference and must track currently validated behavior.
 - Current Science GPT Action schema version is `0.3.1-contextbus-archive-action-cache-binding`.
 - Current controlling Science GPT Action schema SHA256 is `c73bc8c331a5dda7bdb71ce22b272afa386c4eabf3cbb22ba31ddcf9cf2bc297`.
+- Broad Stage 2B multi-role smoke is blocked on `SCIENCE_MONKEYS_CONTEXTBUS_COMMAND_CONTRACT_PARITY_001` until the corrected repo-candidate schema is re-imported.
 
 ## 1. Quick Start
 - **Load role context** — `/sync-context project=ArqonZero role=PM_AI` — Yes
 - **Load constitution package** — `/sync-constitution project=ArqonZero role=PM_AI` — Yes
 - **Get context manifest** — `/manifest project=ArqonZero` — Yes; may appear as getManifest
-- **Save note** — `/save-context project=ArqonZero role=CODER_AI title="..." tags=...` — Yes
-- **Send message** — `/send-message project=ArqonZero from=CODER_AI to=PM_AI subject="..."` — Yes
+- **Save note** — `/save-context project=ArqonZero role=CODER_AI title="..." tags=... visibility=team` — Yes
+- **Send message** — `/send-message project=ArqonZero from=CODER_AI to=PM_AI subject="..."` — Yes; canonical backend recipient field is `to`
 - **Read inbox** — `/inbox project=ArqonZero role=PM_AI` — Yes
 - **Open message** — `/open-message project=ArqonZero role=PM_AI message_id=MSG-...` — Yes
 - **Archive message** — `/archive-message project=ArqonZero role=PM_AI message_id=MSG-...` — Yes; current Science GPT Action binding uses `POST /v1/messages/{message_id}/archive`
@@ -46,13 +47,13 @@ Core rule: PM proposes. Coder implements. Helper executes. Auditor verifies. Hum
 
 ### /save-context
 - Purpose: Save current/previous GPT response or specified body as a non-official note.
-- Example: `/save-context project=ArqonZero role=CODER_AI title="Claim guard ideas" tags=contextos,deception,governance`
-- Notes: official_artifact=false. Use for ideas and session notes.
+- Example: `/save-context project=ArqonZero role=CODER_AI title="Claim guard ideas" tags=contextos,deception,governance visibility=team`
+- Notes: official_artifact=false. Use for ideas and session notes. Current backend requires `tags` and `visibility=team`.
 
 ### /send-message
 - Purpose: Send directed non-official role message.
 - Example: `/send-message project=ArqonZero from=CODER_AI to=PM_AI subject="Review saved note"`
-- Notes: From role is enforced by broker auth. Message goes to target inbox.
+- Notes: From role is enforced by broker auth. Message goes to target inbox. Stage 2B smoke must use canonical recipient field `to`.
 
 ### /inbox
 - Purpose: List messages in current role inbox.
@@ -127,15 +128,18 @@ Core rule: PM proposes. Coder implements. Helper executes. Auditor verifies. Hum
 - ContextBus commands now exposed in Science GPT Actions include context, constitution, notes, messages, inbox, open message, and archive message
 - Archive message is bound to `POST /v1/messages/{message_id}/archive`
 - `POST /v1/messages/{message_id}` must not be used for archive
+- `/save-context` currently requires `tags` plus `visibility=team`
+- `/send-message` currently uses `to`, not `to_role`
 - `/v1/science/share` is not exposed to GPTs
 - `/v1/science/execute-experiment` is not exposed to GPTs
 - broader smoke status is `NOT_RUN`
+- GPT Builder parameter coercion can introduce bad request-shape fields; Stage 2B smoke prompts must use exact JSON bodies and forbid extra fields
 
 ## 7. Common Workflows
 ### 7.1 Save a Coder suggestion for PM
 `/sync-context project=ArqonZero role=CODER_AI`
 `Give me three suggestions to improve Arqon ContextOS deception resistance. Do not implement anything.`
-`/save-context project=ArqonZero role=CODER_AI title="Coder deception-resistance suggestions" tags=contextos,deception,governance`
+`/save-context project=ArqonZero role=CODER_AI title="Coder deception-resistance suggestions" tags=contextos,deception,governance visibility=team`
 `/send-message project=ArqonZero from=CODER_AI to=PM_AI subject="Review saved deception-resistance suggestions"`
 
 ### 7.2 PM reads Coder message

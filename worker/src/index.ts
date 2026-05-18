@@ -94,13 +94,13 @@ export async function handleWorkerFetch(
     if (url.pathname === "/v1/capabilities") return handleReadResumeRequest(request, env, "capabilities", { repoStore: options.flowRepoStore });
     if (url.pathname === "/v1/show") return handleReadResumeRequest(request, env, "show", { repoStore: options.flowRepoStore });
     if (url.pathname === "/v1/resume") return handleReadResumeRequest(request, env, "resume", { repoStore: options.flowRepoStore });
-    if (url.pathname === "/v1/notes") return handleNotesRequest(request, env);
-    if (url.pathname === "/v1/messages") return handleMessagesRequest(request, env);
-    if (url.pathname === "/v1/messages/inbox") return handleMessagesRequest(request, env);
+    if (url.pathname === "/v1/notes") return handleNotesRequest(request, env, options.flowRepoStore);
+    if (url.pathname === "/v1/messages") return handleMessagesRequest(request, env, undefined, "collection", options.flowRepoStore);
+    if (url.pathname === "/v1/messages/inbox") return handleMessagesRequest(request, env, undefined, "collection", options.flowRepoStore);
     const messageArchiveMatch = url.pathname.match(/^\/v1\/messages\/([^/]+)\/archive$/);
-    if (messageArchiveMatch) return handleMessagesRequest(request, env, decodeURIComponent(messageArchiveMatch[1]), "archive");
+    if (messageArchiveMatch) return handleMessagesRequest(request, env, decodeURIComponent(messageArchiveMatch[1]), "archive", options.flowRepoStore);
     const messageMatch = url.pathname.match(/^\/v1\/messages\/([^/]+)$/);
-    if (messageMatch) return handleMessagesRequest(request, env, decodeURIComponent(messageMatch[1]), "item");
+    if (messageMatch) return handleMessagesRequest(request, env, decodeURIComponent(messageMatch[1]), "item", options.flowRepoStore);
     const scienceMatch = url.pathname.match(/^\/v1\/science\/([^/]+)$/);
     if (scienceMatch) return handleScienceRequest(request, env, decodeURIComponent(scienceMatch[1]), options.flowRepoStore);
     if (url.pathname === "/v1/pm/handoff") return handlePmHandoffRequest(request, env, options.flowRepoStore);

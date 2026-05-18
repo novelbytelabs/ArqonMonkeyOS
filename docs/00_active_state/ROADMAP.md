@@ -34,6 +34,7 @@ Current execution is in Stage 2A.
 - Stage 1 is completed as bounded diagnostic `PASS_WITH_WARNINGS` evidence.
 - Stage 2A is the current active work.
 - Stage 2B starts only after Stage 2A audit.
+- Broad Stage 2B multi-role smoke is blocked behind a pre-Stage-2B contract-parity remediation slice for `/v1/notes` and `/v1/messages`.
 - Stage 2C follows Stage 2B smoke and closes the Science command surface.
 - Option C queue work remains blocked until Stage 2A/2B/2C are complete and Human-closed.
 
@@ -55,6 +56,7 @@ The next milestone on the critical path is Stage 2B: Science ContextBus command 
 Stage goals:
 
 - Stage 2A goal: lock all Science GPTs to reconciled schema SHA `c73bc8c331a5dda7bdb71ce22b272afa386c4eabf3cbb22ba31ddcf9cf2bc297`, align docs, and audit.
+- Pre-Stage-2B goal: close `SCIENCE_MONKEYS_CONTEXTBUS_COMMAND_CONTRACT_PARITY_001` for `/v1/notes` and `/v1/messages`, re-hash-lock the corrected candidate schema, and re-import it before any broad multi-role smoke.
 - Stage 2B goal: role-by-role smoke for `/sync-context`, `/sync-constitution`, `/save-context`, `/send-message`, `/inbox`, `/open-message`, and `/archive-message`.
 - Stage 2C goal: normalize evidence, audit, and Human-close Stage 2.
 

@@ -44,6 +44,12 @@ Current controlling Science GPT Action schema SHA256:
 
 - `c73bc8c331a5dda7bdb71ce22b272afa386c4eabf3cbb22ba31ddcf9cf2bc297`
 
+Current Stage 2B control note:
+
+- the currently imported controlling schema SHA above remains the live reference until the corrected repo-candidate schema is re-hash-locked and re-imported
+- broad Stage 2B multi-role smoke is blocked on `SCIENCE_MONKEYS_CONTEXTBUS_COMMAND_CONTRACT_PARITY_001`
+- the contract-parity slice is limited to `/v1/notes` and `/v1/messages`
+
 Current read/context routes exposed to Science GPTs:
 
 - `GET /v1/health`
@@ -65,6 +71,18 @@ Current read/context routes exposed to Science GPTs:
 - `GET /v1/messages/inbox`
 - `GET /v1/messages/{message_id}`
 - `POST /v1/messages/{message_id}/archive`
+
+Current ContextBus request-shape constraints for Stage 2B:
+
+- `/save-context` -> `POST /v1/notes` requires `project`, `title`, `body`, `tags`, and `visibility`
+- `/save-context` note `visibility` must be `team`
+- `/send-message` -> `POST /v1/messages` uses canonical recipient field `to`
+- Stage 2B smoke should not rely on inferred or alternate field names such as `to_role`
+- broader smoke status remains `NOT_RUN` until the corrected candidate schema is re-imported
+
+Troubleshooting note:
+
+- GPT Builder may coerce or inject optional-looking fields during consequential POST calls; Stage 2B smoke prompts must provide exact JSON body shapes and explicitly forbid extra fields
 
 Current Science write routes exposed to role-scoped Science GPTs:
 

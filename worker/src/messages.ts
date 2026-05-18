@@ -5,6 +5,7 @@ import { errorResponse, jsonResponse } from "./response";
 import { isKnownProject, isRole, STATUS_LABELS } from "./policy";
 import type { Env, Role } from "./types";
 import { buildFrontMatter, parseFrontMatter, shortId } from "./notes";
+import { githubRepoStore, type RepoStore } from "./repo_store";
 
 interface MessageSummary {
   message_id: string;
@@ -145,7 +146,7 @@ async function findAccessibleMessagePath(env: Env, projectName: string, role: Ro
   return allPaths.find(path => path.endsWith(`/${messageId}.md`)) || null;
 }
 
-async function handleSendMessage(request: Request, env: Env): Promise<Response> {
+async function handleSendMessage(request: Request, env: Env, repoStore: RepoStore): Promise<Response> {
   const fromRole = requireRole(request, env);
   const body = await request.json().catch(() => null) as Record<string, unknown> | null;
   if (!body) return errorResponse("INVALID_REQUEST", "Missing JSON body", 400);
@@ -179,7 +180,7 @@ async function handleSendMessage(request: Request, env: Env): Promise<Response> 
     createdAt: new Date().toISOString(),
     body: messageBody
   });
-  const written = await writeGithubFile(env, project, path, document, `Write role message ${messageId}`);
+  const written = await repoStore.writeFile(env, project, path, document, `Write role message ${messageId}`);
   return jsonResponse({
     ok: true,
     project: projectName,
@@ -265,10 +266,16 @@ async function handleArchiveMessage(request: Request, env: Env, messageId: strin
   });
 }
 
-export async function handleMessagesRequest(request: Request, env: Env, messageId?: string, action: "collection" | "item" | "archive" = "collection"): Promise<Response> {
+export async function handleMessagesRequest(
+  request: Request,
+  env: Env,
+  messageId?: string,
+  action: "collection" | "item" | "archive" = "collection",
+  repoStore: RepoStore = githubRepoStore
+): Promise<Response> {
   try {
     if (action === "collection") {
-      if (request.method === "POST") return await handleSendMessage(request, env);
+      if (request.method === "POST") return await handleSendMessage(request, env, repoStore);
       if (request.method === "GET") return await handleListInbox(request, env);
       return errorResponse("METHOD_NOT_ALLOWED", `Unsupported method: ${request.method}`, 405);
     }
