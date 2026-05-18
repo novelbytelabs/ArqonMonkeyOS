@@ -1,5 +1,5 @@
 {
-  "slice": "SCIENCE_MONKEYS_COMMAND_SURFACE_CLOSEOUT_001_PROVENANCE_REPAIR",
+  "slice": "SCIENCE_MONKEYS_COMMAND_SURFACE_CLOSEOUT_001_PROVENANCE_REPAIR_METADATA_LOCK",
   "status_labels": [
     "REQUIRES_HUMAN_REVIEW",
     "development diagnostic only",
@@ -9,8 +9,10 @@
   "controlling_schema_sha256": "6deda9e76e39a677cd5ea956f8b1449dffc634cf3325ae8f3b9c6b2cfc9d890d",
   "true_closeout_commit": "6f337c7c6fe2afaa3bc466a7cc96645684bdff87",
   "provenance_repair": {
-    "requested_commit": "6f337c7c8d7f38df1ec4dc05507350f7bf41e402",
-    "packaged_commit": "6f337c7c6fe2afaa3bc466a7cc96645684bdff87",
+    "prior_bad_requested_commit": "6f337c7c8d7f38df1ec4dc05507350f7bf41e402",
+    "true_closeout_commit": "6f337c7c6fe2afaa3bc466a7cc96645684bdff87",
+    "provenance_repair_commit": "2b9bdcdf5dceb02c114ec3ed749b3254559d5e9d",
+    "provenance_repair_metadata_lock_slice": "SCIENCE_MONKEYS_COMMAND_SURFACE_CLOSEOUT_001_PROVENANCE_REPAIR_METADATA_LOCK",
     "correction_basis": "git history proof"
   },
   "closeout_recommendation": "PASS_WITH_WARNINGS",
