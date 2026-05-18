@@ -1,0 +1,241 @@
+import type { Env, Role } from "./types";
+import { requireRole, validateBrokerKeyUniqueness } from "./auth";
+import { getProject, contextPathFor } from "./projects";
+import { fetchGithubFile } from "./github_app";
+import { jsonResponse, errorResponse } from "./response";
+import { handleNotesRequest } from "./notes";
+import { handleMessagesRequest } from "./messages";
+import { handleFlowsRequest } from "./flows";
+import { handleScienceRequest } from "./science";
+import { handlePmHandoffRequest } from "./pm_handoff";
+import { handlePmIntakeRequest } from "./pm_intake";
+import { handlePmSpecifyRequest } from "./pm_specify";
+import { handlePmPlanRequest } from "./pm_plan";
+import { handlePmTaskingRequest } from "./pm_tasking";
+import { handleCoderWorkPlanRequest } from "./coder_work_plan";
+import { handleCoderTasksRequest } from "./coder_tasks";
+import { handleCoderImplementationBundleRequest } from "./coder_implementation_bundle";
+import { handleHelperExecutionIntakeRequest } from "./helper_execution_intake";
+import { handleHelperExecutionReportRequest } from "./helper_execution_report";
+import { handleAuditorHelperExecutionReviewRequest } from "./auditor_helper_execution_review";
+import { handleHumanAdvancementDecisionRequest } from "./human_advancement_decision";
+import { handleCoderHandoffRequest } from "./coder_handoff";
+import { handleReadResumeRequest } from "./read_resume";
+import { handleScienceQueueReadRequest } from "./science_queue_read";
+import { handleScienceQueueMutationRequest } from "./science_queue_mutation";
+import type { RepoStore } from "./repo_store";
+
+function getParam(url: URL, name: string): string | null {
+  const value = url.searchParams.get(name);
+  return value && value.trim() ? value.trim() : null;
+}
+
+async function handleHealth(env: Env): Promise<Response> {
+  return jsonResponse({
+    ok: true,
+    service: "Arqon ContextOS Broker",
+    version: env.BROKER_VERSION,
+    status: ["REQUIRES_HUMAN_REVIEW", "development diagnostic only", "NOT SEALED-TEST CERTIFIED", "not promotable"]
+  });
+}
+
+async function handleContext(request: Request, env: Env): Promise<Response> {
+  const authRole = requireRole(request, env);
+  const url = new URL(request.url);
+  const projectName = getParam(url, "project") || "";
+  const requestedRole = (getParam(url, "role") || authRole) as Role;
+  if (authRole !== "HUMAN" && authRole !== requestedRole) {
+    return errorResponse("ROLE_MISMATCH", `Authenticated role ${authRole} cannot request ${requestedRole}`, 403);
+  }
+  const project = getProject(projectName);
+  if (!project) return errorResponse("UNKNOWN_PROJECT", `Unknown project: ${projectName}`, 404);
+  const path = contextPathFor(project, requestedRole);
+  if (!path) return errorResponse("ROLE_CONTEXT_NOT_FOUND", `No context path for role: ${requestedRole}`, 404);
+  const file = await fetchGithubFile(env, project, path);
+  return jsonResponse({ ok: true, project: projectName, role: requestedRole, source_path: file.path, source_sha: file.sha, context: JSON.parse(file.content) });
+}
+
+async function handleManifest(request: Request, env: Env): Promise<Response> {
+  requireRole(request, env);
+  const url = new URL(request.url);
+  const projectName = getParam(url, "project") || "";
+  const project = getProject(projectName);
+  if (!project) return errorResponse("UNKNOWN_PROJECT", `Unknown project: ${projectName}`, 404);
+  const file = await fetchGithubFile(env, project, project.manifest);
+  return jsonResponse({ ok: true, project: projectName, source_path: file.path, source_sha: file.sha, manifest: JSON.parse(file.content) });
+}
+
+async function handleNotImplemented(name: string): Promise<Response> {
+  return errorResponse("NOT_IMPLEMENTED", `${name} is reserved in v0.1 scaffold. Implement after read-only context load is validated.`, 501);
+}
+
+function brokerKeyConfigError(env: Env): Response | null {
+  const validation = validateBrokerKeyUniqueness(env);
+  if (validation.ok) return null;
+  return errorResponse(
+    "BROKER_KEY_CONFIGURATION_INVALID",
+    `Broker key configuration has missing or duplicate role credentials: missing=${validation.missing.join(",")}; duplicate_groups=${validation.duplicate_groups.map(group => group.join("+")).join(",")}`,
+    500
+  );
+}
+
+export async function handleWorkerFetch(
+  request: Request,
+  env: Env,
+  options: { flowRepoStore?: RepoStore } = {}
+): Promise<Response> {
+  try {
+    const url = new URL(request.url);
+    if (url.pathname === "/v1/health" && request.method === "GET") return handleHealth(env);
+    const keyConfigError = brokerKeyConfigError(env);
+    if (keyConfigError) return keyConfigError;
+    if (url.pathname === "/v1/context" && request.method === "GET") return handleContext(request, env);
+    if (url.pathname === "/v1/constitution" && request.method === "GET") return handleContext(request, env);
+    if (url.pathname === "/v1/manifest" && request.method === "GET") return handleManifest(request, env);
+    if (url.pathname === "/v1/whoami") return handleReadResumeRequest(request, env, "whoami", { repoStore: options.flowRepoStore });
+    if (url.pathname === "/v1/capabilities") return handleReadResumeRequest(request, env, "capabilities", { repoStore: options.flowRepoStore });
+    if (url.pathname === "/v1/show") return handleReadResumeRequest(request, env, "show", { repoStore: options.flowRepoStore });
+    if (url.pathname === "/v1/resume") return handleReadResumeRequest(request, env, "resume", { repoStore: options.flowRepoStore });
+    if (url.pathname === "/v1/notes") return handleNotesRequest(request, env, options.flowRepoStore);
+    if (url.pathname === "/v1/messages") return handleMessagesRequest(request, env, undefined, "collection", options.flowRepoStore);
+    if (url.pathname === "/v1/messages/inbox") return handleMessagesRequest(request, env, undefined, "collection", options.flowRepoStore);
+    const messageArchiveMatch = url.pathname.match(/^\/v1\/messages\/([^/]+)\/archive$/);
+    if (messageArchiveMatch) return handleMessagesRequest(request, env, decodeURIComponent(messageArchiveMatch[1]), "archive", options.flowRepoStore);
+    const messageMatch = url.pathname.match(/^\/v1\/messages\/([^/]+)$/);
+    if (messageMatch) return handleMessagesRequest(request, env, decodeURIComponent(messageMatch[1]), "item", options.flowRepoStore);
+    if (url.pathname === "/v1/science/queue") return handleScienceQueueReadRequest(request, env, "list", {}, options.flowRepoStore);
+    const scienceQueueItemHistoryMatch = url.pathname.match(/^\/v1\/science\/queue\/history\/([^/]+)$/);
+    if (scienceQueueItemHistoryMatch) {
+      return handleScienceQueueReadRequest(
+        request,
+        env,
+        "history",
+        { queueItemId: decodeURIComponent(scienceQueueItemHistoryMatch[1]) },
+        options.flowRepoStore
+      );
+    }
+    const scienceQueueClaimMatch = url.pathname.match(/^\/v1\/science\/queue\/([^/]+)\/claim$/);
+    if (scienceQueueClaimMatch) {
+      return handleScienceQueueMutationRequest(
+        request,
+        env,
+        "claim",
+        { queueItemId: decodeURIComponent(scienceQueueClaimMatch[1]) },
+        options.flowRepoStore
+      );
+    }
+    const scienceQueueCompleteMatch = url.pathname.match(/^\/v1\/science\/queue\/([^/]+)\/complete$/);
+    if (scienceQueueCompleteMatch) {
+      return handleScienceQueueMutationRequest(
+        request,
+        env,
+        "complete",
+        { queueItemId: decodeURIComponent(scienceQueueCompleteMatch[1]) },
+        options.flowRepoStore
+      );
+    }
+    const scienceQueueBlockMatch = url.pathname.match(/^\/v1\/science\/queue\/([^/]+)\/block$/);
+    if (scienceQueueBlockMatch) {
+      return handleScienceQueueMutationRequest(
+        request,
+        env,
+        "block",
+        { queueItemId: decodeURIComponent(scienceQueueBlockMatch[1]) },
+        options.flowRepoStore
+      );
+    }
+    const scienceQueueQuarantineMatch = url.pathname.match(/^\/v1\/science\/queue\/([^/]+)\/quarantine$/);
+    if (scienceQueueQuarantineMatch) {
+      return handleScienceQueueMutationRequest(
+        request,
+        env,
+        "quarantine",
+        { queueItemId: decodeURIComponent(scienceQueueQuarantineMatch[1]) },
+        options.flowRepoStore
+      );
+    }
+    const scienceQueueHandoffMatch = url.pathname.match(/^\/v1\/science\/queue\/([^/]+)\/handoff$/);
+    if (scienceQueueHandoffMatch) {
+      return handleScienceQueueMutationRequest(
+        request,
+        env,
+        "handoff",
+        { queueItemId: decodeURIComponent(scienceQueueHandoffMatch[1]) },
+        options.flowRepoStore
+      );
+    }
+    const scienceQueueByFlowMatch = url.pathname.match(/^\/v1\/science\/queue\/by-flow\/([^/]+)$/);
+    if (scienceQueueByFlowMatch) {
+      return handleScienceQueueReadRequest(
+        request,
+        env,
+        "by_flow",
+        { flowRef: decodeURIComponent(scienceQueueByFlowMatch[1]) },
+        options.flowRepoStore
+      );
+    }
+    if (url.pathname === "/v1/science/queue/next") return handleScienceQueueReadRequest(request, env, "next", {}, options.flowRepoStore);
+    if (url.pathname === "/v1/science/queue/blocked") return handleScienceQueueReadRequest(request, env, "blocked", {}, options.flowRepoStore);
+    if (url.pathname === "/v1/science/queue/quarantined") return handleScienceQueueReadRequest(request, env, "quarantined", {}, options.flowRepoStore);
+    if (url.pathname === "/v1/science/queue/handoffs") return handleScienceQueueReadRequest(request, env, "handoffs", {}, options.flowRepoStore);
+    const scienceQueueItemMatch = url.pathname.match(/^\/v1\/science\/queue\/([^/]+)$/);
+    if (scienceQueueItemMatch) {
+      return handleScienceQueueReadRequest(
+        request,
+        env,
+        "item",
+        { queueItemId: decodeURIComponent(scienceQueueItemMatch[1]) },
+        options.flowRepoStore
+      );
+    }
+    const scienceMatch = url.pathname.match(/^\/v1\/science\/([^/]+)$/);
+    if (scienceMatch) return handleScienceRequest(request, env, decodeURIComponent(scienceMatch[1]), options.flowRepoStore);
+    if (url.pathname === "/v1/pm/handoff") return handlePmHandoffRequest(request, env, options.flowRepoStore);
+    if (url.pathname === "/v1/pm/intake") return handlePmIntakeRequest(request, env, options.flowRepoStore);
+    if (url.pathname === "/v1/pm/specify") return handlePmSpecifyRequest(request, env, options.flowRepoStore);
+    if (url.pathname === "/v1/pm/plan") return handlePmPlanRequest(request, env, options.flowRepoStore);
+    if (url.pathname === "/v1/pm/tasks") return errorResponse("PM_TASKS_ROUTE_RETIRED_USE_PM_TASKING", "The generic PM Tasks route is retired. Use /v1/pm/tasking for PM tasking; Coder owns implementation task decomposition.", 410);
+    if (url.pathname === "/v1/pm/tasking") return handlePmTaskingRequest(request, env, options.flowRepoStore);
+    if (url.pathname === "/v1/coder/work-plan") return handleCoderWorkPlanRequest(request, env, options.flowRepoStore);
+    if (url.pathname === "/v1/coder/tasks") return handleCoderTasksRequest(request, env, options.flowRepoStore);
+    if (url.pathname === "/v1/coder/implementation-bundle") return handleCoderImplementationBundleRequest(request, env, options.flowRepoStore);
+    if (url.pathname === "/v1/coder/handoff") return handleCoderHandoffRequest(request, env, options.flowRepoStore);
+    if (url.pathname === "/v1/helper/execution-intake") return handleHelperExecutionIntakeRequest(request, env, options.flowRepoStore);
+    if (url.pathname === "/v1/helper/execution-report") return handleHelperExecutionReportRequest(request, env, options.flowRepoStore);
+    if (url.pathname === "/v1/auditor/helper-execution-review") return handleAuditorHelperExecutionReviewRequest(request, env, options.flowRepoStore);
+    if (url.pathname === "/v1/human/advancement-decision") return handleHumanAdvancementDecisionRequest(request, env, options.flowRepoStore);
+    if (url.pathname === "/v1/flows") return handleFlowsRequest(request, env, undefined, "collection", options.flowRepoStore);
+    const artifactOpenMatch = url.pathname.match(/^\/v1\/artifacts\/([^/]+)$/);
+    if (artifactOpenMatch) return handleReadResumeRequest(request, env, "artifact_open", { artifactId: decodeURIComponent(artifactOpenMatch[1]), repoStore: options.flowRepoStore });
+    const flowResumeMatch = url.pathname.match(/^\/v1\/flows\/([^/]+)\/resume$/);
+    if (flowResumeMatch) return handleReadResumeRequest(request, env, "flow_resume", { flowRef: decodeURIComponent(flowResumeMatch[1]), repoStore: options.flowRepoStore });
+    const flowHistoryMatch = url.pathname.match(/^\/v1\/flows\/([^/]+)\/history$/);
+    if (flowHistoryMatch) return handleReadResumeRequest(request, env, "flow_history", { flowRef: decodeURIComponent(flowHistoryMatch[1]), repoStore: options.flowRepoStore });
+    const flowLatestMatch = url.pathname.match(/^\/v1\/flows\/([^/]+)\/latest$/);
+    if (flowLatestMatch) return handleReadResumeRequest(request, env, "flow_latest", { flowRef: decodeURIComponent(flowLatestMatch[1]), repoStore: options.flowRepoStore });
+    const flowNextMatch = url.pathname.match(/^\/v1\/flows\/([^/]+)\/next$/);
+    if (flowNextMatch) return handleReadResumeRequest(request, env, "flow_next", { flowRef: decodeURIComponent(flowNextMatch[1]), repoStore: options.flowRepoStore });
+    const flowStopConditionsMatch = url.pathname.match(/^\/v1\/flows\/([^/]+)\/stop-conditions$/);
+    if (flowStopConditionsMatch) return handleReadResumeRequest(request, env, "flow_stop_conditions", { flowRef: decodeURIComponent(flowStopConditionsMatch[1]), repoStore: options.flowRepoStore });
+    const flowStatusMatch = url.pathname.match(/^\/v1\/flows\/([^/]+)\/status$/);
+    if (flowStatusMatch) return handleFlowsRequest(request, env, decodeURIComponent(flowStatusMatch[1]), "status", options.flowRepoStore);
+    const flowArtifactsMatch = url.pathname.match(/^\/v1\/flows\/([^/]+)\/artifacts$/);
+    if (flowArtifactsMatch && request.method === "GET") return handleReadResumeRequest(request, env, "flow_artifacts", { flowRef: decodeURIComponent(flowArtifactsMatch[1]), repoStore: options.flowRepoStore });
+    if (flowArtifactsMatch) return handleFlowsRequest(request, env, decodeURIComponent(flowArtifactsMatch[1]), "artifacts", options.flowRepoStore);
+    const flowAdvanceMatch = url.pathname.match(/^\/v1\/flows\/([^/]+)\/advance$/);
+    if (flowAdvanceMatch) return handleFlowsRequest(request, env, decodeURIComponent(flowAdvanceMatch[1]), "advance", options.flowRepoStore);
+    const flowMatch = url.pathname.match(/^\/v1\/flows\/([^/]+)$/);
+    if (flowMatch) return handleFlowsRequest(request, env, decodeURIComponent(flowMatch[1]), "item", options.flowRepoStore);
+    if (url.pathname.startsWith("/v1/runs")) return handleNotImplemented("runs");
+    return errorResponse("NOT_FOUND", `No route for ${request.method} ${url.pathname}`, 404);
+  } catch (err) {
+    if (err instanceof Response) return err;
+    return errorResponse("INTERNAL_ERROR", err instanceof Error ? err.message : String(err), 500);
+  }
+}
+
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    return handleWorkerFetch(request, env);
+  }
+};

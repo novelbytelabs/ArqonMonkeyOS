@@ -14,7 +14,7 @@ import sys
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[2]
-OUT_DIR = ROOT / "temps"
+OUT_DIR = ROOT / "artifacts"
 OUT_NAME = "science_monkeys_read_resume_surface_001_hardening_audit_pack.zip"
 OPTIONAL_HELPER_REPORT = OUT_DIR / "science_monkeys_read_resume_surface_001_hardening_helper_report.md"
 
@@ -79,7 +79,7 @@ def main() -> int:
 
         if OPTIONAL_HELPER_REPORT.exists():
             data = OPTIONAL_HELPER_REPORT.read_bytes()
-            rel = "temps/science_monkeys_read_resume_surface_001_hardening_helper_report.md"
+            rel = "artifacts/science_monkeys_read_resume_surface_001_hardening_helper_report.md"
             manifest["included_files"].append(rel)  # type: ignore[index]
             manifest["checksums"][rel] = sha256_bytes(data)  # type: ignore[index]
             zf.writestr(rel, data)

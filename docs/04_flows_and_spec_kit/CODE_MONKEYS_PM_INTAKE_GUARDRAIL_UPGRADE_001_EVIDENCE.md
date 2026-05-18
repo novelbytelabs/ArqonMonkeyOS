@@ -37,7 +37,7 @@
 - live deployed PM intake smoke command PASS
 
 ## Audit Bundle Builder
-- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/temps/pm_intake_audit_bundle_0231211243e3.zip`
+- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/artifacts/pm_intake_audit_bundle_0231211243e3.zip`
 - zip SHA256: `f2280f8bbbb4c8a8f741d5a7a01e422cafb3d2488c99848edd0e41cf23f47d48`
 - file count: `41`
 

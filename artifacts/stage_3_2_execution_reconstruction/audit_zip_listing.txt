@@ -1,0 +1,31 @@
+Archive:  temps/science_monkeys_option_c_queue_mutation_stage_3_2_execution_evidence_reconstruction_001_audit_pack.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+     1394  2026-05-18 16:54   temps/AUDIT_MANIFEST.json
+       92  2026-05-18 16:54   temps/AUDIT_MANIFEST.sha256
+     7165  2026-05-18 16:54   docs/04_flows_and_spec_kit/SCIENCE_MONKEYS_OPTION_C_QUEUE_MUTATION_STAGE_3_2_EXECUTION_EVIDENCE_RECONSTRUCTION_001.md
+    21186  2026-05-18 15:31   docs/04_flows_and_spec_kit/SCIENCE_MONKEYS_OPTION_C_QUEUE_MUTATION_STAGE_3_2_IMPLEMENTATION_PACKET_001.md
+    15383  2026-05-18 14:52   docs/04_flows_and_spec_kit/SCIENCE_MONKEYS_OPTION_C_QUEUE_MUTATION_STAGE_3_2_PLANNING_001.md
+        0  2026-05-18 16:54   temps/stage_3_2_execution_reconstruction/
+        4  2026-05-18 16:52   temps/stage_3_2_execution_reconstruction/role_scoped_schema_share_execute_grep.txt
+      236  2026-05-18 16:53   temps/stage_3_2_execution_reconstruction/typecheck.txt
+     2785  2026-05-18 16:52   temps/stage_3_2_execution_reconstruction/baseline_parent_share_execute_grep.txt
+      150  2026-05-18 16:53   temps/stage_3_2_execution_reconstruction/commit_revs.txt
+      333  2026-05-18 16:52   temps/stage_3_2_execution_reconstruction/packet_to_execution_diff_stat.txt
+    28440  2026-05-18 16:52   temps/stage_3_2_execution_reconstruction/packet_to_execution_full_diff.patch
+      383  2026-05-18 16:52   temps/stage_3_2_execution_reconstruction/execution_commit_diff_stat.txt
+      265  2026-05-18 16:52   temps/stage_3_2_execution_reconstruction/execution_commit_metadata.txt
+      204  2026-05-18 16:53   temps/stage_3_2_execution_reconstruction/env_markers.txt
+     2852  2026-05-18 16:54   temps/stage_3_2_execution_reconstruction/audit_zip_listing.txt
+     2773  2026-05-18 16:52   temps/stage_3_2_execution_reconstruction/execution_commit_share_execute_grep.txt
+       22  2026-05-18 16:53   temps/stage_3_2_execution_reconstruction/status_before.txt
+       45  2026-05-18 16:53   temps/stage_3_2_execution_reconstruction/pwd.txt
+       98  2026-05-18 16:53   temps/stage_3_2_execution_reconstruction/commit_existence.txt
+    28706  2026-05-18 16:52   temps/stage_3_2_execution_reconstruction/execution_commit_full_diff.patch
+        5  2026-05-18 16:53   temps/stage_3_2_execution_reconstruction/branch.txt
+      208  2026-05-18 16:52   temps/stage_3_2_execution_reconstruction/execution_commit_name_status.txt
+      367  2026-05-18 16:53   temps/stage_3_2_execution_reconstruction/worker_package_json.txt
+      158  2026-05-18 16:52   temps/stage_3_2_execution_reconstruction/packet_to_execution_name_status.txt
+     1225  2026-05-18 16:54   temps/science_monkeys_option_c_queue_mutation_stage_3_2_execution_evidence_reconstruction_001_helper_report.md
+---------                     -------
+   114479                     26 files

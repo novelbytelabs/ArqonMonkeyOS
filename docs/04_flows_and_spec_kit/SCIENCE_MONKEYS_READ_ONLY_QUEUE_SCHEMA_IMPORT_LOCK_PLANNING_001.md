@@ -192,7 +192,7 @@ If the schema must be edited to satisfy UI limits:
 
 A future import-lock execution packet must create an evidence file:
 
-temps/SCIENCE_MONKEYS_READ_ONLY_QUEUE_SCHEMA_IMPORT_LOCK_001_EVIDENCE.md
+artifacts/SCIENCE_MONKEYS_READ_ONLY_QUEUE_SCHEMA_IMPORT_LOCK_001_EVIDENCE.md
 
 It must include:
 

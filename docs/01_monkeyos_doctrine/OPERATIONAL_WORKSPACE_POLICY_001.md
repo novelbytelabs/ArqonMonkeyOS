@@ -13,6 +13,14 @@ Define the workspace contract for ArqonMonkeyOS so disposable scratch paths do n
 
 ## Directory Contract
 
+### `artifacts/`
+
+Retained deliverables.
+
+Use for audit bundles, helper reports, manifests, replay packages, evidence logs, and any other output that must survive past the current stage.
+
+`artifacts/` is source-of-truth-adjacent durable output and may be committed when the repo workflow requires it.
+
 ### `runtime/`
 
 Active execution workspace.
@@ -23,9 +31,9 @@ Use for bundle apply directories, generated smoke JavaScript, run transcripts re
 
 ### `temps/`
 
-Archive and transfer workspace.
+Stage-local ephemeral workspace.
 
-Use for audit bundles, replay packages, generated zip files, forensic diffs, and handoff packages.
+Use only for temporary stage files that are disposable after the stage completes.
 
 `temps/` is not source of truth and should not be committed.
 
@@ -35,7 +43,7 @@ Scratch only.
 
 `tmp/` is never required by prompts, scripts, CI, validation, audit evidence, or replay packages.
 
-If a file is needed for audit, copy it into an audit bundle or durable evidence path.
+If a file is needed beyond the current stage, copy it into `artifacts/` or another durable evidence path.
 
 ## Evidence Rule
 

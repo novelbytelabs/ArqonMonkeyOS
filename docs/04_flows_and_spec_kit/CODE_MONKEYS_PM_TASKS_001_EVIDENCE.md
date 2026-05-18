@@ -42,7 +42,7 @@
 - `rg -n "handlePmTasksRequest|PM_TASKS_ROLE_FORBIDDEN|PM_TASKS_IDEMPOTENCY_CONFLICT|PM_TASKS_IMPLEMENTATION_AUTHORITY_FORBIDDEN|generated_pm_tasks_context" worker/src worker/test_support docs openapi` PASS
 
 ## PM Tasks Audit Bundle
-- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/temps/pm_tasks_audit_bundle_2292b513f200.zip`
+- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/artifacts/pm_tasks_audit_bundle_2292b513f200.zip`
 - zip SHA256: `eff083de4c06a0b5735bd601c0ffe22712a6b2fa94b2687401d3ec26830d884f`
 - file count: `29`
 

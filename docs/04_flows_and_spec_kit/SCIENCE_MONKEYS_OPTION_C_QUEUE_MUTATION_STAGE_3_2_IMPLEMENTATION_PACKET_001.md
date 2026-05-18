@@ -190,7 +190,7 @@ Allowed future documentation/evidence files:
 
 - `docs/04_flows_and_spec_kit/SCIENCE_MONKEYS_OPTION_C_QUEUE_MUTATION_STAGE_3_2_IMPLEMENTATION_PACKET_001.md`
 - `docs/04_flows_and_spec_kit/SCIENCE_MONKEYS_OPTION_C_QUEUE_MUTATION_STAGE_3_2_IMPLEMENTATION_PACKET_001_EVIDENCE.md`
-- `temps/science_monkeys_option_c_queue_mutation_stage_3_2_implementation_execution_001_helper_report.md`
+- `artifacts/science_monkeys_option_c_queue_mutation_stage_3_2_implementation_execution_001_helper_report.md`
 
 ## Role authority matrix
 

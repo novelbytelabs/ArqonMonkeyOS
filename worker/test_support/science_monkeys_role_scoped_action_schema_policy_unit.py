@@ -4,7 +4,7 @@ from pathlib import Path
 
 import yaml
 
-RESULTS = Path("temps/science_monkeys_role_scoped_schema_generation_results.json")
+RESULTS = Path("artifacts/science_monkeys_role_scoped_schema_generation_results.json")
 
 EXPECTED_ROLES = {
     "explorer",

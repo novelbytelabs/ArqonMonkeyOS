@@ -8,7 +8,8 @@ import {
   TRUTH_BOUNDARY,
   buildQueueItems,
   getParam,
-  requiredStatusLabels
+  requiredStatusLabels,
+  type QueueTruthBoundary
 } from "./science_queue_read";
 
 type MutationRoute = "claim" | "complete" | "block" | "quarantine" | "handoff";
@@ -50,7 +51,7 @@ interface MutationRecord {
   idempotency_key: string;
   source_route: string;
   actor_authority_check: string;
-  truth_boundary: typeof TRUTH_BOUNDARY;
+  truth_boundary: MutationTruthBoundary;
   required_status_labels: string[];
   payload_signature: string;
   handoff_target_role?: string;
@@ -64,6 +65,17 @@ interface NormalizedRequest {
   target_role?: string;
   evidence_refs?: string[];
 }
+
+interface MutationTruthBoundary extends QueueTruthBoundary {
+  mutation_record_is_truth: false;
+  mutation_record_is_evidence_by_itself: false;
+}
+
+const MUTATION_TRUTH_BOUNDARY: MutationTruthBoundary = {
+  ...TRUTH_BOUNDARY,
+  mutation_record_is_truth: false,
+  mutation_record_is_evidence_by_itself: false
+};
 
 const MUTATING_ROLES: Role[] = [
   "EXPLORER_AI",
@@ -278,11 +290,7 @@ function buildResponse(projectName: string, role: Role, record: MutationRecord, 
     mutation_id: record.mutation_id,
     idempotency_key: record.idempotency_key,
     required_status_labels: requiredStatusLabels(),
-    truth_boundary: {
-      ...TRUTH_BOUNDARY,
-      mutation_record_is_truth: false,
-      mutation_record_is_evidence_by_itself: false
-    },
+    truth_boundary: MUTATION_TRUTH_BOUNDARY,
     mutation_record_path: recordPath,
     mutation_record_sha: recordSha,
     idempotent_replay: replay
@@ -352,11 +360,7 @@ export async function handleScienceQueueMutationRequest(
     idempotency_key: payload.idempotency_key,
     source_route: `/v1/science/queue/${item.queue_item_id}/${route}`,
     actor_authority_check: authorityCheck,
-    truth_boundary: {
-      ...TRUTH_BOUNDARY,
-      mutation_record_is_truth: false,
-      mutation_record_is_evidence_by_itself: false
-    },
+    truth_boundary: MUTATION_TRUTH_BOUNDARY,
     required_status_labels: requiredStatusLabels(),
     payload_signature: signature
   };

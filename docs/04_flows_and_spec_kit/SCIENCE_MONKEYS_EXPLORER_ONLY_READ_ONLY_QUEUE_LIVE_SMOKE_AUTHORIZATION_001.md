@@ -217,7 +217,7 @@ The future live smoke must stop immediately if:
 
 A future live-smoke packet must produce:
 
-temps/SCIENCE_MONKEYS_EXPLORER_ONLY_READ_ONLY_QUEUE_LIVE_SMOKE_001_EVIDENCE.md
+artifacts/SCIENCE_MONKEYS_EXPLORER_ONLY_READ_ONLY_QUEUE_LIVE_SMOKE_001_EVIDENCE.md
 
 The evidence file must include:
 

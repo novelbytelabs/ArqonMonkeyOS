@@ -1,0 +1,21 @@
+worker/src/read_resume.ts:426:    truth_boundary: TRUTH_BOUNDARY
+worker/src/read_resume.ts:444:    truth_boundary: TRUTH_BOUNDARY
+worker/src/read_resume.ts:473:    truth_boundary: TRUTH_BOUNDARY,
+worker/src/read_resume.ts:507:    truth_boundary: TRUTH_BOUNDARY,
+worker/src/read_resume.ts:530:    truth_boundary: TRUTH_BOUNDARY,
+worker/src/read_resume.ts:553:    truth_boundary: TRUTH_BOUNDARY,
+worker/src/read_resume.ts:572:    truth_boundary: TRUTH_BOUNDARY,
+worker/src/read_resume.ts:595:    truth_boundary: TRUTH_BOUNDARY,
+worker/src/read_resume.ts:617:    truth_boundary: TRUTH_BOUNDARY
+worker/src/read_resume.ts:638:    truth_boundary: TRUTH_BOUNDARY
+worker/src/read_resume.ts:706:    truth_boundary: TRUTH_BOUNDARY,
+worker/src/science_queue_read.ts:53:export interface QueueTruthBoundary {
+worker/src/science_queue_read.ts:77:  truth_boundary: QueueTruthBoundary;
+worker/src/science_queue_read.ts:80:export const TRUTH_BOUNDARY: QueueTruthBoundary = {
+worker/src/science_queue_read.ts:228:      truth_boundary: TRUTH_BOUNDARY
+worker/src/science_queue_read.ts:242:    truth_boundary: TRUTH_BOUNDARY,
+worker/src/science_queue_mutation.ts:53:  truth_boundary: typeof TRUTH_BOUNDARY;
+worker/src/science_queue_mutation.ts:281:    truth_boundary: {
+worker/src/science_queue_mutation.ts:283:      mutation_record_is_truth: false,
+worker/src/science_queue_mutation.ts:355:    truth_boundary: {
+worker/src/science_queue_mutation.ts:357:      mutation_record_is_truth: false,

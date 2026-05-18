@@ -45,7 +45,7 @@ def main() -> None:
         "purpose": "prove rejected generic /v1/pm/tasks route is retired while /v1/pm/tasking remains active",
         "files": records,
     }
-    out = root / "temps" / f"pm_tasking_cleanup_audit_bundle_{commit[:12]}.zip"
+    out = root / "artifacts" / f"pm_tasking_cleanup_audit_bundle_{commit[:12]}.zip"
     out.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
         z.writestr("AUDIT_BUNDLE_MANIFEST.json", json.dumps(manifest, indent=2) + "\n")

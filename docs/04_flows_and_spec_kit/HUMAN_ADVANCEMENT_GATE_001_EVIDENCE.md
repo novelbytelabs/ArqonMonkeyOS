@@ -63,9 +63,9 @@ not promotable
 
 ## Audit Bundle
 
-- canonical audited bundle path: `temps/human_advancement_decision_audit_bundle_2c75e592c4c0.zip`
+- canonical audited bundle path: `artifacts/human_advancement_decision_audit_bundle_2c75e592c4c0.zip`
 - canonical audited bundle SHA256: `bae5039daa0d46829fe1ee46882ac1b8b1a67a7df539bd96616aff1c674ac934`
-- actual rebuilt bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/temps/human_advancement_decision_audit_bundle_2c75e592c4c0.zip`
+- actual rebuilt bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/artifacts/human_advancement_decision_audit_bundle_2c75e592c4c0.zip`
 - actual rebuilt bundle SHA256: `b742393e9b6cfb6a5fa5e9dfe033e6f180f6c9a59f96093716f8f67ca22f6e03`
 - note: rebuilding after evidence metadata cleanup changes the bundle SHA because this evidence document is included inside the bundle
 

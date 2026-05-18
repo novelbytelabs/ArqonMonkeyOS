@@ -1,0 +1,5 @@
+
+> arqon-contextos-worker@0.1.0 typecheck
+> tsc --noEmit
+
+src/science_queue_mutation.ts(357,7): error TS2353: Object literal may only specify known properties, and 'mutation_record_is_truth' does not exist in type 'QueueTruthBoundary'.

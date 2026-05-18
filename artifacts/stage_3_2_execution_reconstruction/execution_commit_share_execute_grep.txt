@@ -1,0 +1,15 @@
+0b244b2b10823dfd90f516777d230b7af8485662:openapi/arqon_contextos.openapi.yaml:1114:  /v1/science/share:
+0b244b2b10823dfd90f516777d230b7af8485662:worker/src/flows.ts:479:      "Official science share_packet must be created through /v1/science/share so Human approval, outbox, PM notification, and context update can be enforced",
+0b244b2b10823dfd90f516777d230b7af8485662:worker/src/read_resume.ts:170:    routes.push("POST /v1/flows/{flow_ref}/advance", "POST /v1/science/share", "POST /v1/human/advancement-decision");
+0b244b2b10823dfd90f516777d230b7af8485662:worker/src/read_resume.ts:192:  if (role !== "HUMAN") common.push("POST /v1/flows/{flow_ref}/advance", "POST /v1/science/share");
+0b244b2b10823dfd90f516777d230b7af8485662:worker/src/read_resume.ts:194:  if (role === "SCIENCE_EXECUTOR_AI") common.push("POST /v1/science/hypothesize", "POST /v1/science/design-experiment", "POST /v1/science/audit-experiment", "POST /v1/science/share");
+0b244b2b10823dfd90f516777d230b7af8485662:worker/src/read_resume.ts:362:      return { next_allowed_action: "Human share decision if warranted", next_allowed_route: "POST /v1/science/share", next_allowed_role: "HUMAN", next_allowed_artifact_type_if_any: "share_packet", requires_human_gate: true, unknowns: [] };
+0b244b2b10823dfd90f516777d230b7af8485662:worker/src/read_resume.ts:391:  if (role !== "HUMAN") stops.push("attempt to advance flow", "attempt to use /v1/science/share");
+0b244b2b10823dfd90f516777d230b7af8485662:worker/src/read_resume.ts:437:    human_only_capabilities: ["POST /v1/flows/{flow_ref}/advance", "POST /v1/science/share", "promotion/certification/deployment decisions remain outside this slice"],
+0b244b2b10823dfd90f516777d230b7af8485662:worker/src/science_share.ts:566:  if (!flowRef) return errorResponse("SCIENCE_FLOW_REF_REQUIRED", "/v1/science/share requires flow_ref", 400);
+---
+0b244b2b10823dfd90f516777d230b7af8485662:openapi/arqon_contextos.openapi.yaml:1049:  /v1/science/execute-experiment:
+0b244b2b10823dfd90f516777d230b7af8485662:worker/src/read_resume.ts:179:  if (role === "SCIENCE_EXECUTOR_AI") routes.push("POST /v1/science/execute-experiment");
+0b244b2b10823dfd90f516777d230b7af8485662:worker/src/read_resume.ts:193:  if (isGptRole(role)) common.push("POST /v1/science/execute-experiment");
+0b244b2b10823dfd90f516777d230b7af8485662:worker/src/read_resume.ts:353:      return { next_allowed_action: "local Science Executor evidence required", next_allowed_route: "POST /v1/science/execute-experiment", next_allowed_role: "SCIENCE_EXECUTOR_AI", next_allowed_artifact_type_if_any: "execution_report", requires_human_gate: false, unknowns: [] };
+0b244b2b10823dfd90f516777d230b7af8485662:worker/src/read_resume.ts:438:    executor_only_capabilities: ["POST /v1/science/execute-experiment"],

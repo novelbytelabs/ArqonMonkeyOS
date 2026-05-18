@@ -28,13 +28,13 @@ The execution commit exists and is the pushed commit:
 
 Captured metadata and diff evidence:
 
-- [`temps/stage_3_2_execution_reconstruction/execution_commit_metadata.txt`](../../temps/stage_3_2_execution_reconstruction/execution_commit_metadata.txt)
-- [`temps/stage_3_2_execution_reconstruction/execution_commit_diff_stat.txt`](../../temps/stage_3_2_execution_reconstruction/execution_commit_diff_stat.txt)
-- [`temps/stage_3_2_execution_reconstruction/execution_commit_name_status.txt`](../../temps/stage_3_2_execution_reconstruction/execution_commit_name_status.txt)
-- [`temps/stage_3_2_execution_reconstruction/execution_commit_full_diff.patch`](../../temps/stage_3_2_execution_reconstruction/execution_commit_full_diff.patch)
-- [`temps/stage_3_2_execution_reconstruction/packet_to_execution_diff_stat.txt`](../../temps/stage_3_2_execution_reconstruction/packet_to_execution_diff_stat.txt)
-- [`temps/stage_3_2_execution_reconstruction/packet_to_execution_name_status.txt`](../../temps/stage_3_2_execution_reconstruction/packet_to_execution_name_status.txt)
-- [`temps/stage_3_2_execution_reconstruction/packet_to_execution_full_diff.patch`](../../temps/stage_3_2_execution_reconstruction/packet_to_execution_full_diff.patch)
+- [`artifacts/stage_3_2_execution_reconstruction/execution_commit_metadata.txt`](../../artifacts/stage_3_2_execution_reconstruction/execution_commit_metadata.txt)
+- [`artifacts/stage_3_2_execution_reconstruction/execution_commit_diff_stat.txt`](../../artifacts/stage_3_2_execution_reconstruction/execution_commit_diff_stat.txt)
+- [`artifacts/stage_3_2_execution_reconstruction/execution_commit_name_status.txt`](../../artifacts/stage_3_2_execution_reconstruction/execution_commit_name_status.txt)
+- [`artifacts/stage_3_2_execution_reconstruction/execution_commit_full_diff.patch`](../../artifacts/stage_3_2_execution_reconstruction/execution_commit_full_diff.patch)
+- [`artifacts/stage_3_2_execution_reconstruction/packet_to_execution_diff_stat.txt`](../../artifacts/stage_3_2_execution_reconstruction/packet_to_execution_diff_stat.txt)
+- [`artifacts/stage_3_2_execution_reconstruction/packet_to_execution_name_status.txt`](../../artifacts/stage_3_2_execution_reconstruction/packet_to_execution_name_status.txt)
+- [`artifacts/stage_3_2_execution_reconstruction/packet_to_execution_full_diff.patch`](../../artifacts/stage_3_2_execution_reconstruction/packet_to_execution_full_diff.patch)
 
 Execution commit changed files:
 
@@ -50,9 +50,9 @@ These files are within the approved execution file set.
 
 Captured route greps:
 
-- [`temps/stage_3_2_execution_reconstruction/baseline_parent_share_execute_grep.txt`](../../temps/stage_3_2_execution_reconstruction/baseline_parent_share_execute_grep.txt)
-- [`temps/stage_3_2_execution_reconstruction/execution_commit_share_execute_grep.txt`](../../temps/stage_3_2_execution_reconstruction/execution_commit_share_execute_grep.txt)
-- [`temps/stage_3_2_execution_reconstruction/role_scoped_schema_share_execute_grep.txt`](../../temps/stage_3_2_execution_reconstruction/role_scoped_schema_share_execute_grep.txt)
+- [`artifacts/stage_3_2_execution_reconstruction/baseline_parent_share_execute_grep.txt`](../../artifacts/stage_3_2_execution_reconstruction/baseline_parent_share_execute_grep.txt)
+- [`artifacts/stage_3_2_execution_reconstruction/execution_commit_share_execute_grep.txt`](../../artifacts/stage_3_2_execution_reconstruction/execution_commit_share_execute_grep.txt)
+- [`artifacts/stage_3_2_execution_reconstruction/role_scoped_schema_share_execute_grep.txt`](../../artifacts/stage_3_2_execution_reconstruction/role_scoped_schema_share_execute_grep.txt)
 
 Observed boundary:
 
@@ -93,14 +93,14 @@ Defined worker script discovered:
 
 Captured command logs:
 
-- [`temps/stage_3_2_execution_reconstruction/typecheck.txt`](../../temps/stage_3_2_execution_reconstruction/typecheck.txt)
-- [`temps/stage_3_2_execution_reconstruction/worker_package_json.txt`](../../temps/stage_3_2_execution_reconstruction/worker_package_json.txt)
-- [`temps/stage_3_2_execution_reconstruction/commit_existence.txt`](../../temps/stage_3_2_execution_reconstruction/commit_existence.txt)
-- [`temps/stage_3_2_execution_reconstruction/commit_revs.txt`](../../temps/stage_3_2_execution_reconstruction/commit_revs.txt)
-- [`temps/stage_3_2_execution_reconstruction/pwd.txt`](../../temps/stage_3_2_execution_reconstruction/pwd.txt)
-- [`temps/stage_3_2_execution_reconstruction/branch.txt`](../../temps/stage_3_2_execution_reconstruction/branch.txt)
-- [`temps/stage_3_2_execution_reconstruction/status_before.txt`](../../temps/stage_3_2_execution_reconstruction/status_before.txt)
-- [`temps/stage_3_2_execution_reconstruction/env_markers.txt`](../../temps/stage_3_2_execution_reconstruction/env_markers.txt)
+- [`artifacts/stage_3_2_execution_reconstruction/typecheck.txt`](../../artifacts/stage_3_2_execution_reconstruction/typecheck.txt)
+- [`artifacts/stage_3_2_execution_reconstruction/worker_package_json.txt`](../../artifacts/stage_3_2_execution_reconstruction/worker_package_json.txt)
+- [`artifacts/stage_3_2_execution_reconstruction/commit_existence.txt`](../../artifacts/stage_3_2_execution_reconstruction/commit_existence.txt)
+- [`artifacts/stage_3_2_execution_reconstruction/commit_revs.txt`](../../artifacts/stage_3_2_execution_reconstruction/commit_revs.txt)
+- [`artifacts/stage_3_2_execution_reconstruction/pwd.txt`](../../artifacts/stage_3_2_execution_reconstruction/pwd.txt)
+- [`artifacts/stage_3_2_execution_reconstruction/branch.txt`](../../artifacts/stage_3_2_execution_reconstruction/branch.txt)
+- [`artifacts/stage_3_2_execution_reconstruction/status_before.txt`](../../artifacts/stage_3_2_execution_reconstruction/status_before.txt)
+- [`artifacts/stage_3_2_execution_reconstruction/env_markers.txt`](../../artifacts/stage_3_2_execution_reconstruction/env_markers.txt)
 
 ## Proof Categories
 

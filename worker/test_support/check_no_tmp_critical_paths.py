@@ -13,7 +13,7 @@ CRITICAL_PATTERNS = [
     re.compile(r"\btmp/<[^>]+>"),
 ]
 ALLOW_CONTEXT = ["tmp/ is scratch", "`tmp/` is scratch", "tmp is scratch", "do not depend on tmp", "never required", "forbidden", "non-critical", "legacy tmp", "critical tmp references", "check_no_tmp_critical_paths", "scratch only"]
-IGNORE_PARTS = {".git", "node_modules", "runtime", "tmp", "temps"}
+IGNORE_PARTS = {".git", "node_modules", "runtime", "tmp", "artifacts"}
 ALLOWED_FILES = {
     "docs/01_monkeyos_doctrine/OPERATIONAL_WORKSPACE_POLICY_001.md",
     "worker/test_support/check_no_tmp_critical_paths_selftest.py",

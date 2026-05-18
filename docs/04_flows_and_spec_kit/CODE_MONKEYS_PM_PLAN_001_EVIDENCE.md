@@ -40,7 +40,7 @@
 - `rg -n "handlePmPlanRequest|PM_PLAN_ROLE_FORBIDDEN|PM_PLAN_IDEMPOTENCY_CONFLICT|generated_pm_plan_context|PM_PLAN_FORBIDDEN_CLAIM_INCLUDED" worker/src worker/test_support docs openapi` PASS
 
 ## Audit Bundle Builder
-- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/temps/pm_plan_audit_bundle_a1863869bf74.zip`
+- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/artifacts/pm_plan_audit_bundle_a1863869bf74.zip`
 - zip SHA256: `dbe66e0f26612680af5f6c64508421f90de1e3fa09b51460538704278ea22810`
 - file count: `11`
 - bundle includes the PM plan source, smoke tests, audit bundle builder, and the PM plan spec doc required for independent replay.

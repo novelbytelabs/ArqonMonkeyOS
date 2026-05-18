@@ -38,7 +38,7 @@
 - `rg -n "handleCoderWorkPlanRequest|CODER_WORK_PLAN_ROLE_FORBIDDEN|CODER_WORK_PLAN_IDEMPOTENCY_CONFLICT|CODER_WORK_PLAN_EXECUTION_AUTHORITY_FORBIDDEN|generated_coder_work_plan_context|coder_work_plan" worker/src worker/test_support docs openapi` PASS
 
 ## Coder Work Plan Audit Bundle
-- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/temps/coder_work_plan_audit_bundle_70b93ef08259.zip`
+- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/artifacts/coder_work_plan_audit_bundle_70b93ef08259.zip`
 - bundle SHA256: `6f05a84716580d8528f3c40cd84a0e7188b08ae02acac90b26ab3d8790e89465`
 - file count: `30`
 

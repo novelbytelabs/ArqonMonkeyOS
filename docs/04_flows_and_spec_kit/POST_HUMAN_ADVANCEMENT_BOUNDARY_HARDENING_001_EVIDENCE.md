@@ -53,9 +53,9 @@ not promotable
 
 ## Audit Bundle
 
-- canonical audited bundle path: `temps/post_human_advancement_boundary_hardening_audit_bundle_b4e06f91eb61.zip`
+- canonical audited bundle path: `artifacts/post_human_advancement_boundary_hardening_audit_bundle_b4e06f91eb61.zip`
 - canonical audited bundle SHA256: `8e44561a9f5ce49455b072ec2e9f495f5e2b1c94ad0e05b4254dadf3b4cc1d38`
-- actual rebuilt bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/temps/post_human_advancement_boundary_hardening_audit_bundle_b4e06f91eb61.zip`
+- actual rebuilt bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/artifacts/post_human_advancement_boundary_hardening_audit_bundle_b4e06f91eb61.zip`
 - actual rebuilt bundle SHA256: `f6762033dfd06c51bb0079607dd32cf95bc8614fee732aec2d161fb2dbb82bb7`
 - note: rebuilding after evidence metadata cleanup changes the bundle SHA because this evidence document is included inside the bundle
 

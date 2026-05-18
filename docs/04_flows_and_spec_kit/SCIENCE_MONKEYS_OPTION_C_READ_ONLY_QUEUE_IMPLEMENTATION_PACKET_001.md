@@ -164,7 +164,7 @@ Allowed future documentation/evidence files:
 
 - `docs/04_flows_and_spec_kit/SCIENCE_MONKEYS_OPTION_C_READ_ONLY_QUEUE_IMPLEMENTATION_PACKET_001.md`
 - `docs/04_flows_and_spec_kit/SCIENCE_MONKEYS_OPTION_C_READ_ONLY_QUEUE_IMPLEMENTATION_PACKET_001_EVIDENCE.md`
-- `temps/science_monkeys_read_only_queue_implementation_001_helper_report.md`
+- `artifacts/science_monkeys_read_only_queue_implementation_001_helper_report.md`
 
 ## Read-only queue source model
 

@@ -43,7 +43,7 @@
 - no secrets exposed: `PASS`
 
 ## Audit Bundle (Final HEAD)
-- path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/temps/helper_execution_intake_audit_bundle_d8e1d03a8d09.zip`
+- path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/artifacts/helper_execution_intake_audit_bundle_d8e1d03a8d09.zip`
 - SHA256: `b23d9d8a3612586da71f7aef198ff615f72ee62e5ad8c50cde9646c76cf536f3`
 
 ## Non-Scope Confirmation

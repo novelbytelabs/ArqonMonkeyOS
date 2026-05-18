@@ -13,7 +13,7 @@
 
 ## Scope Confirmation
 
-- Preserved forensic manual diff: `temps/helper_manual_impl_bundle_route_only_attempt.diff`
+- Preserved forensic manual diff: `artifacts/helper_manual_impl_bundle_route_only_attempt.diff`
 - This change set is limited to PM bundle remediation + bounded mismatch repair.
 - No Coder handoff added.
 - No Helper execution added.
@@ -72,10 +72,10 @@ mismatch_response {"status":409,"body":{"ok":false,"error":{"code":"CODER_IMPLEM
 ## Audit Bundles (Rebuilt)
 
 - remediation bundle:
-  - path: `temps/coder_impl_bundle_route_only_remediation_audit_bundle_1ea4289123ed.zip`
+  - path: `artifacts/coder_impl_bundle_route_only_remediation_audit_bundle_1ea4289123ed.zip`
   - sha256: `90ee6cc5e0a7ac8c0a1cdc352bbbb5dc3c484be4c57f5ee97886ecef53ae023d`
 - implementation bundle audit:
-  - path: `temps/coder_implementation_bundle_audit_bundle_1ea4289123ed.zip`
+  - path: `artifacts/coder_implementation_bundle_audit_bundle_1ea4289123ed.zip`
   - sha256: `27c55387d3cb4df9cec02d62ee84c7e28858d8f6a1f55f9d8dc88b7cf3f0b9a1`
 
 ## Live Verification

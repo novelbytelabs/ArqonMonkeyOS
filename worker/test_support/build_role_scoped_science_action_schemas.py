@@ -273,7 +273,7 @@ def main() -> None:
             "route_ops": [f"{method.upper()} {path}" for method, path in allowed_ops],
         }
 
-    out_json = Path("temps/science_monkeys_role_scoped_schema_generation_results.json")
+    out_json = Path("artifacts/science_monkeys_role_scoped_schema_generation_results.json")
     out_json.parent.mkdir(parents=True, exist_ok=True)
     out_json.write_text(json.dumps(results, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 

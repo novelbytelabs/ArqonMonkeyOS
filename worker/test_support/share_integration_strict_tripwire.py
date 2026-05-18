@@ -130,7 +130,7 @@ def main():
     with tempfile.TemporaryDirectory(prefix="share001-tripwire-") as td:
         clean = Path(td) / "sut"
         def ignore(_dir, names):
-            return {name for name in names if name in {".git", "node_modules", "tmp", "temps", ".wrangler"}}
+            return {name for name in names if name in {".git", "node_modules", "tmp", "artifacts", ".wrangler"}}
         shutil.copytree(src, clean, ignore=ignore)
         env = {"PATH": os.environ.get("PATH", ""), "PYTHONHASHSEED": "0", "NO_NETWORK": "1"}
         cmd = [sys.executable, __file__, "--worker", str(clean)]

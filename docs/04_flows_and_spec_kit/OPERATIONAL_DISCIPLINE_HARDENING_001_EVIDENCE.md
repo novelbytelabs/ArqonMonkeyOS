@@ -55,10 +55,10 @@
 ## Audit Bundles
 
 - operational discipline bundle:
-  - path: `temps/operational_discipline_hardening_audit_bundle_ccd7c3de659f.zip`
+  - path: `artifacts/operational_discipline_hardening_audit_bundle_ccd7c3de659f.zip`
   - sha256: `4d73c7e4135a48b7b08169814f1864d7590423c229a7b61ae5ddc3cdce073709`
 - compatibility regression bundle:
-  - path: `temps/coder_impl_bundle_global_route_only_audit_bundle_ccd7c3de659f.zip`
+  - path: `artifacts/coder_impl_bundle_global_route_only_audit_bundle_ccd7c3de659f.zip`
   - sha256: `241f15cc102491b6f7b385cea87165a38bdfc160cfffff7055712928b476c4dd`
 
 ## Operational Notes

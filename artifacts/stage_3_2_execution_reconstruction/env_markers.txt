@@ -1,0 +1,7 @@
+.env:UNSET
+.env.local:UNSET
+.env.development:UNSET
+.env.production:UNSET
+.env.test:UNSET
+/home/irbsurfer/secrets/arqonmonkeyos_code_keys.env:SET
+/home/irbsurfer/secrets/arqonmonkeyos_science_keys.env:SET

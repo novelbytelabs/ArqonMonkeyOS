@@ -11,7 +11,7 @@ def sha(p):
 r=Path.cwd(); commit=run(["git","rev-parse","HEAD"]); miss=[p for p in FILES if not (r/p).is_file()]
 if miss: raise SystemExit(json.dumps({"ok":False,"missing":miss},indent=2))
 records=[{"path":p,"sha256":sha(r/p),"bytes":(r/p).stat().st_size} for p in FILES]
-out=r/"temps"/f"coder_impl_bundle_route_only_remediation_audit_bundle_{commit[:12]}.zip"; out.parent.mkdir(exist_ok=True)
+out=r/"artifacts"/f"coder_impl_bundle_route_only_remediation_audit_bundle_{commit[:12]}.zip"; out.parent.mkdir(exist_ok=True)
 with zipfile.ZipFile(out,"w",zipfile.ZIP_DEFLATED) as z:
  z.writestr("AUDIT_BUNDLE_MANIFEST.json",json.dumps({"schema_version":"coder_impl_bundle_route_only_remediation.v0.1","commit":commit,"files":records},indent=2)+"\n")
  for rec in records: z.write(r/rec["path"],rec["path"])

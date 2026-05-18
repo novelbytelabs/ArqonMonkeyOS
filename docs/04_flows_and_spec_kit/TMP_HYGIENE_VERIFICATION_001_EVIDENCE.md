@@ -6,9 +6,9 @@
 - source changed: `NO` (evidence doc only)
 
 ## Tmp Forensic Preservation
-- tmp inventory json: `temps/tmp_hygiene_verification_001_inventory.json`
-- tmp inventory summary: `temps/tmp_hygiene_verification_001_inventory.md`
-- tmp pre-clean archive: `temps/tmp_hygiene_verification_001_preclean_archive.zip`
+- tmp inventory json: `artifacts/tmp_hygiene_verification_001_inventory.json`
+- tmp inventory summary: `artifacts/tmp_hygiene_verification_001_inventory.md`
+- tmp pre-clean archive: `artifacts/tmp_hygiene_verification_001_preclean_archive.zip`
 - tmp pre-clean archive SHA256: `17cf7180acfeab34e1fddab098746fb11769c38a67329f78247217a57edad101`
 
 ## Tmp Cleanup Result

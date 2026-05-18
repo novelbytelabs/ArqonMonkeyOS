@@ -1,0 +1,744 @@
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:71:      summary: List active, recent, blocked, and Human-review flows by friendly name.
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:311:      summary: Return current stop/quarantine conditions for the flow and role.
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:331:          description: Stop and quarantine conditions.
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:619:        not create Science artifacts, advance flows, or authorize evidence claims.
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:654:  /v1/science/queue:
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:692:  /v1/science/queue/{queue_item_id}:
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:731:  /v1/science/queue/by-flow/{flow_ref}:
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:765:  /v1/science/queue/next:
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:791:  /v1/science/queue/blocked:
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:794:      summary: List read-only blocked queue items visible to authenticated role.
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:808:          description: Read-only blocked queue list.
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:817:  /v1/science/queue/quarantined:
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:820:      summary: List read-only quarantined queue items visible to authenticated role.
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:834:          description: Read-only quarantined queue list.
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:843:  /v1/science/queue/handoffs:
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:846:      summary: List read-only queue handoff visibility records.
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:860:          description: Read-only handoff visibility list.
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:869:  /v1/science/queue/history/{queue_item_id}:
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:1295:          - claim_scope_audit
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:1297:          - quarantine_recommendation
+openapi/science_monkeys_actions_designer.openapi.yaml:71:      summary: List active, recent, blocked, and Human-review flows by friendly name.
+openapi/science_monkeys_actions_designer.openapi.yaml:311:      summary: Return current stop/quarantine conditions for the flow and role.
+openapi/science_monkeys_actions_designer.openapi.yaml:331:          description: Stop and quarantine conditions.
+openapi/science_monkeys_actions_designer.openapi.yaml:619:        not create Science artifacts, advance flows, or authorize evidence claims.
+openapi/science_monkeys_actions_designer.openapi.yaml:654:  /v1/science/queue:
+openapi/science_monkeys_actions_designer.openapi.yaml:692:  /v1/science/queue/{queue_item_id}:
+openapi/science_monkeys_actions_designer.openapi.yaml:731:  /v1/science/queue/by-flow/{flow_ref}:
+openapi/science_monkeys_actions_designer.openapi.yaml:765:  /v1/science/queue/next:
+openapi/science_monkeys_actions_designer.openapi.yaml:791:  /v1/science/queue/blocked:
+openapi/science_monkeys_actions_designer.openapi.yaml:794:      summary: List read-only blocked queue items visible to authenticated role.
+openapi/science_monkeys_actions_designer.openapi.yaml:808:          description: Read-only blocked queue list.
+openapi/science_monkeys_actions_designer.openapi.yaml:817:  /v1/science/queue/quarantined:
+openapi/science_monkeys_actions_designer.openapi.yaml:820:      summary: List read-only quarantined queue items visible to authenticated role.
+openapi/science_monkeys_actions_designer.openapi.yaml:834:          description: Read-only quarantined queue list.
+openapi/science_monkeys_actions_designer.openapi.yaml:843:  /v1/science/queue/handoffs:
+openapi/science_monkeys_actions_designer.openapi.yaml:846:      summary: List read-only queue handoff visibility records.
+openapi/science_monkeys_actions_designer.openapi.yaml:860:          description: Read-only handoff visibility list.
+openapi/science_monkeys_actions_designer.openapi.yaml:869:  /v1/science/queue/history/{queue_item_id}:
+openapi/science_monkeys_actions_designer.openapi.yaml:1296:          - claim_scope_audit
+openapi/science_monkeys_actions_designer.openapi.yaml:1298:          - quarantine_recommendation
+openapi/arqon_contextos.openapi.yaml:119:      summary: Show active, recent, blocked, and Human-review flow summaries.
+openapi/arqon_contextos.openapi.yaml:337:      preserving source chain, uncertainty, forbidden claims, and diagnostic labels.
+openapi/arqon_contextos.openapi.yaml:338:      Does not create implementation bundle, Coder handoff, Helper execution, or Science behavior.
+openapi/arqon_contextos.openapi.yaml:370:        preserving source chain, uncertainty, forbidden claims, and diagnostic labels.
+openapi/arqon_contextos.openapi.yaml:371:        Does not create implementation bundle, Coder handoff, Helper execution, or Science behavior.
+openapi/arqon_contextos.openapi.yaml:403:        preserving source chain, uncertainty, forbidden claims, and diagnostic labels.
+openapi/arqon_contextos.openapi.yaml:404:        Does not create Coder handoff, Helper execution, audit, promotion, or Science behavior.
+openapi/arqon_contextos.openapi.yaml:436:        preserving source chain, uncertainty, forbidden claims, and diagnostic labels.
+openapi/arqon_contextos.openapi.yaml:437:        Does not create generic implementation tasks, Coder handoff, Helper execution, or Science behavior.
+openapi/arqon_contextos.openapi.yaml:467:      description: Creates a PM-controlled plan artifact from validated PM specification without creating tasks, Coder handoff, Helper execution, or Science behavior.
+openapi/arqon_contextos.openapi.yaml:499:        preserving source chain, uncertainty, forbidden claims, and diagnostic labels.
+openapi/arqon_contextos.openapi.yaml:500:        Does not create plan, tasks, Coder handoff, Helper execution, or Science behavior.
+openapi/arqon_contextos.openapi.yaml:529:      summary: Code Monkeys PM intake from audited handoff.
+openapi/arqon_contextos.openapi.yaml:531:        Consumes a Science to Code handoff record and creates PM-side pm_dossier
+openapi/arqon_contextos.openapi.yaml:544:                - required: [handoff_id]
+openapi/arqon_contextos.openapi.yaml:545:                - required: [handoff_record_path]
+openapi/arqon_contextos.openapi.yaml:548:                handoff_id: { type: string }
+openapi/arqon_contextos.openapi.yaml:549:                handoff_record_path: { type: string }
+openapi/arqon_contextos.openapi.yaml:558:  /v1/pm/handoff:
+openapi/arqon_contextos.openapi.yaml:561:      summary: PM Science to Code handoff intake.
+openapi/arqon_contextos.openapi.yaml:563:        Consumes a Human-approved Science share context and creates PM-side handoff_intake
+openapi/arqon_contextos.openapi.yaml:565:        laundering evidence claims.
+openapi/arqon_contextos.openapi.yaml:585:        '201': { description: PM handoff intake and dossier seed created }
+openapi/arqon_contextos.openapi.yaml:586:        '200': { description: Idempotent replay of existing PM handoff }
+openapi/arqon_contextos.openapi.yaml:590:  /v1/coder/handoff:
+openapi/arqon_contextos.openapi.yaml:593:      summary: Create a Coder-owned handoff artifact from an audited implementation bundle.
+openapi/arqon_contextos.openapi.yaml:594:      description: Development diagnostic only. Creates coder_handoff only; does not authorize Helper execution, patch application, certification, or promotion.
+openapi/arqon_contextos.openapi.yaml:597:          description: Coder handoff created.
+openapi/arqon_contextos.openapi.yaml:620:            enum: [active, blocked, completed, archived]
+openapi/arqon_contextos.openapi.yaml:734:      summary: Return global, role-specific, and flow-specific stop/quarantine conditions.
+openapi/arqon_contextos.openapi.yaml:744:        '200': { description: Stop and quarantine conditions }
+openapi/arqon_contextos.openapi.yaml:804:                  enum: [active, blocked, completed, archived]
+openapi/arqon_contextos.openapi.yaml:810:  /v1/science/queue:
+openapi/arqon_contextos.openapi.yaml:818:  /v1/science/queue/{queue_item_id}:
+openapi/arqon_contextos.openapi.yaml:830:  /v1/science/queue/by-flow/{flow_ref}:
+openapi/arqon_contextos.openapi.yaml:842:  /v1/science/queue/next:
+openapi/arqon_contextos.openapi.yaml:849:  /v1/science/queue/blocked:
+openapi/arqon_contextos.openapi.yaml:852:      summary: Read blocked queue items.
+openapi/arqon_contextos.openapi.yaml:854:        '200': { description: Queue blocked response }
+openapi/arqon_contextos.openapi.yaml:856:  /v1/science/queue/quarantined:
+openapi/arqon_contextos.openapi.yaml:859:      summary: Read quarantined queue items.
+openapi/arqon_contextos.openapi.yaml:861:        '200': { description: Queue quarantined response }
+openapi/arqon_contextos.openapi.yaml:863:  /v1/science/queue/handoffs:
+openapi/arqon_contextos.openapi.yaml:866:      summary: Read queue handoff visibility records.
+openapi/arqon_contextos.openapi.yaml:868:        '200': { description: Queue handoffs response }
+openapi/arqon_contextos.openapi.yaml:870:  /v1/science/queue/history/{queue_item_id}:
+openapi/arqon_contextos.openapi.yaml:882:  /v1/science/queue/{queue_item_id}/claim:
+openapi/arqon_contextos.openapi.yaml:884:      operationId: claimScienceQueueItem
+openapi/arqon_contextos.openapi.yaml:904:        '201': { description: Queue item claimed }
+openapi/arqon_contextos.openapi.yaml:906:  /v1/science/queue/{queue_item_id}/complete:
+openapi/arqon_contextos.openapi.yaml:908:      operationId: completeScienceQueueItem
+openapi/arqon_contextos.openapi.yaml:909:      summary: Mark a claimed or owned queue step complete.
+openapi/arqon_contextos.openapi.yaml:931:        '201': { description: Queue step completed }
+openapi/arqon_contextos.openapi.yaml:933:  /v1/science/queue/{queue_item_id}/block:
+openapi/arqon_contextos.openapi.yaml:935:      operationId: blockScienceQueueItem
+openapi/arqon_contextos.openapi.yaml:936:      summary: Mark a queue item blocked with a required reason.
+openapi/arqon_contextos.openapi.yaml:949:              required: [project, blocked_reason, idempotency_key]
+openapi/arqon_contextos.openapi.yaml:952:                blocked_reason: { type: string }
+openapi/arqon_contextos.openapi.yaml:956:        '201': { description: Queue item blocked }
+openapi/arqon_contextos.openapi.yaml:958:  /v1/science/queue/{queue_item_id}/quarantine:
+openapi/arqon_contextos.openapi.yaml:960:      operationId: quarantineScienceQueueItem
+openapi/arqon_contextos.openapi.yaml:974:              required: [project, quarantine_reason, idempotency_key]
+openapi/arqon_contextos.openapi.yaml:977:                quarantine_reason: { type: string }
+openapi/arqon_contextos.openapi.yaml:981:        '201': { description: Queue item quarantined }
+openapi/arqon_contextos.openapi.yaml:983:  /v1/science/queue/{queue_item_id}/handoff:
+openapi/arqon_contextos.openapi.yaml:985:      operationId: handoffScienceQueueItem
+openapi/arqon_contextos.openapi.yaml:986:      summary: Request handoff of a queue item to an allowed next role.
+openapi/arqon_contextos.openapi.yaml:999:              required: [project, target_role, handoff_reason, idempotency_key]
+openapi/arqon_contextos.openapi.yaml:1005:                handoff_reason: { type: string }
+openapi/arqon_contextos.openapi.yaml:1008:        '201': { description: Queue item handoff requested }
+openapi/arqon_contextos.openapi.yaml:1049:  /v1/science/execute-experiment:
+openapi/arqon_contextos.openapi.yaml:1114:  /v1/science/share:
+openapi/arqon_contextos.openapi.yaml:1170:      summary: Create a Helper execution-intake artifact from an audited Coder handoff
+openapi/arqon_contextos.openapi.yaml:1178:          description: Source boundary, idempotency, promotion, or execution-claim precondition failed
+openapi/arqon_contextos.openapi.yaml:1192:          description: Source boundary, idempotency, or forbidden-claim precondition failed
+openapi/arqon_contextos.openapi.yaml:1206:          description: Source boundary, idempotency, secret, or forbidden-claim precondition failed
+openapi/arqon_contextos.openapi.yaml:1213:      description: Development diagnostic only. Creates human_advancement_decision only; does not deploy, certify, promote, or claim production readiness.
+openapi/arqon_contextos.openapi.yaml:1220:          description: Source boundary, idempotency, unresolved blocker, secret, or forbidden-claim precondition failed
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:71:      summary: List active, recent, blocked, and Human-review flows by friendly name.
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:311:      summary: Return current stop/quarantine conditions for the flow and role.
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:331:          description: Stop and quarantine conditions.
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:619:        not create Science artifacts, advance flows, or authorize evidence claims.
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:654:  /v1/science/queue:
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:692:  /v1/science/queue/{queue_item_id}:
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:731:  /v1/science/queue/by-flow/{flow_ref}:
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:765:  /v1/science/queue/next:
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:791:  /v1/science/queue/blocked:
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:794:      summary: List read-only blocked queue items visible to authenticated role.
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:808:          description: Read-only blocked queue list.
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:817:  /v1/science/queue/quarantined:
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:820:      summary: List read-only quarantined queue items visible to authenticated role.
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:834:          description: Read-only quarantined queue list.
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:843:  /v1/science/queue/handoffs:
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:846:      summary: List read-only queue handoff visibility records.
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:860:          description: Read-only handoff visibility list.
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:869:  /v1/science/queue/history/{queue_item_id}:
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:1321:          - claim_scope_audit
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:1323:          - quarantine_recommendation
+openapi/science_monkeys_actions_explorer.openapi.yaml:71:      summary: List active, recent, blocked, and Human-review flows by friendly name.
+openapi/science_monkeys_actions_explorer.openapi.yaml:311:      summary: Return current stop/quarantine conditions for the flow and role.
+openapi/science_monkeys_actions_explorer.openapi.yaml:331:          description: Stop and quarantine conditions.
+openapi/science_monkeys_actions_explorer.openapi.yaml:619:        not create Science artifacts, advance flows, or authorize evidence claims.
+openapi/science_monkeys_actions_explorer.openapi.yaml:654:  /v1/science/queue:
+openapi/science_monkeys_actions_explorer.openapi.yaml:692:  /v1/science/queue/{queue_item_id}:
+openapi/science_monkeys_actions_explorer.openapi.yaml:731:  /v1/science/queue/by-flow/{flow_ref}:
+openapi/science_monkeys_actions_explorer.openapi.yaml:765:  /v1/science/queue/next:
+openapi/science_monkeys_actions_explorer.openapi.yaml:791:  /v1/science/queue/blocked:
+openapi/science_monkeys_actions_explorer.openapi.yaml:794:      summary: List read-only blocked queue items visible to authenticated role.
+openapi/science_monkeys_actions_explorer.openapi.yaml:808:          description: Read-only blocked queue list.
+openapi/science_monkeys_actions_explorer.openapi.yaml:817:  /v1/science/queue/quarantined:
+openapi/science_monkeys_actions_explorer.openapi.yaml:820:      summary: List read-only quarantined queue items visible to authenticated role.
+openapi/science_monkeys_actions_explorer.openapi.yaml:834:          description: Read-only quarantined queue list.
+openapi/science_monkeys_actions_explorer.openapi.yaml:843:  /v1/science/queue/handoffs:
+openapi/science_monkeys_actions_explorer.openapi.yaml:846:      summary: List read-only queue handoff visibility records.
+openapi/science_monkeys_actions_explorer.openapi.yaml:860:          description: Read-only handoff visibility list.
+openapi/science_monkeys_actions_explorer.openapi.yaml:869:  /v1/science/queue/history/{queue_item_id}:
+openapi/science_monkeys_actions_explorer.openapi.yaml:1271:          - claim_scope_audit
+openapi/science_monkeys_actions_explorer.openapi.yaml:1273:          - quarantine_recommendation
+openapi/science_monkeys_actions.openapi.yaml:83:      summary: List active, recent, blocked, and Human-review flows by friendly name.
+openapi/science_monkeys_actions.openapi.yaml:318:      summary: Return current stop/quarantine conditions for the flow and role.
+openapi/science_monkeys_actions.openapi.yaml:337:          description: Stop and quarantine conditions.
+openapi/science_monkeys_actions.openapi.yaml:617:        Science artifacts, advance flows, or authorize evidence claims. Messages are
+openapi/science_monkeys_actions.openapi.yaml:650:  /v1/science/queue:
+openapi/science_monkeys_actions.openapi.yaml:684:  /v1/science/queue/{queue_item_id}:
+openapi/science_monkeys_actions.openapi.yaml:721:  /v1/science/queue/by-flow/{flow_ref}:
+openapi/science_monkeys_actions.openapi.yaml:755:  /v1/science/queue/next:
+openapi/science_monkeys_actions.openapi.yaml:781:  /v1/science/queue/blocked:
+openapi/science_monkeys_actions.openapi.yaml:784:      summary: List read-only blocked queue items visible to authenticated role.
+openapi/science_monkeys_actions.openapi.yaml:797:          description: Read-only blocked queue list.
+openapi/science_monkeys_actions.openapi.yaml:807:  /v1/science/queue/quarantined:
+openapi/science_monkeys_actions.openapi.yaml:810:      summary: List read-only quarantined queue items visible to authenticated role.
+openapi/science_monkeys_actions.openapi.yaml:823:          description: Read-only quarantined queue list.
+openapi/science_monkeys_actions.openapi.yaml:833:  /v1/science/queue/handoffs:
+openapi/science_monkeys_actions.openapi.yaml:836:      summary: List read-only queue handoff visibility records.
+openapi/science_monkeys_actions.openapi.yaml:849:          description: Read-only handoff visibility list.
+openapi/science_monkeys_actions.openapi.yaml:859:  /v1/science/queue/history/{queue_item_id}:
+openapi/science_monkeys_actions.openapi.yaml:1265:          enum: [science_checklist, protocol_audit, evidence_audit, claim_scope_audit, audit_report, quarantine_recommendation]
+worker/src/science.ts:12:  | "execute-experiment"
+worker/src/science.ts:54:  "execute-experiment": {
+worker/src/science.ts:55:    command: "execute-experiment",
+worker/src/science.ts:66:    allowed_artifact_types: ["science_checklist", "protocol_audit", "evidence_audit", "claim_scope_audit", "audit_report", "quarantine_recommendation"],
+worker/src/coder_tasks.ts:64:    handoff_id: string;
+worker/src/coder_tasks.ts:69:    handoff_payload_hash: string;
+worker/src/coder_tasks.ts:78:    allowed_claims: string[];
+worker/src/coder_tasks.ts:79:    forbidden_claims: string[];
+worker/src/coder_tasks.ts:101:    handoff_id: string;
+worker/src/coder_tasks.ts:129:    handoff_id: string;
+worker/src/coder_tasks.ts:134:    handoff_payload_hash: string;
+worker/src/coder_tasks.ts:144:    allowed_claims: string[];
+worker/src/coder_tasks.ts:145:    forbidden_claims: string[];
+worker/src/coder_tasks.ts:168:    handoff_id: string;
+worker/src/coder_tasks.ts:320:    [/\bimplementation complete\b/, "implementation complete"],
+worker/src/coder_tasks.ts:374:  if (!record.source_tasking.forbidden_claims || record.source_tasking.forbidden_claims.length === 0) return errorResponse("CODER_TASKS_FORBIDDEN_CLAIMS_REQUIRED", "Coder work plan record must preserve forbidden claims", 409);
+worker/src/coder_tasks.ts:405:It is not an implementation bundle, not a patch, not a Coder handoff, not Helper execution authorization, not certification, and not a production-readiness claim.
+worker/src/coder_tasks.ts:415:- handoff_id: ${record.source_tasking.handoff_id}
+worker/src/coder_tasks.ts:421:- handoff_payload_hash: ${record.source_tasking.handoff_payload_hash}
+worker/src/coder_tasks.ts:436:${record.source_tasking.forbidden_claims.map(claim => `- ${claim}`).join("\n")}
+worker/src/coder_tasks.ts:444:Coder tasks remain downstream of diagnostic evidence, PM tasking, and Coder work planning. Implementation bundle, Coder handoff, Helper execution, and promotion require later gated stages and Human approval.
+worker/src/coder_tasks.ts:477:    handoff_id: record.source_coder_work_plan.handoff_id,
+worker/src/coder_tasks.ts:579:        handoff_id: workPlanRecord.source_tasking.handoff_id,
+worker/src/coder_tasks.ts:584:        handoff_payload_hash: workPlanRecord.source_tasking.handoff_payload_hash,
+worker/src/coder_tasks.ts:594:        allowed_claims: workPlanRecord.source_tasking.allowed_claims,
+worker/src/coder_tasks.ts:595:        forbidden_claims: workPlanRecord.source_tasking.forbidden_claims
+worker/src/auditor_helper_execution_review.ts:55:    [/\bcertification complete\b/, "certification complete"],
+worker/src/auditor_helper_execution_review.ts:61:    [/\bdeployment complete\b/, "deployment complete"],
+worker/src/auditor_helper_execution_review.ts:268:        coder_handoff_id: report.source_helper_execution_intake.coder_handoff_id,
+worker/src/auditor_helper_execution_review.ts:279:        allowed_claims: report.source_helper_execution_intake.allowed_claims,
+worker/src/auditor_helper_execution_review.ts:280:        forbidden_claims: report.source_helper_execution_intake.forbidden_claims
+worker/src/pm_tasks.ts:62:    handoff_id: string;
+worker/src/pm_tasks.ts:67:    handoff_payload_hash: string;
+worker/src/pm_tasks.ts:74:    allowed_claims: string[];
+worker/src/pm_tasks.ts:75:    forbidden_claims: string[];
+worker/src/pm_tasks.ts:95:    handoff_id: string;
+worker/src/pm_tasks.ts:121:    handoff_id: string;
+worker/src/pm_tasks.ts:126:    handoff_payload_hash: string;
+worker/src/pm_tasks.ts:134:    allowed_claims: string[];
+worker/src/pm_tasks.ts:135:    forbidden_claims: string[];
+worker/src/pm_tasks.ts:156:    handoff_id: string;
+worker/src/pm_tasks.ts:367:  if (!record.source_specification.forbidden_claims || record.source_specification.forbidden_claims.length === 0) return errorResponse("PM_TASKS_FORBIDDEN_CLAIMS_REQUIRED", "PM plan record must preserve forbidden claims", 409);
+worker/src/pm_tasks.ts:396:This is a PM task-decomposition artifact derived from an audited PM plan. It is not a Coder handoff, not Helper execution, not implementation authorization, not a cert claim, and not a release-readiness claim.
+worker/src/pm_tasks.ts:404:- handoff_id: ${record.source_specification.handoff_id}
+worker/src/pm_tasks.ts:410:- handoff_payload_hash: ${record.source_specification.handoff_payload_hash}
+worker/src/pm_tasks.ts:423:${record.source_specification.forbidden_claims.map(claim => `- ${claim}`).join("\n")}
+worker/src/pm_tasks.ts:431:These tasks remain downstream of diagnostic evidence. Coder handoff, Helper execution, and promotion require later gated stages and Human approval.
+worker/src/pm_tasks.ts:462:    handoff_id: record.source_plan.handoff_id,
+worker/src/pm_tasks.ts:562:        handoff_id: planRecord.source_specification.handoff_id,
+worker/src/pm_tasks.ts:567:        handoff_payload_hash: planRecord.source_specification.handoff_payload_hash,
+worker/src/pm_tasks.ts:575:        allowed_claims: planRecord.source_specification.allowed_claims,
+worker/src/pm_tasks.ts:576:        forbidden_claims: planRecord.source_specification.forbidden_claims
+worker/src/flow_policy.ts:4:export type FlowStatus = "active" | "blocked" | "completed" | "archived";
+worker/src/flow_policy.ts:14:export const FLOW_STATUSES: FlowStatus[] = ["active", "blocked", "completed", "archived"];
+worker/src/flow_policy.ts:55:  "claim_scope_audit",
+worker/src/flow_policy.ts:57:  "quarantine_recommendation",
+worker/src/flow_policy.ts:60:  "claim_scope_review",
+worker/src/flow_policy.ts:87:    "handoff_intake",
+worker/src/flow_policy.ts:94:    "coder_handoff",
+worker/src/flow_policy.ts:105:    "claim_audit",
+worker/src/flow_policy.ts:119:    "claim_audit",
+worker/src/flow_policy.ts:142:    "coder_handoff",
+worker/src/flow_policy.ts:152:    "claim_audit",
+worker/src/flow_policy.ts:193:      "claim_scope_audit",
+worker/src/flow_policy.ts:195:      "quarantine_recommendation",
+worker/src/flow_policy.ts:196:      "claim_scope_review",
+worker/src/flow_policy.ts:206:    PM_AI: ["pm_dossier", "constitution", "specification", "plan", "pm_tasking", "pm_spec", "pm_gate_definition", "handoff_intake", "dossier_seed"],
+worker/src/flow_policy.ts:207:    CODER_AI: ["tasks", "coder_work_plan", "coder_tasks", "implementation_bundle", "coder_patch_bundle", "coder_handoff"],
+worker/src/flow_policy.ts:209:    AUDITOR_AI: ["clarification", "checklist", "analysis", "audit_report", "integrity_review", "claim_audit", "helper_execution_review"],
+worker/src/flow_policy.ts:213:    AUDITOR_AI: ["clarification", "checklist", "analysis", "audit_report", "integrity_review", "claim_audit"],
+worker/src/flow_policy.ts:219:    CODER_AI: ["tasks", "implementation_bundle", "coder_patch_bundle", "coder_handoff"],
+worker/src/flow_policy.ts:221:    AUDITOR_AI: ["clarification", "checklist", "analysis", "audit_report", "integrity_review", "claim_audit"],
+worker/src/flow_policy.ts:227:const AUDIT_ARTIFACTS = new Set(["audit_report", "integrity_review", "claim_audit"]);
+worker/src/flow_policy.ts:230:const SCIENCE_AUDIT_REQUIRED = ["audit_report", "evidence_audit", "claim_scope_audit", "protocol_audit"];
+worker/src/flow_policy.ts:237:  if (!FLOW_STATUSES.includes(value as FlowStatus)) throw new Error("Flow status must be active, blocked, completed, or archived");
+worker/src/flow_policy.ts:282:  if (targetStatus === "blocked" || targetStatus === "archived") return null;
+worker/src/helper_execution_intake.ts:26:  const promo: Array<[RegExp,string]> = [[/\bsealed test certified\b/,"sealed-test certified"],[/\bcertified\b/,"certified"],[/\bcertification\b/,"certification"],[/\bproduction ready\b/,"production ready"],[/\bproduction readiness\b/,"production readiness"],[/\bready for production\b/,"ready for production"],[/\bproduct ready\b/,"product ready"],[/\bpromotable\b/,"promotable"],[/\bapproved for release\b/,"approved for release"],[/\brelease ready\b/,"release ready"],[/\bdeployed\b/,"deployed"],[/\bdeployment complete\b/,"deployment complete"]];
+worker/src/helper_execution_intake.ts:29:  const exec: Array<[RegExp,string]> = [[/\bcommands were run\b/,"commands were run"],[/\bcommand executed\b/,"command executed"],[/\bpatch applied\b/,"patch applied"],[/\bapplied the patch\b/,"applied the patch"],[/\btests passed\b/,"tests passed"],[/\bexecution complete\b/,"execution complete"],[/\bhelper executed\b/,"helper executed"],[/\bno further review required\b/,"no further review required"],[/\bdeploy now\b/,"deploy now"]];
+worker/src/helper_execution_intake.ts:31:  if (e) return errorResponse("HELPER_EXECUTION_INTAKE_EXECUTION_CLAIM_FORBIDDEN", `${field} may not claim execution or authorize deployment: ${e[1]}`, 409);
+worker/src/helper_execution_intake.ts:41:const handoffIndexPath = () => "governance/context/generated_coder_handoff_context.json";
+worker/src/helper_execution_intake.ts:46:async function loadHandoffEntry(env: Env, project: string, body: AnyRecord, store: RepoStore): Promise<{coder_handoff_id:string; coder_handoff_record_path:string}> {
+worker/src/helper_execution_intake.ts:47:  const id = opt(body.coder_handoff_id), path = opt(body.coder_handoff_record_path);
+worker/src/helper_execution_intake.ts:48:  if (!id && !path) throw new Error("Invalid or missing field: coder_handoff_id or coder_handoff_record_path");
+worker/src/helper_execution_intake.ts:49:  const index = await fetchJson<AnyRecord>(env, project, handoffIndexPath(), store);
+worker/src/helper_execution_intake.ts:50:  if (!index || index.schema_version !== "coder_handoff_context_index.v0.1" || !Array.isArray(index.entries)) throw new Error("Coder handoff context index is missing or invalid");
+worker/src/helper_execution_intake.ts:51:  const entry = index.entries.find((item: AnyRecord) => id && path ? item.coder_handoff_id === id && item.coder_handoff_record_path === path : (id && item.coder_handoff_id === id) || (path && item.coder_handoff_record_path === path));
+worker/src/helper_execution_intake.ts:52:  if (!entry && id && path) throw new Error("Coder handoff context fields conflict: coder_handoff_id and coder_handoff_record_path do not resolve to the same generated context entry");
+worker/src/helper_execution_intake.ts:53:  if (!entry) throw new Error(`No Coder handoff context entry found for ${id || path}`);
+worker/src/helper_execution_intake.ts:54:  return { coder_handoff_id: entry.coder_handoff_id, coder_handoff_record_path: entry.coder_handoff_record_path };
+worker/src/helper_execution_intake.ts:58:  if (record.schema_version !== "coder_handoff_context.v0.1") return errorResponse("HELPER_EXECUTION_INTAKE_INVALID_HANDOFF_RECORD", "Coder handoff record schema is invalid", 409);
+worker/src/helper_execution_intake.ts:59:  if (record.official_artifact !== true || record.created_by_role !== "CODER_AI") return errorResponse("HELPER_EXECUTION_INTAKE_INVALID_HANDOFF_AUTHORITY", "Coder handoff record is not official Coder output", 409);
+worker/src/helper_execution_intake.ts:60:  if (!record.source_implementation_bundle || !record.output_artifacts?.coder_handoff) return errorResponse("HELPER_EXECUTION_INTAKE_HANDOFF_INCOMPLETE", "Coder handoff record is missing source implementation bundle or output artifact", 409);
+worker/src/helper_execution_intake.ts:61:  if (!record.source_implementation_bundle.share_packet_hash || !record.source_implementation_bundle.uncertainty) return errorResponse("HELPER_EXECUTION_INTAKE_SOURCE_BOUNDARY_REQUIRED", "Coder handoff record must preserve share hash and uncertainty", 409);
+worker/src/helper_execution_intake.ts:62:  if (!Array.isArray(record.source_implementation_bundle.forbidden_claims) || record.source_implementation_bundle.forbidden_claims.length === 0) return errorResponse("HELPER_EXECUTION_INTAKE_FORBIDDEN_CLAIMS_REQUIRED", "Coder handoff record must preserve forbidden claims", 409);
+worker/src/helper_execution_intake.ts:63:  if (!Array.isArray(record.source_implementation_bundle.resolved_source_artifacts) || record.source_implementation_bundle.resolved_source_artifacts.length === 0) return errorResponse("HELPER_EXECUTION_INTAKE_RESOLVED_SOURCES_REQUIRED", "Coder handoff record must preserve resolved source metadata", 409);
+worker/src/helper_execution_intake.ts:64:  if (!hasLabels(record.required_status_labels)) return errorResponse("HELPER_EXECUTION_INTAKE_STATUS_LABELS_REQUIRED", "Coder handoff record is missing required diagnostic status labels", 409);
+worker/src/helper_execution_intake.ts:71:  const expected = record.output_artifacts.coder_handoff as Artifact;
+worker/src/helper_execution_intake.ts:73:  if (!actual) return errorResponse("HELPER_EXECUTION_INTAKE_HANDOFF_ARTIFACT_NOT_ON_CODE_FLOW", `Code flow does not contain required coder_handoff artifact ${expected.artifact_id}`, 409);
+worker/src/helper_execution_intake.ts:74:  if (actual.artifact_type !== "coder_handoff" || actual.role !== "CODER_AI") return errorResponse("HELPER_EXECUTION_INTAKE_HANDOFF_ARTIFACT_TYPE_MISMATCH", `Expected coder_handoff by CODER_AI for ${expected.artifact_id}`, 409);
+worker/src/helper_execution_intake.ts:75:  if (actual.source_path !== expected.source_path) return errorResponse("HELPER_EXECUTION_INTAKE_HANDOFF_ARTIFACT_SOURCE_MISMATCH", `Coder handoff artifact source path mismatch for ${expected.artifact_id}`, 409);
+worker/src/helper_execution_intake.ts:76:  if (actual.source_sha !== expected.source_sha) return errorResponse("HELPER_EXECUTION_INTAKE_HANDOFF_ARTIFACT_SHA_MISMATCH", `Coder handoff artifact source sha mismatch for ${expected.artifact_id}`, 409);
+worker/src/helper_execution_intake.ts:80:function buildId(handoffId: string, key: string): string { return `${safe(handoffId, 90)}-${safe(key, 36)}`; }
+worker/src/helper_execution_intake.ts:81:function markdown(record: AnyRecord, id: string, title: string, text: string): string { const src = record.source_implementation_bundle; return `# ${title}\n\nRequired status:\n\nREQUIRES_HUMAN_REVIEW  \ndevelopment diagnostic only  \nNOT SEALED-TEST CERTIFIED  \nnot promotable\n\n## Helper Execution Intake Boundary\n\nThis is a Helper-owned intake artifact derived from an audited Coder handoff. It records receipt for later controlled work. It is not command execution, not patch application, not deployment, not audit certification, and not promotion.\n\n## Source Chain\n\n- helper_execution_intake_id: ${id}\n- coder_handoff_id: ${record.coder_handoff_id}\n- implementation_bundle_id: ${src.implementation_bundle_id}\n- code_flow_id: ${src.code_flow_id}\n- share_packet_hash: ${src.share_packet_hash}\n- coder_handoff_payload_hash: ${record.submitted_payload_hash}\n- evidence_level: ${src.evidence_level}\n- uncertainty: ${src.uncertainty}\n\n## Intake Body\n\n${text}\n\n## Non-Execution Rule\n\nActual commands, patch application, deployment, audit, promotion, and Human advancement require later explicit gated stages.\n`; }
+worker/src/helper_execution_intake.ts:85:function upsert(index: AnyRecord, record: AnyRecord): void { const entry = { helper_execution_intake_id: record.helper_execution_intake_id, coder_handoff_id: record.source_coder_handoff.coder_handoff_id, implementation_bundle_id: record.source_coder_handoff.implementation_bundle_id, coder_tasks_id: record.source_coder_handoff.coder_tasks_id, code_flow_id: record.source_coder_handoff.code_flow_id, share_id: record.source_coder_handoff.share_id, science_flow_id: record.source_coder_handoff.science_flow_id, share_packet_hash: record.source_coder_handoff.share_packet_hash, evidence_level: record.source_coder_handoff.evidence_level, uncertainty: record.source_coder_handoff.uncertainty, helper_execution_intake_record_path: record.helper_execution_intake_record_path, created_at: record.created_at }; const i = index.entries.findIndex((x: AnyRecord) => x.helper_execution_intake_id === record.helper_execution_intake_id); if (i >= 0) index.entries[i] = entry; else index.entries.push(entry); index.updated_at = now(); index.entries.sort((a: AnyRecord,b: AnyRecord) => Date.parse(b.created_at)-Date.parse(a.created_at)); }
+worker/src/helper_execution_intake.ts:95:    const entry = await loadHandoffEntry(env, project, body, repoStore); const handoff = await fetchJson<AnyRecord>(env, project, entry.coder_handoff_record_path, repoStore); if (!handoff) return errorResponse("HELPER_EXECUTION_INTAKE_HANDOFF_RECORD_NOT_FOUND", `No Coder handoff record found for ${entry.coder_handoff_id}`, 404);
+worker/src/helper_execution_intake.ts:96:    if (handoff.coder_handoff_id !== entry.coder_handoff_id || handoff.coder_handoff_record_path !== entry.coder_handoff_record_path) return errorResponse("HELPER_EXECUTION_INTAKE_HANDOFF_CONTEXT_MISMATCH", "Coder handoff record does not match generated Coder handoff context", 409);
+worker/src/helper_execution_intake.ts:97:    const recordError = validateHandoffRecord(handoff); if (recordError) return recordError; const manifest = await fetchJson<Manifest>(env, project, manifestPath(handoff.source_implementation_bundle.code_flow_id), repoStore); const manifestError = validateManifest(manifest, handoff); if (manifestError) return manifestError;
+worker/src/helper_execution_intake.ts:98:    const id = buildId(handoff.coder_handoff_id, key); const payloadHash = await sha(JSON.stringify({ project, idempotency_key: key, coder_handoff_id: handoff.coder_handoff_id, coder_handoff_record_path: handoff.coder_handoff_record_path, coder_handoff_payload_hash: handoff.submitted_payload_hash, share_packet_hash: handoff.source_implementation_bundle.share_packet_hash, intake_title: title, intake_body: intakeBody }));
+worker/src/helper_execution_intake.ts:100:    const artifact = await writeArtifact(request, env, handoff.source_implementation_bundle.code_flow_id, project, "helper_execution_intake", title, markdown(handoff, id, title, intakeBody), repoStore); if (artifact instanceof Response) return artifact;
+worker/src/helper_execution_intake.ts:101:    const created = now(); const src = handoff.source_implementation_bundle; const record: AnyRecord = { schema_version: "helper_execution_intake_context.v0.1", official_artifact: true, project, helper_execution_intake_id: id, idempotency_key: key, created_at: created, created_by_role: "HELPER_AI", source_coder_handoff: { coder_handoff_id: handoff.coder_handoff_id, coder_handoff_record_path: handoff.coder_handoff_record_path, implementation_bundle_id: src.implementation_bundle_id, coder_tasks_id: src.coder_tasks_id, coder_work_plan_id: src.coder_work_plan_id, tasking_id: src.tasking_id, code_flow_id: src.code_flow_id, plan_id: src.plan_id, specification_id: src.specification_id, intake_id: src.intake_id, pm_handoff_id: src.pm_handoff_id, share_id: src.share_id, science_flow_id: src.science_flow_id, share_packet_hash: src.share_packet_hash, submitted_share_payload_hash: src.submitted_share_payload_hash, handoff_payload_hash: src.handoff_payload_hash, intake_payload_hash: src.intake_payload_hash, specification_payload_hash: src.specification_payload_hash, plan_payload_hash: src.plan_payload_hash, tasking_payload_hash: src.tasking_payload_hash, coder_work_plan_payload_hash: src.coder_work_plan_payload_hash, coder_tasks_payload_hash: src.coder_tasks_payload_hash, implementation_bundle_payload_hash: src.implementation_bundle_payload_hash, coder_handoff_payload_hash: handoff.submitted_payload_hash, evidence_level: src.evidence_level, uncertainty: src.uncertainty, source_artifacts: src.source_artifacts, resolved_source_artifacts: src.resolved_source_artifacts, allowed_claims: src.allowed_claims, forbidden_claims: src.forbidden_claims }, output_artifacts: { helper_execution_intake: artifact }, submitted_payload_hash: payloadHash, helper_execution_intake_record_path: recPath, generated_helper_execution_intake_context_path: intakeIndexPath(), required_status_labels: labels() };
+worker/src/helper_execution_intake.ts:105:    if (err instanceof Response) return err; const message = err instanceof Error ? err.message : String(err); if (message.startsWith("Invalid") || message.startsWith("Missing") || message.includes("must be")) return errorResponse("BAD_REQUEST", message, 400); if (message.startsWith("Unknown project")) return errorResponse("UNKNOWN_PROJECT", message, 404); if (message.includes("Coder handoff context fields conflict")) return errorResponse("HELPER_EXECUTION_INTAKE_HANDOFF_CONTEXT_MISMATCH", message, 409); if (message.includes("No Coder handoff context entry") || message.includes("Coder handoff context index is missing")) return errorResponse("HELPER_EXECUTION_INTAKE_HANDOFF_CONTEXT_NOT_FOUND", message, 404); return errorResponse("INTERNAL_ERROR", message, 500);
+worker/src/pm_intake.ts:50:  schema_version: "science_to_code_handoff.v0.1";
+worker/src/pm_intake.ts:53:  handoff_id: string;
+worker/src/pm_intake.ts:67:    allowed_claims: string[];
+worker/src/pm_intake.ts:68:    forbidden_claims: string[];
+worker/src/pm_intake.ts:73:    created_by_handoff: boolean;
+worker/src/pm_intake.ts:76:    handoff_intake: FlowArtifactSummary;
+worker/src/pm_intake.ts:80:  handoff_record_path: string;
+worker/src/pm_intake.ts:81:  generated_handoff_context_path: string;
+worker/src/pm_intake.ts:82:  generated_handoff_context_sha?: string;
+worker/src/pm_intake.ts:87:  schema_version: "pm_handoff_context_index.v0.1";
+worker/src/pm_intake.ts:91:    handoff_id: string;
+worker/src/pm_intake.ts:98:    handoff_record_path: string;
+worker/src/pm_intake.ts:111:  source_handoff: {
+worker/src/pm_intake.ts:112:    handoff_id: string;
+worker/src/pm_intake.ts:113:    handoff_record_path: string;
+worker/src/pm_intake.ts:119:    handoff_payload_hash: string;
+worker/src/pm_intake.ts:124:    allowed_claims: string[];
+worker/src/pm_intake.ts:125:    forbidden_claims: string[];
+worker/src/pm_intake.ts:144:    handoff_id: string;
+worker/src/pm_intake.ts:205:  return "governance/context/generated_pm_handoff_context.json";
+worker/src/pm_intake.ts:263:async function loadPMHandoffContextEntry(env: Env, projectName: string, body: Record<string, unknown>, store: RepoStore): Promise<{ handoff_id: string; handoff_record_path: string }> {
+worker/src/pm_intake.ts:264:  const handoffId = optionalString(body.handoff_id);
+worker/src/pm_intake.ts:265:  const handoffRecordPath = optionalString(body.handoff_record_path);
+worker/src/pm_intake.ts:266:  if (!handoffId && !handoffRecordPath) throw new Error("Invalid or missing field: handoff_id or handoff_record_path");
+worker/src/pm_intake.ts:269:  if (!index || index.schema_version !== "pm_handoff_context_index.v0.1" || !Array.isArray(index.entries)) {
+worker/src/pm_intake.ts:270:    throw new Error("PM handoff context index is missing or invalid");
+worker/src/pm_intake.ts:274:    (handoffId && item.handoff_id === handoffId) ||
+worker/src/pm_intake.ts:275:    (handoffRecordPath && item.handoff_record_path === handoffRecordPath)
+worker/src/pm_intake.ts:277:  if (!entry) throw new Error(`No PM handoff context entry found for ${handoffId || handoffRecordPath}`);
+worker/src/pm_intake.ts:278:  return { handoff_id: entry.handoff_id, handoff_record_path: entry.handoff_record_path };
+worker/src/pm_intake.ts:282:  if (record.schema_version !== "science_to_code_handoff.v0.1") return errorResponse("PM_INTAKE_INVALID_HANDOFF_RECORD", "Handoff record schema is invalid", 409);
+worker/src/pm_intake.ts:283:  if (record.official_artifact !== true || record.created_by_role !== "PM_AI") return errorResponse("PM_INTAKE_INVALID_HANDOFF_AUTHORITY", "Handoff record is not an official PM handoff", 409);
+worker/src/pm_intake.ts:286:  if (!record.source_share.forbidden_claims || record.source_share.forbidden_claims.length === 0) return errorResponse("PM_INTAKE_FORBIDDEN_CLAIMS_REQUIRED", "Handoff record must preserve forbidden claims", 409);
+worker/src/pm_intake.ts:288:  if (!record.output_artifacts.handoff_intake || !record.output_artifacts.dossier_seed) return errorResponse("PM_INTAKE_HANDOFF_ARTIFACTS_REQUIRED", "Handoff record must include handoff_intake and dossier_seed", 409);
+worker/src/pm_intake.ts:300:  expectedType: "handoff_intake" | "dossier_seed"
+worker/src/pm_intake.ts:306:      `Code flow does not contain required handoff artifact ${expected.artifact_id}`,
+worker/src/pm_intake.ts:334:  const intakeError = validateExpectedHandoffArtifact(manifest, record.output_artifacts.handoff_intake, "handoff_intake");
+worker/src/pm_intake.ts:343:function buildIntakeId(handoffId: string, idempotencyKey: string): string {
+worker/src/pm_intake.ts:344:  return `${safeFilePart(handoffId, 90)}-${safeFilePart(idempotencyKey, 36)}`;
+worker/src/pm_intake.ts:359:This dossier is a PM intake artifact produced from a previously audited Science to Code handoff. It is not a specification, not a plan, not a task packet, not certification, and not a production-readiness claim.
+worker/src/pm_intake.ts:364:- handoff_id: ${record.handoff_id}
+worker/src/pm_intake.ts:370:- handoff_payload_hash: ${record.submitted_payload_hash}
+worker/src/pm_intake.ts:376:${record.source_share.allowed_claims.map(claim => `- ${claim}`).join("\n")}
+worker/src/pm_intake.ts:380:${record.source_share.forbidden_claims.map(claim => `- ${claim}`).join("\n")}
+worker/src/pm_intake.ts:413:- handoff_id: ${record.handoff_id}
+worker/src/pm_intake.ts:420:1. Preserve source share id, share hash, uncertainty, source references, and forbidden claims.
+worker/src/pm_intake.ts:424:5. Do not remove forbidden claims without Human review and audit evidence.
+worker/src/pm_intake.ts:425:6. Do not claim sealed-test certification or production readiness.
+worker/src/pm_intake.ts:457:    handoff_id: record.source_handoff.handoff_id,
+worker/src/pm_intake.ts:458:    code_flow_id: record.source_handoff.code_flow_id,
+worker/src/pm_intake.ts:459:    share_id: record.source_handoff.share_id,
+worker/src/pm_intake.ts:460:    science_flow_id: record.source_handoff.science_flow_id,
+worker/src/pm_intake.ts:461:    share_packet_hash: record.source_handoff.share_packet_hash,
+worker/src/pm_intake.ts:462:    evidence_level: record.source_handoff.evidence_level,
+worker/src/pm_intake.ts:463:    uncertainty: record.source_handoff.uncertainty,
+worker/src/pm_intake.ts:491:    const handoffEntry = await loadPMHandoffContextEntry(env, projectName, body, repoStore);
+worker/src/pm_intake.ts:492:    const handoffRecord = await fetchJsonIfExists<HandoffRecord>(env, projectName, handoffEntry.handoff_record_path, repoStore);
+worker/src/pm_intake.ts:493:    if (!handoffRecord) return errorResponse("PM_INTAKE_HANDOFF_RECORD_NOT_FOUND", `No handoff record found for ${handoffEntry.handoff_id}`, 404);
+worker/src/pm_intake.ts:494:    if (handoffRecord.handoff_id !== handoffEntry.handoff_id || handoffRecord.handoff_record_path !== handoffEntry.handoff_record_path) {
+worker/src/pm_intake.ts:495:      return errorResponse("PM_INTAKE_HANDOFF_CONTEXT_MISMATCH", "Handoff record does not match generated PM handoff context", 409);
+worker/src/pm_intake.ts:498:    const handoffError = validateHandoffRecord(handoffRecord);
+worker/src/pm_intake.ts:499:    if (handoffError) return handoffError;
+worker/src/pm_intake.ts:501:    const codeFlowManifest = await fetchJsonIfExists<FlowManifest>(env, projectName, flowManifestPath(handoffRecord.code_flow.flow_id), repoStore);
+worker/src/pm_intake.ts:502:    const codeFlowError = validateCodeFlowManifest(codeFlowManifest, handoffRecord);
+worker/src/pm_intake.ts:506:    const intakeId = buildIntakeId(handoffRecord.handoff_id, idempotencyKey);
+worker/src/pm_intake.ts:510:      handoff_id: handoffRecord.handoff_id,
+worker/src/pm_intake.ts:511:      handoff_record_path: handoffRecord.handoff_record_path,
+worker/src/pm_intake.ts:512:      handoff_payload_hash: handoffRecord.submitted_payload_hash,
+worker/src/pm_intake.ts:513:      share_packet_hash: handoffRecord.source_share.share_packet_hash,
+worker/src/pm_intake.ts:526:    const pmDossier = await writeCodeFlowArtifact(request, env, handoffRecord.code_flow.flow_id, projectName, "pm_dossier", "Code Monkeys PM Dossier", buildPMDossierMarkdown(handoffRecord, intakeId, pmNotes), repoStore);
+worker/src/pm_intake.ts:529:    const pmGateDefinition = await writeCodeFlowArtifact(request, env, handoffRecord.code_flow.flow_id, projectName, "pm_gate_definition", "PM Intake Gate Definition", buildPMGateDefinitionMarkdown(handoffRecord, intakeId), repoStore);
+worker/src/pm_intake.ts:541:      source_handoff: {
+worker/src/pm_intake.ts:542:        handoff_id: handoffRecord.handoff_id,
+worker/src/pm_intake.ts:543:        handoff_record_path: handoffRecord.handoff_record_path,
+worker/src/pm_intake.ts:544:        code_flow_id: handoffRecord.code_flow.flow_id,
+worker/src/pm_intake.ts:545:        share_id: handoffRecord.source_share.share_id,
+worker/src/pm_intake.ts:546:        science_flow_id: handoffRecord.source_share.science_flow_id,
+worker/src/pm_intake.ts:547:        share_packet_hash: handoffRecord.source_share.share_packet_hash,
+worker/src/pm_intake.ts:548:        submitted_share_payload_hash: handoffRecord.source_share.submitted_payload_hash,
+worker/src/pm_intake.ts:549:        handoff_payload_hash: handoffRecord.submitted_payload_hash,
+worker/src/pm_intake.ts:550:        evidence_level: handoffRecord.source_share.evidence_level,
+worker/src/pm_intake.ts:551:        uncertainty: handoffRecord.source_share.uncertainty,
+worker/src/pm_intake.ts:552:        source_artifacts: handoffRecord.source_share.source_artifacts,
+worker/src/pm_intake.ts:553:        resolved_source_artifacts: handoffRecord.source_share.resolved_source_artifacts,
+worker/src/pm_intake.ts:554:        allowed_claims: handoffRecord.source_share.allowed_claims,
+worker/src/pm_intake.ts:555:        forbidden_claims: handoffRecord.source_share.forbidden_claims
+worker/src/pm_intake.ts:576:    if (message.includes("No PM handoff context entry")) return errorResponse("PM_INTAKE_HANDOFF_CONTEXT_NOT_FOUND", message, 404);
+worker/src/pm_intake.ts:577:    if (message.includes("PM handoff context index is missing")) return errorResponse("PM_INTAKE_HANDOFF_CONTEXT_NOT_FOUND", message, 404);
+worker/src/coder_implementation_bundle.ts:65:    handoff_id: string;
+worker/src/coder_implementation_bundle.ts:70:    handoff_payload_hash: string;
+worker/src/coder_implementation_bundle.ts:80:    allowed_claims: string[];
+worker/src/coder_implementation_bundle.ts:81:    forbidden_claims: string[];
+worker/src/coder_implementation_bundle.ts:104:    handoff_id: string;
+worker/src/coder_implementation_bundle.ts:133:    handoff_id: string;
+worker/src/coder_implementation_bundle.ts:138:    handoff_payload_hash: string;
+worker/src/coder_implementation_bundle.ts:149:    allowed_claims: string[];
+worker/src/coder_implementation_bundle.ts:150:    forbidden_claims: string[];
+worker/src/coder_implementation_bundle.ts:174:    handoff_id: string;
+worker/src/coder_implementation_bundle.ts:388:  if (!record.source_coder_work_plan.forbidden_claims || record.source_coder_work_plan.forbidden_claims.length === 0) return errorResponse("CODER_IMPLEMENTATION_BUNDLE_FORBIDDEN_CLAIMS_REQUIRED", "Coder tasks record must preserve forbidden claims", 409);
+worker/src/coder_implementation_bundle.ts:419:It is not a Coder handoff, not Helper execution authorization, not an executed patch, not certification, and not a production-readiness claim.
+worker/src/coder_implementation_bundle.ts:430:- handoff_id: ${record.source_coder_work_plan.handoff_id}
+worker/src/coder_implementation_bundle.ts:436:- handoff_payload_hash: ${record.source_coder_work_plan.handoff_payload_hash}
+worker/src/coder_implementation_bundle.ts:452:${record.source_coder_work_plan.forbidden_claims.map(claim => `- ${claim}`).join("\n")}
+worker/src/coder_implementation_bundle.ts:460:Implementation bundle remains downstream of diagnostic evidence, PM tasking, Coder work planning, and Coder tasks. Coder handoff, Helper execution, audit, and promotion require later gated stages and Human approval.
+worker/src/coder_implementation_bundle.ts:494:    handoff_id: record.source_coder_tasks.handoff_id,
+worker/src/coder_implementation_bundle.ts:600:        handoff_id: tasksRecord.source_coder_work_plan.handoff_id,
+worker/src/coder_implementation_bundle.ts:605:        handoff_payload_hash: tasksRecord.source_coder_work_plan.handoff_payload_hash,
+worker/src/coder_implementation_bundle.ts:616:        allowed_claims: tasksRecord.source_coder_work_plan.allowed_claims,
+worker/src/coder_implementation_bundle.ts:617:        forbidden_claims: tasksRecord.source_coder_work_plan.forbidden_claims
+worker/src/science_share.ts:91:  allowed_claims: string[];
+worker/src/science_share.ts:92:  forbidden_claims: string[];
+worker/src/science_share.ts:116:  allowed_claims: string[];
+worker/src/science_share.ts:117:  forbidden_claims: string[];
+worker/src/science_share.ts:416:    ["allowed_claims", input.allowedClaims],
+worker/src/science_share.ts:417:    ["forbidden_claims", input.forbiddenClaims],
+worker/src/science_share.ts:502:  status: "pending" | "complete";
+worker/src/science_share.ts:566:  if (!flowRef) return errorResponse("SCIENCE_FLOW_REF_REQUIRED", "/v1/science/share requires flow_ref", 400);
+worker/src/science_share.ts:575:  const allowedClaims = requireStringArray(body.allowed_claims, "allowed_claims");
+worker/src/science_share.ts:576:  const forbiddenClaims = requireStringArray(body.forbidden_claims, "forbidden_claims");
+worker/src/science_share.ts:626:    allowed_claims: allowedClaims,
+worker/src/science_share.ts:627:    forbidden_claims: forbiddenClaims,
+worker/src/science_share.ts:698:    allowed_claims: allowedClaims,
+worker/src/science_share.ts:699:    forbidden_claims: forbiddenClaims,
+worker/src/science_share.ts:742:    allowed_claims: allowedClaims,
+worker/src/science_share.ts:743:    forbidden_claims: forbiddenClaims,
+worker/src/science_share.ts:759:  const completeOutbox = buildOutbox({
+worker/src/science_share.ts:764:    status: "complete",
+worker/src/science_share.ts:765:    stage: "share_completed",
+worker/src/science_share.ts:773:  const outboxWrite = await repoStore.writeFile(env, project, shareOutboxPath, formatJson(completeOutbox), `Complete science share outbox ${shareId}`);
+worker/src/read_resume.ts:170:    routes.push("POST /v1/flows/{flow_ref}/advance", "POST /v1/science/share", "POST /v1/human/advancement-decision");
+worker/src/read_resume.ts:172:  if (role === "PM_AI") routes.push("POST /v1/flows", "POST /v1/pm/intake", "POST /v1/pm/specify", "POST /v1/pm/plan", "POST /v1/pm/tasking", "POST /v1/pm/handoff");
+worker/src/read_resume.ts:173:  if (role === "CODER_AI") routes.push("POST /v1/coder/work-plan", "POST /v1/coder/tasks", "POST /v1/coder/implementation-bundle", "POST /v1/coder/handoff");
+worker/src/read_resume.ts:179:  if (role === "SCIENCE_EXECUTOR_AI") routes.push("POST /v1/science/execute-experiment");
+worker/src/read_resume.ts:186:    "POST /v1/queue/{queue_id}/claim",
+worker/src/read_resume.ts:187:    "POST /v1/queue/{queue_id}/complete",
+worker/src/read_resume.ts:188:    "POST /v1/queue/{queue_id}/block",
+worker/src/read_resume.ts:189:    "POST /v1/queue/{queue_id}/quarantine",
+worker/src/read_resume.ts:190:    "POST /v1/queue/{queue_id}/handoff"
+worker/src/read_resume.ts:192:  if (role !== "HUMAN") common.push("POST /v1/flows/{flow_ref}/advance", "POST /v1/science/share");
+worker/src/read_resume.ts:193:  if (isGptRole(role)) common.push("POST /v1/science/execute-experiment");
+worker/src/read_resume.ts:194:  if (role === "SCIENCE_EXECUTOR_AI") common.push("POST /v1/science/hypothesize", "POST /v1/science/design-experiment", "POST /v1/science/audit-experiment", "POST /v1/science/share");
+worker/src/read_resume.ts:333:  if (manifest.status === "completed" || manifest.status === "archived") {
+worker/src/read_resume.ts:353:      return { next_allowed_action: "local Science Executor evidence required", next_allowed_route: "POST /v1/science/execute-experiment", next_allowed_role: "SCIENCE_EXECUTOR_AI", next_allowed_artifact_type_if_any: "execution_report", requires_human_gate: false, unknowns: [] };
+worker/src/read_resume.ts:355:    if (!hasAnyArtifact(manifest, ["audit_report", "evidence_audit", "claim_scope_audit", "protocol_audit"])) {
+worker/src/read_resume.ts:362:      return { next_allowed_action: "Human share decision if warranted", next_allowed_route: "POST /v1/science/share", next_allowed_role: "HUMAN", next_allowed_artifact_type_if_any: "share_packet", requires_human_gate: true, unknowns: [] };
+worker/src/read_resume.ts:380:    "unsupported claim",
+worker/src/read_resume.ts:391:  if (role !== "HUMAN") stops.push("attempt to advance flow", "attempt to use /v1/science/share");
+worker/src/read_resume.ts:399:  if (manifest.status === "blocked") conditions.push("flow status is blocked");
+worker/src/read_resume.ts:400:  if (manifest.type === "science_flow" && hasAnyArtifact(manifest, ["execution_report", "evidence_manifest", "command_log"]) && !hasAnyArtifact(manifest, ["audit_report", "evidence_audit", "claim_scope_audit", "protocol_audit"])) {
+worker/src/read_resume.ts:425:    forbidden_claims: FORBIDDEN_CLAIMS,
+worker/src/read_resume.ts:437:    human_only_capabilities: ["POST /v1/flows/{flow_ref}/advance", "POST /v1/science/share", "promotion/certification/deployment decisions remain outside this slice"],
+worker/src/read_resume.ts:438:    executor_only_capabilities: ["POST /v1/science/execute-experiment"],
+worker/src/read_resume.ts:469:    blocked_flows: index.flows.filter(flow => flow.status === "blocked").slice(0, boundedLimit).map(summarize),
+worker/src/read_resume.ts:519:    .filter(flow => flow.status === "active" || flow.status === "blocked")
+worker/src/read_resume.ts:528:    message: candidates.length === 0 ? "No active or blocked flows found." : "Multiple candidate flows found; provide flow_ref/name to resume safely.",
+worker/src/read_resume.ts:636:    quarantine_triggers: ["secret exposure", "evidence fabrication", "role-boundary violation", "unsupported claim", "Human gate bypass attempt"],
+worker/src/science_queue_read.ts:71:  blocked_reason: string | null;
+worker/src/science_queue_read.ts:131:  if (normalizedStatus === "blocked") return "BLOCKED";
+worker/src/science_queue_read.ts:132:  if (normalizedStatus === "completed") return "COMPLETED_STEP";
+worker/src/science_queue_read.ts:222:      blocked_reason: state === "BLOCKED" ? "UNKNOWN" : null,
+worker/src/science_queue_read.ts:276:  | "blocked"
+worker/src/science_queue_read.ts:277:  | "quarantined"
+worker/src/science_queue_read.ts:278:  | "handoffs"
+worker/src/science_queue_read.ts:313:  if (route === "blocked") return jsonResponse({ ...base, queue_items: items.filter(item => item.current_state === "BLOCKED") });
+worker/src/science_queue_read.ts:314:  if (route === "quarantined") return jsonResponse({ ...base, queue_items: items.filter(item => item.current_state === "QUARANTINED") });
+worker/src/science_queue_read.ts:315:  if (route === "handoffs") {
+worker/src/science_queue_read.ts:316:    const handoffs = items.filter(item => item.allowed_next_role !== "UNKNOWN").map(item => ({
+worker/src/science_queue_read.ts:321:      handoff_note: "READ_ONLY_HANDOFF_VISIBILITY_ONLY"
+worker/src/science_queue_read.ts:323:    return jsonResponse({ ...base, handoffs });
+worker/src/human_advancement_decision.ts:15:const OUTCOMES = new Set(["advance", "require_revision", "reject", "quarantine"]);
+worker/src/human_advancement_decision.ts:55:    [/\bcertification complete\b/, "certification complete"],
+worker/src/human_advancement_decision.ts:61:    [/\bdeployment complete\b/, "deployment complete"],
+worker/src/human_advancement_decision.ts:145:function mdDecision(title: string, summary: string, outcome: string, nextAction: string, blockers: string[], review: AnyRecord): string {
+worker/src/human_advancement_decision.ts:185:${blockers.length ? blockers.map(b => `- ${b}`).join("\n") : "- None declared."}
+worker/src/human_advancement_decision.ts:211:    if (!OUTCOMES.has(outcome)) return errorResponse("BAD_REQUEST", "decision_outcome must be advance, require_revision, reject, or quarantine", 400);
+worker/src/human_advancement_decision.ts:212:    const unresolvedBlockers = stringList(body.unresolved_blockers, "unresolved_blockers");
+worker/src/human_advancement_decision.ts:220:      const error = validateText(unresolvedBlockers[i], `unresolved_blockers[${i}]`);
+worker/src/human_advancement_decision.ts:239:    if (outcome === "advance" && unresolvedBlockers.length > 0) return errorResponse("HUMAN_ADVANCEMENT_DECISION_UNRESOLVED_BLOCKERS_PRESENT", "advance is forbidden while unresolved blockers are present", 409);
+worker/src/human_advancement_decision.ts:242:    const payloadHash = await sha256Hex(JSON.stringify({ project, idempotency_key: idempotencyKey, auditor_helper_execution_review_id: review.auditor_helper_execution_review_id, auditor_helper_execution_review_record_path: review.auditor_helper_execution_review_record_path, review_payload_hash: review.submitted_payload_hash, decision_title: title, decision_summary: summary, decision_outcome: outcome, required_next_action: nextAction, unresolved_blockers: unresolvedBlockers, findings }));
+worker/src/human_advancement_decision.ts:266:      unresolved_blockers: unresolvedBlockers,
+worker/src/human_advancement_decision.ts:273:        coder_handoff_id: review.source_helper_execution_report.coder_handoff_id,
+worker/src/human_advancement_decision.ts:285:        allowed_claims: review.source_helper_execution_report.allowed_claims,
+worker/src/human_advancement_decision.ts:286:        forbidden_claims: review.source_helper_execution_report.forbidden_claims
+worker/src/human_advancement_decision.ts:309:    if (message.startsWith("Invalid") || message.startsWith("Missing") || message.includes("must be") || message.includes("findings") || message.includes("unresolved_blockers")) return errorResponse("BAD_REQUEST", message, 400);
+worker/src/pm_tasking.ts:62:    handoff_id: string;
+worker/src/pm_tasking.ts:67:    handoff_payload_hash: string;
+worker/src/pm_tasking.ts:74:    allowed_claims: string[];
+worker/src/pm_tasking.ts:75:    forbidden_claims: string[];
+worker/src/pm_tasking.ts:95:    handoff_id: string;
+worker/src/pm_tasking.ts:121:    handoff_id: string;
+worker/src/pm_tasking.ts:126:    handoff_payload_hash: string;
+worker/src/pm_tasking.ts:134:    allowed_claims: string[];
+worker/src/pm_tasking.ts:135:    forbidden_claims: string[];
+worker/src/pm_tasking.ts:156:    handoff_id: string;
+worker/src/pm_tasking.ts:379:  if (!record.source_specification.forbidden_claims || record.source_specification.forbidden_claims.length === 0) return errorResponse("PM_TASKING_FORBIDDEN_CLAIMS_REQUIRED", "PM plan record must preserve forbidden claims", 409);
+worker/src/pm_tasking.ts:410:It is not Coder implementation decomposition, not Coder handoff, not Helper execution, not implementation authorization, not certification, and not a production-readiness claim.
+worker/src/pm_tasking.ts:418:- handoff_id: ${record.source_specification.handoff_id}
+worker/src/pm_tasking.ts:424:- handoff_payload_hash: ${record.source_specification.handoff_payload_hash}
+worker/src/pm_tasking.ts:437:${record.source_specification.forbidden_claims.map(claim => `- ${claim}`).join("\n")}
+worker/src/pm_tasking.ts:445:PM tasking remains downstream of diagnostic evidence. Coder work plan, Coder implementation decomposition, Coder handoff, Helper execution, and promotion require later gated stages and Human approval.
+worker/src/pm_tasking.ts:476:    handoff_id: record.source_plan.handoff_id,
+worker/src/pm_tasking.ts:576:        handoff_id: planRecord.source_specification.handoff_id,
+worker/src/pm_tasking.ts:581:        handoff_payload_hash: planRecord.source_specification.handoff_payload_hash,
+worker/src/pm_tasking.ts:589:        allowed_claims: planRecord.source_specification.allowed_claims,
+worker/src/pm_tasking.ts:590:        forbidden_claims: planRecord.source_specification.forbidden_claims
+worker/src/coder_work_plan.ts:79:    [/\bdeploy now\b/, "deploy now"], [/\bno further review required\b/, "no further review required"], [/\bimplementation complete\b/, "implementation complete"],
+worker/src/coder_work_plan.ts:99:  if (!record.source_plan || !record.output_artifacts?.pm_tasking) return errorResponse("CODER_WORK_PLAN_TASKING_INCOMPLETE", "PM tasking record is incomplete", 409);
+worker/src/coder_work_plan.ts:101:  if (!Array.isArray(record.source_plan.forbidden_claims) || record.source_plan.forbidden_claims.length === 0) return errorResponse("CODER_WORK_PLAN_FORBIDDEN_CLAIMS_REQUIRED", "PM tasking record must preserve forbidden claims", 409);
+worker/src/coder_work_plan.ts:118:  const forbiddenClaims = record.source_plan.forbidden_claims.map((claim: string) => `- ${claim}`).join("\n");
+worker/src/coder_work_plan.ts:119:  return `# ${title}\n\nRequired status:\n\nREQUIRES_HUMAN_REVIEW  \ndevelopment diagnostic only  \nNOT SEALED-TEST CERTIFIED  \nnot promotable\n\n## Coder Work Plan Boundary\n\nThis is a Coder-owned engineering interpretation and decomposition proposal derived from PM tasking. It is not an implementation bundle, not a patch, not a Coder handoff, not Helper execution authorization, not certification, and not a production-readiness claim.\n\n## Source Chain\n\n- coder_work_plan_id: ${id}\n- tasking_id: ${record.tasking_id}\n- plan_id: ${record.source_plan.plan_id}\n- specification_id: ${record.source_plan.specification_id}\n- intake_id: ${record.source_plan.intake_id}\n- handoff_id: ${record.source_plan.handoff_id}\n- code_flow_id: ${record.source_plan.code_flow_id}\n- source_share_id: ${record.source_plan.share_id}\n- source_science_flow_id: ${record.source_plan.science_flow_id}\n- share_packet_hash: ${record.source_plan.share_packet_hash}\n- tasking_payload_hash: ${record.submitted_payload_hash}\n- evidence_level: ${record.source_plan.evidence_level}\n- uncertainty: ${record.source_plan.uncertainty}\n\n## Coder Work Plan Body\n\n${workPlanBody}\n\n## Hard Forbidden Claims\n\n${forbiddenClaims}\n\n## Source Artifacts\n\n${sourceArtifacts}\n\n## Non-Laundering Rule\n\nCoder work plan remains downstream of diagnostic evidence and PM tasking. Implementation bundle, Coder handoff, Helper execution, and promotion require later gated stages and Human approval.\n`;
+worker/src/coder_work_plan.ts:194:        handoff_id: tasking.source_plan.handoff_id,
+worker/src/coder_work_plan.ts:199:        handoff_payload_hash: tasking.source_plan.handoff_payload_hash,
+worker/src/coder_work_plan.ts:208:        allowed_claims: tasking.source_plan.allowed_claims,
+worker/src/coder_work_plan.ts:209:        forbidden_claims: tasking.source_plan.forbidden_claims
+worker/src/coder_work_plan.ts:219:    const entryOut = { coder_work_plan_id: workPlanId, tasking_id: tasking.tasking_id, plan_id: tasking.source_plan.plan_id, specification_id: tasking.source_plan.specification_id, intake_id: tasking.source_plan.intake_id, handoff_id: tasking.source_plan.handoff_id, code_flow_id: tasking.source_plan.code_flow_id, share_id: tasking.source_plan.share_id, science_flow_id: tasking.source_plan.science_flow_id, share_packet_hash: tasking.source_plan.share_packet_hash, evidence_level: tasking.source_plan.evidence_level, uncertainty: tasking.source_plan.uncertainty, coder_work_plan_record_path: record.coder_work_plan_record_path, created_at: createdAt };
+worker/src/coder_handoff.ts:20:function handoffIndexPath(): string { return "governance/context/generated_coder_handoff_context.json"; }
+worker/src/coder_handoff.ts:21:function recordPath(id: string): string { return `governance/context/coder_handoff/${id}.json`; }
+worker/src/coder_handoff.ts:38:  if (p) return errorResponse("CODER_HANDOFF_FORBIDDEN_CLAIM_INCLUDED", `Coder handoff contains forbidden promotion language: ${p[1]}`, 409);
+worker/src/coder_handoff.ts:41:  if (e) return errorResponse("CODER_HANDOFF_EXECUTION_AUTHORITY_FORBIDDEN", `Coder handoff may not authorize Helper execution: ${e[1]}`, 409);
+worker/src/coder_handoff.ts:62:  if (!Array.isArray(record.source_coder_tasks.forbidden_claims) || record.source_coder_tasks.forbidden_claims.length === 0) return errorResponse("CODER_HANDOFF_FORBIDDEN_CLAIMS_REQUIRED", "Implementation bundle record must preserve forbidden claims", 409);
+worker/src/coder_handoff.ts:70:  if (manifest.type !== "code_flow" || manifest.flow_id !== record.source_coder_tasks.code_flow_id) return errorResponse("CODER_HANDOFF_CODE_FLOW_REQUIRED", "Coder handoff target must be a code_flow", 409);
+worker/src/coder_handoff.ts:80:function handoffId(implId: string, key: string): string { return `${safe(implId, 90)}-${safe(key, 36)}`; }
+worker/src/coder_handoff.ts:82:  return `# ${title}\n\nRequired status:\n\nREQUIRES_HUMAN_REVIEW  \ndevelopment diagnostic only  \nNOT SEALED-TEST CERTIFIED  \nnot promotable\n\n## Coder Handoff Boundary\n\nThis is a Coder-owned handoff package derived from an accepted implementation_bundle.\n\nIt is not Helper execution authorization, not an executed patch, not deployment, not audit certification, and not promotion.\n\n## Source Chain\n\n- coder_handoff_id: ${id}\n- implementation_bundle_id: ${record.implementation_bundle_id}\n- coder_tasks_id: ${record.source_coder_tasks.coder_tasks_id}\n- code_flow_id: ${record.source_coder_tasks.code_flow_id}\n- share_packet_hash: ${record.source_coder_tasks.share_packet_hash}\n- implementation_bundle_payload_hash: ${record.submitted_payload_hash}\n- evidence_level: ${record.source_coder_tasks.evidence_level}\n- uncertainty: ${record.source_coder_tasks.uncertainty}\n\n## Coder Handoff Body\n\n${body}\n\n## Non-Execution Rule\n\nHelper execution, patch application, deployment, audit, promotion, and Human advancement require later explicit gated stages.\n`;
+worker/src/coder_handoff.ts:87:  const r = new Request(`${url.origin}/v1/flows/${encodeURIComponent(flowId)}/artifacts`, { method: "POST", headers: authHeaders(request), body: JSON.stringify({ project: projectName, artifact_type: "coder_handoff", title, body }) });
+worker/src/coder_handoff.ts:92:  if (!artifact) return errorResponse("CODER_HANDOFF_ARTIFACT_WRITE_FAILED", "Artifact write did not return coder_handoff summary", 500);
+worker/src/coder_handoff.ts:97:  const existing = await fetchJson<Obj>(env, projectName, handoffIndexPath(), store);
+worker/src/coder_handoff.ts:98:  if (existing && existing.schema_version === "coder_handoff_context_index.v0.1" && Array.isArray(existing.entries)) return existing;
+worker/src/coder_handoff.ts:99:  return { schema_version: "coder_handoff_context_index.v0.1", project: projectName, updated_at: now(), entries: [] };
+worker/src/coder_handoff.ts:104:    coder_handoff_id: record.coder_handoff_id,
+worker/src/coder_handoff.ts:111:    coder_handoff_record_path: record.coder_handoff_record_path,
+worker/src/coder_handoff.ts:114:  const i = index.entries.findIndex((x: Obj) => x.coder_handoff_id === record.coder_handoff_id);
+worker/src/coder_handoff.ts:123:    if (role !== "CODER_AI") return errorResponse("CODER_HANDOFF_ROLE_FORBIDDEN", "Only CODER_AI may create Coder handoff artifacts", 403);
+worker/src/coder_handoff.ts:131:    const title = req(body.handoff_title, "handoff_title");
+worker/src/coder_handoff.ts:132:    const handoffBody = req(body.handoff_body, "handoff_body");
+worker/src/coder_handoff.ts:134:    const bodyError = validateText(handoffBody); if (bodyError) return bodyError;
+worker/src/coder_handoff.ts:144:    const id = handoffId(bundle.implementation_bundle_id, key);
+worker/src/coder_handoff.ts:145:    const payloadHash = await sha256Hex(JSON.stringify({ project, idempotency_key: key, implementation_bundle_id: bundle.implementation_bundle_id, implementation_bundle_record_path: bundle.implementation_bundle_record_path, implementation_bundle_payload_hash: bundle.submitted_payload_hash, share_packet_hash: bundle.source_coder_tasks.share_packet_hash, handoff_title: title, handoff_body: handoffBody }));
+worker/src/coder_handoff.ts:148:    if (existing && existing.schema_version !== "coder_handoff_context.v0.1") return errorResponse("CODER_HANDOFF_EXISTING_RECORD_INVALID", "Existing Coder handoff idempotency record has invalid schema", 409);
+worker/src/coder_handoff.ts:149:    if (existing && existing.schema_version === "coder_handoff_context.v0.1") {
+worker/src/coder_handoff.ts:150:      if (existing.submitted_payload_hash !== payloadHash) return errorResponse("CODER_HANDOFF_IDEMPOTENCY_CONFLICT", "Existing Coder handoff idempotency record exists but submitted payload hash does not match", 409);
+worker/src/coder_handoff.ts:151:      return jsonResponse({ ok: true, idempotent_replay: true, coder_handoff: existing, required_status_labels: labels() }, 200);
+worker/src/coder_handoff.ts:154:    const artifact = await writeArtifact(request, env, bundle.source_coder_tasks.code_flow_id, project, title, markdown(bundle, id, title, handoffBody), repoStore);
+worker/src/coder_handoff.ts:158:      schema_version: "coder_handoff_context.v0.1", official_artifact: true, project, coder_handoff_id: id, idempotency_key: key, created_at: created, created_by_role: "CODER_AI",
+worker/src/coder_handoff.ts:159:      source_implementation_bundle: { implementation_bundle_id: bundle.implementation_bundle_id, implementation_bundle_record_path: bundle.implementation_bundle_record_path, ...bundle.source_coder_tasks, pm_handoff_id: bundle.source_coder_tasks.handoff_id, implementation_bundle_payload_hash: bundle.submitted_payload_hash },
+worker/src/coder_handoff.ts:160:      output_artifacts: { coder_handoff: artifact }, submitted_payload_hash: payloadHash, coder_handoff_record_path: path, generated_coder_handoff_context_path: handoffIndexPath(), required_status_labels: labels()
+worker/src/coder_handoff.ts:163:    const idxWrite = await writeJson(env, project, handoffIndexPath(), idx, `Update Coder handoff context ${id}`, repoStore);
+worker/src/coder_handoff.ts:164:    record.generated_coder_handoff_context_sha = idxWrite.sha;
+worker/src/coder_handoff.ts:165:    const recWrite = await writeJson(env, project, path, record, `Write Coder handoff record ${id}`, repoStore);
+worker/src/coder_handoff.ts:166:    return jsonResponse({ ok: true, idempotent_replay: false, project, coder_handoff: { ...record, coder_handoff_record_sha: recWrite.sha }, required_status_labels: labels() }, 201);
+worker/src/pm_plan.ts:19:    intake_id: string; pm_intake_record_path: string; code_flow_id: string; handoff_id: string; share_id: string; science_flow_id: string;
+worker/src/pm_plan.ts:20:    share_packet_hash: string; submitted_share_payload_hash?: string; handoff_payload_hash: string; intake_payload_hash: string;
+worker/src/pm_plan.ts:22:    allowed_claims: string[]; forbidden_claims: string[];
+worker/src/pm_plan.ts:33:    specification_id: string; pm_specification_record_path: string; code_flow_id: string; intake_id: string; handoff_id: string; share_id: string; science_flow_id: string;
+worker/src/pm_plan.ts:34:    share_packet_hash: string; submitted_share_payload_hash?: string; handoff_payload_hash: string; intake_payload_hash: string; specification_payload_hash: string;
+worker/src/pm_plan.ts:36:    allowed_claims: string[]; forbidden_claims: string[];
+worker/src/pm_plan.ts:68:function validateSpecRecord(r: PMSpecificationRecord): Response | null { if (r.schema_version !== "pm_specification_context.v0.1") return errorResponse("PM_PLAN_INVALID_SPECIFICATION_RECORD","PM specification record schema is invalid",409); if (r.official_artifact !== true || r.created_by_role !== "PM_AI") return errorResponse("PM_PLAN_INVALID_SPECIFICATION_AUTHORITY","PM specification record is not official PM specification",409); if (!r.source_intake || !r.output_artifacts?.specification) return errorResponse("PM_PLAN_SPECIFICATION_INCOMPLETE","PM specification record is incomplete",409); if (!r.source_intake.share_packet_hash || !r.source_intake.uncertainty) return errorResponse("PM_PLAN_SOURCE_BOUNDARY_REQUIRED","PM specification record must preserve share hash and uncertainty",409); if (!r.source_intake.forbidden_claims?.length) return errorResponse("PM_PLAN_FORBIDDEN_CLAIMS_REQUIRED","PM specification record must preserve forbidden claims",409); if (!r.source_intake.resolved_source_artifacts?.length) return errorResponse("PM_PLAN_RESOLVED_SOURCES_REQUIRED","PM specification record must preserve resolved source metadata",409); if (!hasLabels(r.required_status_labels)) return errorResponse("PM_PLAN_STATUS_LABELS_REQUIRED","PM specification record is missing required diagnostic status labels",409); return null; }
+worker/src/pm_plan.ts:72:function planMarkdown(r: PMSpecificationRecord, planId: string, title: string, planBody: string): string { return `# ${title}\n\nRequired status:\n\nREQUIRES_HUMAN_REVIEW  \ndevelopment diagnostic only  \nNOT SEALED-TEST CERTIFIED  \nnot promotable\n\n## Plan Boundary\n\nThis PM plan is downstream of diagnostic evidence. It is not tasks, not Coder handoff, not Helper execution, not cert claim, and not release-readiness.\n\n## Source Chain\n\n- plan_id: ${planId}\n- specification_id: ${r.specification_id}\n- intake_id: ${r.source_intake.intake_id}\n- handoff_id: ${r.source_intake.handoff_id}\n- code_flow_id: ${r.source_intake.code_flow_id}\n- share_packet_hash: ${r.source_intake.share_packet_hash}\n- specification_payload_hash: ${r.submitted_payload_hash}\n- evidence_level: ${r.source_intake.evidence_level}\n- uncertainty: ${r.source_intake.uncertainty}\n\n## Plan Body\n\n${planBody}\n\n## Hard Forbidden Claims\n\n${r.source_intake.forbidden_claims.map(c=>`- ${c}`).join("\n")}\n\n## Source Artifacts\n\n${r.source_intake.resolved_source_artifacts.map(a=>`- ${a.artifact_type}: ${a.artifact_id} (${a.source_path})`).join("\n")}\n\n## Non-Laundering Rule\n\nTasks, Coder handoff, Helper execution, and promotion require later gated stages and Human approval.\n`; }
+worker/src/pm_plan.ts:75:export async function handlePmPlanRequest(request: Request, env: Env, repoStore: RepoStore = githubRepoStore): Promise<Response> { try { const role = requireRole(request, env); if (role !== "PM_AI") return errorResponse("PM_PLAN_ROLE_FORBIDDEN","Only PM_AI may create PM plan artifacts",403); if (request.method !== "POST") return errorResponse("METHOD_NOT_ALLOWED",`Unsupported method: ${request.method}`,405); const url = new URL(request.url); const body = await bodyJson(request); const project = projectName(url, body); if (!getProject(project)) return errorResponse("UNKNOWN_PROJECT",`Unknown project: ${project}`,404); const idempotencyKey = requireString(body.idempotency_key,"idempotency_key"); if (!/^[A-Za-z0-9][A-Za-z0-9._-]{7,127}$/.test(idempotencyKey)) return errorResponse("BAD_REQUEST","idempotency_key must be 8-128 chars and contain only letters, numbers, dot, underscore, or dash",400); const planTitle = requireString(body.plan_title,"plan_title"); const planBody = requireString(body.plan_body,"plan_body"); const bodyError = validatePlanBody(planBody); if (bodyError) return bodyError; const entry = await loadSpecEntry(env, project, body, repoStore); const spec = await fetchJson<PMSpecificationRecord>(env, project, entry.pm_specification_record_path, repoStore); if (!spec) return errorResponse("PM_PLAN_SPECIFICATION_RECORD_NOT_FOUND",`No PM specification record found for ${entry.specification_id}`,404); if (spec.specification_id !== entry.specification_id || spec.pm_specification_record_path !== entry.pm_specification_record_path) return errorResponse("PM_PLAN_SPECIFICATION_CONTEXT_MISMATCH","PM specification record does not match generated PM specification context",409); const specError = validateSpecRecord(spec); if (specError) return specError; const manifest = await fetchJson<FlowManifest>(env, project, flowManifestPath(spec.source_intake.code_flow_id), repoStore); const flowError = validateCodeFlow(manifest, spec); if (flowError) return flowError; const planId = `${safe(spec.specification_id,90)}-${safe(idempotencyKey,36)}`; const payloadHash = await sha256Hex(JSON.stringify({ project, idempotency_key:idempotencyKey, specification_id: spec.specification_id, pm_specification_record_path: spec.pm_specification_record_path, specification_payload_hash: spec.submitted_payload_hash, share_packet_hash: spec.source_intake.share_packet_hash, plan_title: planTitle, plan_body: planBody })); const recordPath = planRecordPath(planId); const existing = await fetchJson<PMPlanRecord>(env, project, recordPath, repoStore); if (existing && existing.schema_version === "pm_plan_context.v0.1") { if (existing.submitted_payload_hash !== payloadHash) return errorResponse("PM_PLAN_IDEMPOTENCY_CONFLICT","Existing PM plan idempotency record exists but submitted payload hash does not match",409); return jsonResponse({ ok:true, idempotent_replay:true, plan: existing, required_status_labels: LABELS },200); } const planArtifact = await writeArtifact(request, env, spec.source_intake.code_flow_id, project, planTitle, planMarkdown(spec, planId, planTitle, planBody), repoStore); if (planArtifact instanceof Response) return planArtifact; const createdAt = now(); const record: PMPlanRecord = { schema_version:"pm_plan_context.v0.1", official_artifact:true, project, plan_id: planId, idempotency_key: idempotencyKey, created_at: createdAt, created_by_role:"PM_AI", source_specification: { specification_id: spec.specification_id, pm_specification_record_path: spec.pm_specification_record_path, code_flow_id: spec.source_intake.code_flow_id, intake_id: spec.source_intake.intake_id, handoff_id: spec.source_intake.handoff_id, share_id: spec.source_intake.share_id, science_flow_id: spec.source_intake.science_flow_id, share_packet_hash: spec.source_intake.share_packet_hash, submitted_share_payload_hash: spec.source_intake.submitted_share_payload_hash, handoff_payload_hash: spec.source_intake.handoff_payload_hash, intake_payload_hash: spec.source_intake.intake_payload_hash, specification_payload_hash: spec.submitted_payload_hash, evidence_level: spec.source_intake.evidence_level, uncertainty: spec.source_intake.uncertainty, source_artifacts: spec.source_intake.source_artifacts, resolved_source_artifacts: spec.source_intake.resolved_source_artifacts, allowed_claims: spec.source_intake.allowed_claims, forbidden_claims: spec.source_intake.forbidden_claims }, output_artifacts:{ plan: planArtifact }, submitted_payload_hash: payloadHash, pm_plan_record_path: recordPath, generated_pm_plan_context_path: planIndexPath(), required_status_labels: LABELS }; const index = await loadPlanIndex(env, project, repoStore); upsert(index, record); const indexWrite = await writeJson(env, project, planIndexPath(), index, `Update PM plan context ${planId}`, repoStore); record.generated_pm_plan_context_sha = indexWrite.sha; const recordWrite = await writeJson(env, project, recordPath, record, `Write PM plan record ${planId}`, repoStore); return jsonResponse({ ok:true, idempotent_replay:false, project, plan:{ ...record, pm_plan_record_sha: recordWrite.sha }, required_status_labels: LABELS },201); } catch (err) { if (err instanceof Response) return err; const message = err instanceof Error ? err.message : String(err); if (message.startsWith("Invalid") || message.startsWith("Missing") || message.includes("must be")) return errorResponse("BAD_REQUEST", message,400); if (message.startsWith("Unknown project")) return errorResponse("UNKNOWN_PROJECT", message,404); if (message.includes("No PM specification context entry") || message.includes("PM specification context index is missing")) return errorResponse("PM_PLAN_SPECIFICATION_CONTEXT_NOT_FOUND", message,404); return errorResponse("INTERNAL_ERROR", message,500); } }
+worker/src/pm_handoff.ts:63:  allowed_claims: string[];
+worker/src/pm_handoff.ts:64:  forbidden_claims: string[];
+worker/src/pm_handoff.ts:88:  allowed_claims: string[];
+worker/src/pm_handoff.ts:89:  forbidden_claims: string[];
+worker/src/pm_handoff.ts:104:  schema_version: "science_to_code_handoff.v0.1";
+worker/src/pm_handoff.ts:107:  handoff_id: string;
+worker/src/pm_handoff.ts:121:    allowed_claims: string[];
+worker/src/pm_handoff.ts:122:    forbidden_claims: string[];
+worker/src/pm_handoff.ts:127:    created_by_handoff: boolean;
+worker/src/pm_handoff.ts:130:    handoff_intake: FlowArtifactSummary;
+worker/src/pm_handoff.ts:134:  handoff_record_path: string;
+worker/src/pm_handoff.ts:135:  generated_handoff_context_path: string;
+worker/src/pm_handoff.ts:136:  generated_handoff_context_sha?: string;
+worker/src/pm_handoff.ts:141:  schema_version: "pm_handoff_context_index.v0.1";
+worker/src/pm_handoff.ts:145:    handoff_id: string;
+worker/src/pm_handoff.ts:152:    handoff_record_path: string;
+worker/src/pm_handoff.ts:212:  return "governance/context/generated_pm_handoff_context.json";
+worker/src/pm_handoff.ts:215:function handoffRecordPath(handoffId: string): string {
+worker/src/pm_handoff.ts:216:  return `governance/context/pm_handoff/${handoffId}.json`;
+worker/src/pm_handoff.ts:302:  if (!record.forbidden_claims || record.forbidden_claims.length === 0) {
+worker/src/pm_handoff.ts:303:    return errorResponse("PM_HANDOFF_FORBIDDEN_CLAIMS_REQUIRED", "Share record must preserve forbidden claims before PM handoff", 409);
+worker/src/pm_handoff.ts:330:  handoffId: string,
+worker/src/pm_handoff.ts:351:  const flowName = optionalString(body.code_flow_name) || `code-handoff-${(await sha256Hex(handoffId)).slice(0, 16)}`;
+worker/src/pm_handoff.ts:358:    summary: `PM code handoff from Human-approved science share ${shareRecord.share_id}.`,
+worker/src/pm_handoff.ts:389:function buildHandoffIntakeMarkdown(record: ScienceShareRecord, handoffId: string, pmNotes: string): string {
+worker/src/pm_handoff.ts:405:- handoff_id: ${handoffId}
+worker/src/pm_handoff.ts:420:${record.allowed_claims.map(claim => `- ${claim}`).join("\n")}
+worker/src/pm_handoff.ts:424:${record.forbidden_claims.map(claim => `- ${claim}`).join("\n")}
+worker/src/pm_handoff.ts:432:PM_AI may convert this share into candidate dossier/spec context only. Any product claim, implementation requirement, or promotion decision must preserve uncertainty, source links, forbidden claims, and required labels.
+worker/src/pm_handoff.ts:436:function buildDossierSeedMarkdown(record: ScienceShareRecord, handoffId: string): string {
+worker/src/pm_handoff.ts:452:- handoff_id: ${handoffId}
+worker/src/pm_handoff.ts:460:${record.allowed_claims.map(claim => `- ${claim}`).join("\n")}
+worker/src/pm_handoff.ts:464:${record.forbidden_claims.map(claim => `- ${claim}`).join("\n")}
+worker/src/pm_handoff.ts:468:Any downstream PM specification, plan, tasks, or Code Monkey handoff must preserve:
+worker/src/pm_handoff.ts:475:- forbidden claims
+worker/src/pm_handoff.ts:515:  if (existing && existing.schema_version === "pm_handoff_context_index.v0.1" && Array.isArray(existing.entries)) return existing;
+worker/src/pm_handoff.ts:517:    schema_version: "pm_handoff_context_index.v0.1",
+worker/src/pm_handoff.ts:526:    handoff_id: record.handoff_id,
+worker/src/pm_handoff.ts:533:    handoff_record_path: record.handoff_record_path,
+worker/src/pm_handoff.ts:536:  const found = index.entries.findIndex(item => item.handoff_id === record.handoff_id);
+worker/src/pm_handoff.ts:551:      return errorResponse("PM_HANDOFF_ROLE_FORBIDDEN", "Only PM_AI may create Science to Code handoff intake", 403);
+worker/src/pm_handoff.ts:575:    const handoffId = buildHandoffId(shareRecord.share_id, idempotencyKey);
+worker/src/pm_handoff.ts:588:    const recordPath = handoffRecordPath(handoffId);
+worker/src/pm_handoff.ts:590:    if (existingRecord && existingRecord.schema_version === "science_to_code_handoff.v0.1") {
+worker/src/pm_handoff.ts:592:        return errorResponse("PM_HANDOFF_IDEMPOTENCY_CONFLICT", "Existing PM handoff idempotency record exists but submitted payload hash does not match", 409);
+worker/src/pm_handoff.ts:597:        handoff: existingRecord,
+worker/src/pm_handoff.ts:602:    const codeFlow = await createCodeFlow(request, env, projectName, shareRecord, handoffId, body, repoStore);
+worker/src/pm_handoff.ts:610:      "handoff_intake",
+worker/src/pm_handoff.ts:612:      buildHandoffIntakeMarkdown(shareRecord, handoffId, pmNotes),
+worker/src/pm_handoff.ts:624:      buildDossierSeedMarkdown(shareRecord, handoffId),
+worker/src/pm_handoff.ts:631:      schema_version: "science_to_code_handoff.v0.1",
+worker/src/pm_handoff.ts:634:      handoff_id: handoffId,
+worker/src/pm_handoff.ts:648:        allowed_claims: shareRecord.allowed_claims,
+worker/src/pm_handoff.ts:649:        forbidden_claims: shareRecord.forbidden_claims
+worker/src/pm_handoff.ts:654:        created_by_handoff: codeFlow.created
+worker/src/pm_handoff.ts:657:        handoff_intake: intake,
+worker/src/pm_handoff.ts:661:      handoff_record_path: recordPath,
+worker/src/pm_handoff.ts:662:      generated_handoff_context_path: pmHandoffContextIndexPath(),
+worker/src/pm_handoff.ts:668:    const indexWrite = await writeJson(env, projectName, pmHandoffContextIndexPath(), index, `Update PM handoff context ${handoffId}`, repoStore);
+worker/src/pm_handoff.ts:669:    record.generated_handoff_context_sha = indexWrite.sha;
+worker/src/pm_handoff.ts:670:    const recordWrite = await writeJson(env, projectName, recordPath, record, `Write PM handoff record ${handoffId}`, repoStore);
+worker/src/pm_handoff.ts:676:      handoff: {
+worker/src/pm_handoff.ts:678:        handoff_record_sha: recordWrite.sha
+worker/src/science_queue_mutation.ts:14:type MutationRoute = "claim" | "complete" | "block" | "quarantine" | "handoff";
+worker/src/science_queue_mutation.ts:33:  claimed_by: Role | null;
+worker/src/science_queue_mutation.ts:34:  handoff_target_role: string | null;
+worker/src/science_queue_mutation.ts:56:  handoff_target_role?: string;
+worker/src/science_queue_mutation.ts:90:  claim: ["READY", "BLOCKED"],
+worker/src/science_queue_mutation.ts:91:  complete: ["CLAIMED", "IN_PROGRESS"],
+worker/src/science_queue_mutation.ts:92:  block: ["READY", "CLAIMED", "IN_PROGRESS"],
+worker/src/science_queue_mutation.ts:93:  quarantine: ["READY", "CLAIMED", "IN_PROGRESS", "BLOCKED", "HANDOFF_REQUESTED"],
+worker/src/science_queue_mutation.ts:94:  handoff: ["COMPLETED_STEP", "BLOCKED", "READY"]
+worker/src/science_queue_mutation.ts:178:  if (route === "claim") {
+worker/src/science_queue_mutation.ts:182:  if (route === "complete") {
+worker/src/science_queue_mutation.ts:188:  if (route === "block") {
+worker/src/science_queue_mutation.ts:189:    const blockedReason = typeof body.blocked_reason === "string" ? body.blocked_reason.trim() : "";
+worker/src/science_queue_mutation.ts:190:    if (!blockedReason) throw mutationError("BLOCKED_REASON_REQUIRED", "blocked_reason is required", 400);
+worker/src/science_queue_mutation.ts:191:    return { project, idempotency_key: idempotencyKey, reason: blockedReason };
+worker/src/science_queue_mutation.ts:193:  if (route === "quarantine") {
+worker/src/science_queue_mutation.ts:194:    const quarantineReason = typeof body.quarantine_reason === "string" ? body.quarantine_reason.trim() : "";
+worker/src/science_queue_mutation.ts:195:    if (!quarantineReason) throw mutationError("QUARANTINE_REASON_REQUIRED", "quarantine_reason is required", 400);
+worker/src/science_queue_mutation.ts:196:    return { project, idempotency_key: idempotencyKey, reason: quarantineReason };
+worker/src/science_queue_mutation.ts:199:  const handoffReason = typeof body.handoff_reason === "string" ? body.handoff_reason.trim() : "";
+worker/src/science_queue_mutation.ts:201:  if (!handoffReason) throw mutationError("HANDOFF_REASON_REQUIRED", "handoff_reason is required", 400);
+worker/src/science_queue_mutation.ts:203:  return { project, idempotency_key: idempotencyKey, reason: handoffReason, target_role: targetRole };
+worker/src/science_queue_mutation.ts:207:  if (route === "claim") return "CLAIMED";
+worker/src/science_queue_mutation.ts:208:  if (route === "complete") return "COMPLETED_STEP";
+worker/src/science_queue_mutation.ts:209:  if (route === "block") return "BLOCKED";
+worker/src/science_queue_mutation.ts:210:  if (route === "quarantine") return "QUARANTINED";
+worker/src/science_queue_mutation.ts:232:    claimed_by: null,
+worker/src/science_queue_mutation.ts:233:    handoff_target_role: null,
+worker/src/science_queue_mutation.ts:247:  if (route === "claim" && !(itemRoleOwner === "UNKNOWN" || itemRoleOwner === role || state.claimed_by === null)) {
+worker/src/science_queue_mutation.ts:248:    throw mutationError("QUEUE_CLAIM_FORBIDDEN", `Role ${role} cannot claim item owned by ${itemRoleOwner}`, 403);
+worker/src/science_queue_mutation.ts:250:  if (route === "complete" && state.claimed_by !== role) {
+worker/src/science_queue_mutation.ts:251:    throw mutationError("QUEUE_COMPLETE_FORBIDDEN", `Role ${role} cannot complete item claimed by ${state.claimed_by || "NONE"}`, 403);
+worker/src/science_queue_mutation.ts:253:  if (route === "block" && itemRoleOwner !== "UNKNOWN" && itemRoleOwner !== role && state.claimed_by !== role) {
+worker/src/science_queue_mutation.ts:254:    throw mutationError("QUEUE_BLOCK_FORBIDDEN", `Role ${role} cannot block item owned by ${itemRoleOwner}`, 403);
+worker/src/science_queue_mutation.ts:256:  if (route === "quarantine" && role !== "SCIENCE_AUDITOR_AI") {
+worker/src/science_queue_mutation.ts:257:    throw mutationError("QUEUE_QUARANTINE_FORBIDDEN", `Role ${role} lacks direct quarantine authority`, 403);
+worker/src/science_queue_mutation.ts:259:  if (route === "handoff") {
+worker/src/science_queue_mutation.ts:353:    source_route: `/v1/science/queue/${item.queue_item_id}/${route}`,
+worker/src/science_queue_mutation.ts:364:  if (payload.target_role) record.handoff_target_role = payload.target_role;
+worker/src/science_queue_mutation.ts:382:    claimed_by: route === "claim" ? authenticatedRole : route === "complete" || route === "handoff" ? null : state.claimed_by,
+worker/src/science_queue_mutation.ts:383:    handoff_target_role: payload.target_role || null,
+worker/src/science_queue_mutation.ts:388:  if (route === "block" || route === "quarantine") newState.claimed_by = state.claimed_by;
+worker/src/pm_specify.ts:57:  source_handoff: {
+worker/src/pm_specify.ts:58:    handoff_id: string;
+worker/src/pm_specify.ts:59:    handoff_record_path: string;
+worker/src/pm_specify.ts:65:    handoff_payload_hash: string;
+worker/src/pm_specify.ts:70:    allowed_claims: string[];
+worker/src/pm_specify.ts:71:    forbidden_claims: string[];
+worker/src/pm_specify.ts:90:    handoff_id: string;
+worker/src/pm_specify.ts:114:    handoff_id: string;
+worker/src/pm_specify.ts:119:    handoff_payload_hash: string;
+worker/src/pm_specify.ts:125:    allowed_claims: string[];
+worker/src/pm_specify.ts:126:    forbidden_claims: string[];
+worker/src/pm_specify.ts:145:    handoff_id: string;
+worker/src/pm_specify.ts:301:  if (!record.source_handoff || !record.output_artifacts) return errorResponse("PM_SPECIFY_INTAKE_INCOMPLETE", "PM intake record is missing source handoff or output artifacts", 409);
+worker/src/pm_specify.ts:302:  if (!record.source_handoff.share_packet_hash || !record.source_handoff.uncertainty) return errorResponse("PM_SPECIFY_SOURCE_BOUNDARY_REQUIRED", "PM intake record must preserve share hash and uncertainty", 409);
+worker/src/pm_specify.ts:303:  if (!record.source_handoff.forbidden_claims || record.source_handoff.forbidden_claims.length === 0) return errorResponse("PM_SPECIFY_FORBIDDEN_CLAIMS_REQUIRED", "PM intake record must preserve forbidden claims", 409);
+worker/src/pm_specify.ts:304:  if (!record.source_handoff.resolved_source_artifacts || record.source_handoff.resolved_source_artifacts.length === 0) return errorResponse("PM_SPECIFY_RESOLVED_SOURCES_REQUIRED", "PM intake record must preserve resolved source metadata", 409);
+worker/src/pm_specify.ts:312:  if (manifest.type !== "code_flow" || manifest.flow_id !== record.source_handoff.code_flow_id) return errorResponse("PM_SPECIFY_CODE_FLOW_REQUIRED", "PM specify target must be a code_flow", 409);
+worker/src/pm_specify.ts:377:This is a PM specification candidate derived from audited PM intake. It is not a plan, not a task packet, not implementation authorization, not certification, and not a readiness claim for production.
+worker/src/pm_specify.ts:383:- handoff_id: ${record.source_handoff.handoff_id}
+worker/src/pm_specify.ts:384:- code_flow_id: ${record.source_handoff.code_flow_id}
+worker/src/pm_specify.ts:385:- source_share_id: ${record.source_handoff.share_id}
+worker/src/pm_specify.ts:386:- source_science_flow_id: ${record.source_handoff.science_flow_id}
+worker/src/pm_specify.ts:387:- share_packet_hash: ${record.source_handoff.share_packet_hash}
+worker/src/pm_specify.ts:388:- submitted_share_payload_hash: ${record.source_handoff.submitted_share_payload_hash || record.source_handoff.share_packet_hash}
+worker/src/pm_specify.ts:389:- handoff_payload_hash: ${record.source_handoff.handoff_payload_hash}
+worker/src/pm_specify.ts:391:- evidence_level: ${record.source_handoff.evidence_level}
+worker/src/pm_specify.ts:392:- uncertainty: ${record.source_handoff.uncertainty}
+worker/src/pm_specify.ts:400:${record.source_handoff.forbidden_claims.map(claim => `- ${claim}`).join("\n")}
+worker/src/pm_specify.ts:404:${record.source_handoff.resolved_source_artifacts.map(item => `- ${item.artifact_type}: ${item.artifact_id} (${item.source_path})`).join("\n")}
+worker/src/pm_specify.ts:408:This specification remains downstream of diagnostic evidence. Plan, task, Coder handoff, Helper execution, and release advancement require later gated stages and Human approval.
+worker/src/pm_specify.ts:437:    handoff_id: record.source_intake.handoff_id,
+worker/src/pm_specify.ts:485:    const codeFlowManifest = await fetchJsonIfExists<FlowManifest>(env, projectName, flowManifestPath(intakeRecord.source_handoff.code_flow_id), repoStore);
+worker/src/pm_specify.ts:496:      share_packet_hash: intakeRecord.source_handoff.share_packet_hash,
+worker/src/pm_specify.ts:513:      intakeRecord.source_handoff.code_flow_id,
+worker/src/pm_specify.ts:534:        code_flow_id: intakeRecord.source_handoff.code_flow_id,
+worker/src/pm_specify.ts:535:        handoff_id: intakeRecord.source_handoff.handoff_id,
+worker/src/pm_specify.ts:536:        share_id: intakeRecord.source_handoff.share_id,
+worker/src/pm_specify.ts:537:        science_flow_id: intakeRecord.source_handoff.science_flow_id,
+worker/src/pm_specify.ts:538:        share_packet_hash: intakeRecord.source_handoff.share_packet_hash,
+worker/src/pm_specify.ts:539:        submitted_share_payload_hash: intakeRecord.source_handoff.submitted_share_payload_hash,
+worker/src/pm_specify.ts:540:        handoff_payload_hash: intakeRecord.source_handoff.handoff_payload_hash,
+worker/src/pm_specify.ts:542:        evidence_level: intakeRecord.source_handoff.evidence_level,
+worker/src/pm_specify.ts:543:        uncertainty: intakeRecord.source_handoff.uncertainty,
+worker/src/pm_specify.ts:544:        source_artifacts: intakeRecord.source_handoff.source_artifacts,
+worker/src/pm_specify.ts:545:        resolved_source_artifacts: intakeRecord.source_handoff.resolved_source_artifacts,
+worker/src/pm_specify.ts:546:        allowed_claims: intakeRecord.source_handoff.allowed_claims,
+worker/src/pm_specify.ts:547:        forbidden_claims: intakeRecord.source_handoff.forbidden_claims
+worker/src/index.ts:10:import { handlePmHandoffRequest } from "./pm_handoff";
+worker/src/index.ts:22:import { handleCoderHandoffRequest } from "./coder_handoff";
+worker/src/index.ts:106:    if (url.pathname === "/v1/science/queue") return handleScienceQueueReadRequest(request, env, "list", {}, options.flowRepoStore);
+worker/src/index.ts:117:    const scienceQueueClaimMatch = url.pathname.match(/^\/v1\/science\/queue\/([^/]+)\/claim$/);
+worker/src/index.ts:122:        "claim",
+worker/src/index.ts:127:    const scienceQueueCompleteMatch = url.pathname.match(/^\/v1\/science\/queue\/([^/]+)\/complete$/);
+worker/src/index.ts:132:        "complete",
+worker/src/index.ts:137:    const scienceQueueBlockMatch = url.pathname.match(/^\/v1\/science\/queue\/([^/]+)\/block$/);
+worker/src/index.ts:142:        "block",
+worker/src/index.ts:147:    const scienceQueueQuarantineMatch = url.pathname.match(/^\/v1\/science\/queue\/([^/]+)\/quarantine$/);
+worker/src/index.ts:152:        "quarantine",
+worker/src/index.ts:157:    const scienceQueueHandoffMatch = url.pathname.match(/^\/v1\/science\/queue\/([^/]+)\/handoff$/);
+worker/src/index.ts:162:        "handoff",
+worker/src/index.ts:177:    if (url.pathname === "/v1/science/queue/next") return handleScienceQueueReadRequest(request, env, "next", {}, options.flowRepoStore);
+worker/src/index.ts:178:    if (url.pathname === "/v1/science/queue/blocked") return handleScienceQueueReadRequest(request, env, "blocked", {}, options.flowRepoStore);
+worker/src/index.ts:179:    if (url.pathname === "/v1/science/queue/quarantined") return handleScienceQueueReadRequest(request, env, "quarantined", {}, options.flowRepoStore);
+worker/src/index.ts:180:    if (url.pathname === "/v1/science/queue/handoffs") return handleScienceQueueReadRequest(request, env, "handoffs", {}, options.flowRepoStore);
+worker/src/index.ts:193:    if (url.pathname === "/v1/pm/handoff") return handlePmHandoffRequest(request, env, options.flowRepoStore);
+worker/src/index.ts:202:    if (url.pathname === "/v1/coder/handoff") return handleCoderHandoffRequest(request, env, options.flowRepoStore);
+worker/src/helper_execution_report.ts:48:    [/\bcertification complete\b/, "certification complete"],
+worker/src/helper_execution_report.ts:54:    [/\bdeployment complete\b/, "deployment complete"],
+worker/src/helper_execution_report.ts:126:  const src = record.source_coder_handoff;
+worker/src/helper_execution_report.ts:136:  if (manifest.type !== "code_flow" || manifest.flow_id !== record.source_coder_handoff.code_flow_id) return errorResponse("HELPER_EXECUTION_REPORT_CODE_FLOW_REQUIRED", "Execution report target must be a code_flow", 409);
+worker/src/helper_execution_report.ts:175:- coder_handoff_id: ${intake.source_coder_handoff.coder_handoff_id}
+worker/src/helper_execution_report.ts:176:- code_flow_id: ${intake.source_coder_handoff.code_flow_id}
+worker/src/helper_execution_report.ts:177:- share_packet_hash: ${intake.source_coder_handoff.share_packet_hash}
+worker/src/helper_execution_report.ts:178:- uncertainty: ${intake.source_coder_handoff.uncertainty}
+worker/src/helper_execution_report.ts:240:- contains_deployment_claim: false
+worker/src/helper_execution_report.ts:241:- contains_certification_claim: false
+worker/src/helper_execution_report.ts:242:- contains_promotion_claim: false
+worker/src/helper_execution_report.ts:272:    const manifest = await fetchJson<FlowManifest>(env, project, manifestPath(intake.source_coder_handoff.code_flow_id), repoStore);
+worker/src/helper_execution_report.ts:285:    const flowId = intake.source_coder_handoff.code_flow_id;
+worker/src/helper_execution_report.ts:292:      source_helper_execution_intake: { helper_execution_intake_id: intake.helper_execution_intake_id, helper_execution_intake_record_path: intake.helper_execution_intake_record_path, coder_handoff_id: intake.source_coder_handoff.coder_handoff_id, implementation_bundle_id: intake.source_coder_handoff.implementation_bundle_id, code_flow_id: flowId, share_id: intake.source_coder_handoff.share_id, science_flow_id: intake.source_coder_handoff.science_flow_id, share_packet_hash: intake.source_coder_handoff.share_packet_hash, helper_execution_intake_payload_hash: intake.submitted_payload_hash, evidence_level: intake.source_coder_handoff.evidence_level, uncertainty: intake.source_coder_handoff.uncertainty, source_artifacts: intake.source_coder_handoff.source_artifacts, resolved_source_artifacts: intake.source_coder_handoff.resolved_source_artifacts, allowed_claims: intake.source_coder_handoff.allowed_claims, forbidden_claims: intake.source_coder_handoff.forbidden_claims },
+worker/src/helper_execution_report.ts:298:    const idx = { helper_execution_report_id: reportId, helper_execution_intake_id: intake.helper_execution_intake_id, coder_handoff_id: intake.source_coder_handoff.coder_handoff_id, code_flow_id: flowId, share_id: intake.source_coder_handoff.share_id, share_packet_hash: intake.source_coder_handoff.share_packet_hash, evidence_level: intake.source_coder_handoff.evidence_level, uncertainty: intake.source_coder_handoff.uncertainty, helper_execution_report_record_path: path, created_at: record.created_at };
+worker/src/flows.ts:257:  coder_handoff: ["code_flow", "governance_flow"],
+worker/src/flows.ts:318:  const duplicate = index.flows.find(entry => entry.name === name && ["active", "blocked"].includes(entry.status));
+worker/src/flows.ts:458:  if (["completed", "archived"].includes(manifest.status)) {
+worker/src/flows.ts:479:      "Official science share_packet must be created through /v1/science/share so Human approval, outbox, PM notification, and context update can be enforced",
+worker/src/policy.ts:60:    CODER_AI: ["coder_patch_bundle", "coder_handoff", "coder_message", "coder_note"],
+worker/src/policy.ts:63:    AUDITOR_AI: ["auditor_report", "auditor_score", "claim_audit", "auditor_message", "auditor_note"],
+worker/src/policy.ts:88:      "handoff_intake",
+worker/src/policy.ts:92:    CODER_AI: ["tasks", "implementation_bundle", "coder_patch_bundle", "coder_handoff"],
+worker/src/policy.ts:95:    AUDITOR_AI: ["clarification", "checklist", "analysis", "audit_report", "integrity_review", "claim_audit"],
+worker/src/policy.ts:113:      "claim_scope_audit",
+worker/src/policy.ts:115:      "quarantine_recommendation",
+worker/src/policy.ts:116:      "claim_scope_review",

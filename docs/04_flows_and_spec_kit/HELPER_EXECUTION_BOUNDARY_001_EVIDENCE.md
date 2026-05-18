@@ -8,7 +8,7 @@
 - deployed Worker URL: `https://arqon-contextos-broker.sonarum.workers.dev`
 
 ## Bundle Transfer / Apply Gates
-- bundle: `temps/arqonmonkeyos_helper_execution_boundary_001_pm_bundle.zip`
+- bundle: `artifacts/arqonmonkeyos_helper_execution_boundary_001_pm_bundle.zip`
 - SHA256 verified: `72d3cf4a3cdd14c8f1ca9ccfe59dddd4606a864b09232fe04fc97bab24b1f980` (PASS)
 - apply script: `runtime/helper_execution_boundary_001_bundle/pm_apply_helper_execution_boundary_001.py` (present)
 - apply result: `PASS` (`Applied Actual Helper Execution Boundary 001.`)
@@ -83,7 +83,7 @@
 - note: first live run hit transient GitHub contents write SHA conflict (`409 expected sha ...`); second run passed with same source and route behavior.
 
 ## Audit Bundle (Final HEAD)
-- path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/temps/helper_execution_report_audit_bundle_39ed69ae523c.zip`
+- path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/artifacts/helper_execution_report_audit_bundle_39ed69ae523c.zip`
 - SHA256: `f351c01612ed0ff64bed08ea12a360b30474a2a804f5d2ea36dcf8219549cc26`
 - PM note: user explicitly instructed override of the previously requested SHA target; this evidence records the actual locally rebuilt bundle SHA instead of a non-matching requested value.
 

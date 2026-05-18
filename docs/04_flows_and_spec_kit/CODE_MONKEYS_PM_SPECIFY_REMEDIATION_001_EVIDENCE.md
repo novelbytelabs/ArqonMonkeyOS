@@ -37,7 +37,7 @@
 - `rg -n "normalizeClaimText|ready for production|approved for release|release ready|pm_specify_strict_audit_tripwire|PM_SPECIFY_FORBIDDEN_CLAIM_INCLUDED" worker/src worker/test_support docs` PASS
 
 ## Audit Bundle Builder
-- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/temps/pm_specify_audit_bundle_5395f947eff3.zip`
+- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/artifacts/pm_specify_audit_bundle_5395f947eff3.zip`
 - zip SHA256: `e9f7973b131fdab43dc57302b37b17491bd29d4a498144d62952ac6f9792b46e`
 - file count: `36`
 - bundle contents include the PM report, the replay bundle inputs required by the PM, and the extra replay dependencies needed for an independent TypeScript check:

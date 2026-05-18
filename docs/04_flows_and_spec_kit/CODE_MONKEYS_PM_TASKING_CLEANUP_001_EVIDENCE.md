@@ -32,7 +32,7 @@
 - `rg -n "PM_TASKS_ROUTE_RETIRED_USE_PM_TASKING|handlePmTasksRequest|/v1/pm/tasks|/v1/pm/tasking|pm_tasking|coder_work_plan|coder_tasks" worker/src worker/test_support docs openapi` PASS
 
 ## Cleanup Bundle Builder
-- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/temps/pm_tasking_cleanup_audit_bundle_d3cfcdc1ef91.zip`
+- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/artifacts/pm_tasking_cleanup_audit_bundle_d3cfcdc1ef91.zip`
 - bundle sha256: `0ad7b75fa7d1f3febd8c76774434b6ae5d2d54beb3fc4a27400f0f0558fdde63`
 - file count: `11`
 

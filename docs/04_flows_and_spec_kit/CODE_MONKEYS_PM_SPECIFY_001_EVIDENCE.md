@@ -39,7 +39,7 @@
 - live deployed PM specify smoke command FAIL
 
 ## Audit Bundle Builder
-- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/temps/pm_specify_audit_bundle_447f6ab2530d.zip`
+- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/artifacts/pm_specify_audit_bundle_447f6ab2530d.zip`
 - zip SHA256: `f8caa86e16bd8529a9ee280ae8c853a0803c8d69a5b8294ec38611a265ab5029`
 - file count: `27`
 

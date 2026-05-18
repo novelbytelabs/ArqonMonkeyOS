@@ -1,0 +1,14 @@
+{
+  "bundle": "stage_3_2_truth_boundary_typecheck_patch_bundle",
+  "required_status_labels": [
+    "REQUIRES_HUMAN_REVIEW",
+    "development diagnostic only",
+    "NOT SEALED-TEST CERTIFIED",
+    "not promotable"
+  ],
+  "patch_scope": [
+    "worker/src/science_queue_mutation.ts"
+  ],
+  "purpose": "Fix QueueTruthBoundary typecheck failure by using a local MutationTruthBoundary for mutation-specific truth boundary fields.",
+  "helper_role": "apply exact patch only; no implementation authoring"
+}

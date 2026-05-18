@@ -33,7 +33,7 @@ def main():
     missing = [p for p in FILES if not (root / p).is_file()]
     if missing:
         raise SystemExit(json.dumps({"ok": False, "missing": missing}, indent=2))
-    out = root / "temps" / f"human_authority_cross_flow_hardening_audit_bundle_{commit[:12]}.zip"
+    out = root / "artifacts" / f"human_authority_cross_flow_hardening_audit_bundle_{commit[:12]}.zip"
     out.parent.mkdir(exist_ok=True)
     records = [{"path": p, "bytes": (root / p).stat().st_size, "sha256": sha(root / p)} for p in FILES]
     manifest = {

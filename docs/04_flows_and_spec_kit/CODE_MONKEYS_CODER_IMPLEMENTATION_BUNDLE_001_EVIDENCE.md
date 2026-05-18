@@ -38,7 +38,7 @@
 - `rg -n "handleCoderImplementationBundleRequest|CODER_IMPLEMENTATION_BUNDLE_ROLE_FORBIDDEN|CODER_IMPLEMENTATION_BUNDLE_IDEMPOTENCY_CONFLICT|CODER_IMPLEMENTATION_BUNDLE_EXECUTION_AUTHORITY_FORBIDDEN|generated_coder_implementation_bundle_context|implementation_bundle|coder_tasks" worker/src worker/test_support docs openapi` PASS
 
 ## Implementation Bundle Audit Bundle
-- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/temps/coder_implementation_bundle_audit_bundle_97b3c7ccf0f7.zip`
+- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/artifacts/coder_implementation_bundle_audit_bundle_97b3c7ccf0f7.zip`
 - bundle SHA256: `d8c1c8d2a1a35c00a44680164ef017082343e8a21536aba8b6cd7b87cc59d522`
 - file count: `32`
 

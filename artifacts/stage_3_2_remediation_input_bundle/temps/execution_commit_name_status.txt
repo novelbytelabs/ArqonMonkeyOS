@@ -1,0 +1,6 @@
+0b244b2 feat: add Stage 3.2 queue mutation routes
+M	openapi/arqon_contextos.openapi.yaml
+M	worker/src/index.ts
+M	worker/src/policy.ts
+A	worker/src/science_queue_mutation.ts
+M	worker/src/science_queue_read.ts

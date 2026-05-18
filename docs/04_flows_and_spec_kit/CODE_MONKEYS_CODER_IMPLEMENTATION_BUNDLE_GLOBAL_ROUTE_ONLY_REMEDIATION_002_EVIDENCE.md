@@ -5,7 +5,7 @@
 - source commit: `a781a15d5c9821938aa1a6ff5fae775695992f4d`
 - evidence commit / current HEAD: `PENDING`
 - push status: `PASS (source commit)`
-- PM bundle path used: `temps/arqonmonkeyos_impl_bundle_global_route_only_remediation_002.zip`
+- PM bundle path used: `artifacts/arqonmonkeyos_impl_bundle_global_route_only_remediation_002.zip`
 
 ## Scope
 
@@ -85,11 +85,11 @@
 ## Audit Bundles
 
 - global route-only bundle:
-  - path: `temps/coder_impl_bundle_global_route_only_audit_bundle_a781a15d5c98.zip`
+  - path: `artifacts/coder_impl_bundle_global_route_only_audit_bundle_a781a15d5c98.zip`
   - sha256: `fa7b5fb541149f969dbbe07d2c503a4268d3d68c9b11af2a0963c4e3a34a661a`
 - route-only remediation 001 bundle:
-  - path: `temps/coder_impl_bundle_route_only_remediation_audit_bundle_a781a15d5c98.zip`
+  - path: `artifacts/coder_impl_bundle_route_only_remediation_audit_bundle_a781a15d5c98.zip`
   - sha256: `54dc2d615af5e5f08e3f3c4844ce356bdad8e206886b8e9d2a5b4d38e7b9e9f6`
 - implementation bundle base audit:
-  - path: `temps/coder_implementation_bundle_audit_bundle_a781a15d5c98.zip`
+  - path: `artifacts/coder_implementation_bundle_audit_bundle_a781a15d5c98.zip`
   - sha256: `27bd3dd37ec2af0c20d3344de3b8b5ecf37bf83edbb7720c1b002d13639093c5`

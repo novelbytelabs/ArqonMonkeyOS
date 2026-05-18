@@ -38,7 +38,7 @@ push status: PASS
 
 ## Audit Bundle Builder Result
 - PASS
-- Bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/temps/share_integration_audit_bundle_7eb8a5016d39.zip`
+- Bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/artifacts/share_integration_audit_bundle_7eb8a5016d39.zip`
 - Zip SHA256: `d6fda17ef371f1bd1365c3caa64807d7c1236bbd01e05a9ec25ee29d4be82644`
 - File count: `24`
 

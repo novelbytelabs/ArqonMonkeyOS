@@ -40,7 +40,7 @@
 - `rg -n "handleCoderTasksRequest|CODER_TASKS_ROLE_FORBIDDEN|CODER_TASKS_IDEMPOTENCY_CONFLICT|CODER_TASKS_EXECUTION_AUTHORITY_FORBIDDEN|generated_coder_tasks_context|coder_tasks" worker/src worker/test_support docs openapi` PASS
 
 ## Coder Tasks Audit Bundle
-- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/temps/coder_tasks_audit_bundle_963a2de2b90c.zip`
+- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/artifacts/coder_tasks_audit_bundle_963a2de2b90c.zip`
 - bundle SHA256: `314b1e057702179f9281fac7480293a74013f74a81bac6f1750eac9ac79cfbef`
 - file count: `32`
 

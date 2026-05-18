@@ -41,7 +41,7 @@
 - `rg -n "handlePmTaskingRequest|PM_TASKING_ROLE_FORBIDDEN|PM_TASKING_IDEMPOTENCY_CONFLICT|PM_TASKING_IMPLEMENTATION_AUTHORITY_FORBIDDEN|generated_pm_tasking_context|pm_tasking|coder_work_plan|coder_tasks" worker/src worker/test_support docs openapi` PASS
 
 ## PM Tasking Audit Bundle
-- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/temps/pm_tasking_audit_bundle_64bdde8c3a7b.zip`
+- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/artifacts/pm_tasking_audit_bundle_64bdde8c3a7b.zip`
 - zip SHA256: `79a5c45d11544c9a786824c99aa4a339b49774f8b8a5f96f4c867bb13a15332e`
 - file count: `29`
 

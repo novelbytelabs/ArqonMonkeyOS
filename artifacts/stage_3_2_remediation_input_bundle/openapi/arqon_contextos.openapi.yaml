@@ -1,0 +1,1220 @@
+openapi: 3.0.3
+info:
+  title: ArqonMonkeyOS ContextBus Broker
+  version: 0.1.0
+  description: "Repo-backed ContextBus broker for Arqon role GPTs (legacy name: ContextOS)."
+servers:
+  - url: https://arqon-contextos-broker.sonarum.workers.dev
+paths:
+  /v1/health:
+    get:
+      operationId: health
+      summary: Broker health check.
+      responses:
+        "200":
+          description: Health response.
+          content:
+            application/json:
+              schema:
+                type: object
+  /v1/context:
+    get:
+      operationId: syncContext
+      summary: Load role-specific project context.
+      parameters:
+        - name: project
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [ArqonZero]
+        - name: role
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [PM_AI, CODER_AI, AUDITOR_AI, HELPER_AI, EXPLORER_AI, HYPOTHESIZER_AI, DESIGNER_AI, SCIENCE_AUDITOR_AI, SCIENCE_EXECUTOR_AI, HUMAN]
+      responses:
+        "200":
+          description: Role context.
+          content:
+            application/json:
+              schema:
+                type: object
+  /v1/constitution:
+    get:
+      operationId: syncConstitution
+      summary: Load role constitution context.
+      parameters:
+        - name: project
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [ArqonZero]
+        - name: role
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [PM_AI, CODER_AI, AUDITOR_AI, HELPER_AI, EXPLORER_AI, HYPOTHESIZER_AI, DESIGNER_AI, SCIENCE_AUDITOR_AI, SCIENCE_EXECUTOR_AI, HUMAN]
+      responses:
+        "200":
+          description: Constitution context.
+          content:
+            application/json:
+              schema:
+                type: object
+  /v1/manifest:
+    get:
+      operationId: getManifest
+      summary: Load project context manifest.
+      parameters:
+        - name: project
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [ArqonZero]
+      responses:
+        "200":
+          description: Context manifest.
+          content:
+            application/json:
+              schema:
+                type: object
+  /v1/whoami:
+    get:
+      operationId: whoami
+      summary: Show authenticated role, read routes, write routes, and authority boundaries.
+      parameters:
+        - name: project
+          in: query
+          required: false
+          schema: { type: string, default: ArqonZero }
+      responses:
+        "200":
+          description: Authenticated role authority summary.
+          content:
+            application/json:
+              schema: { type: object }
+  /v1/capabilities:
+    get:
+      operationId: getCapabilities
+      summary: Show role-specific read/write capabilities and forbidden capabilities.
+      parameters:
+        - name: project
+          in: query
+          required: false
+          schema: { type: string, default: ArqonZero }
+      responses:
+        "200":
+          description: Role capability summary.
+          content:
+            application/json:
+              schema: { type: object }
+  /v1/show:
+    get:
+      operationId: showFlows
+      summary: Show active, recent, blocked, and Human-review flow summaries.
+      parameters:
+        - name: project
+          in: query
+          required: false
+          schema: { type: string, default: ArqonZero }
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer, minimum: 1, maximum: 50, default: 10 }
+      responses:
+        "200":
+          description: Morning flow overview.
+          content:
+            application/json:
+              schema: { type: object }
+  /v1/resume:
+    get:
+      operationId: resumeDefaultFlow
+      summary: Return a role-specific resume packet for one requested flow or safe candidates.
+      parameters:
+        - name: project
+          in: query
+          required: false
+          schema: { type: string, default: ArqonZero }
+        - name: flow_ref
+          in: query
+          required: false
+          schema: { type: string }
+        - name: flow
+          in: query
+          required: false
+          schema: { type: string }
+        - name: name
+          in: query
+          required: false
+          schema: { type: string }
+      responses:
+        "200":
+          description: Role-specific resume packet or safe candidate list.
+          content:
+            application/json:
+              schema: { type: object }
+  /v1/notes:
+    get:
+      operationId: listContextNotes
+      summary: List recent non-official context notes.
+      parameters:
+        - name: project
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [ArqonZero]
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+      responses:
+        "200":
+          description: Note list.
+          content:
+            application/json:
+              schema:
+                type: object
+    post:
+      operationId: saveContextNote
+      summary: Save a non-official context note.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "201":
+          description: Note created.
+          content:
+            application/json:
+              schema:
+                type: object
+  /v1/messages/inbox:
+    get:
+      operationId: listInbox
+      summary: List messages in a role inbox.
+      parameters:
+        - name: project
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [ArqonZero]
+        - name: role
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [PM_AI, CODER_AI, AUDITOR_AI, HELPER_AI, EXPLORER_AI, HYPOTHESIZER_AI, DESIGNER_AI, SCIENCE_AUDITOR_AI, SCIENCE_EXECUTOR_AI, HUMAN]
+      responses:
+        "200":
+          description: Inbox list.
+          content:
+            application/json:
+              schema:
+                type: object
+  /v1/messages:
+    post:
+      operationId: sendMessage
+      summary: Send a message to a role inbox.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "201":
+          description: Message created.
+          content:
+            application/json:
+              schema:
+                type: object
+  /v1/messages/{message_id}:
+    get:
+      operationId: openMessage
+      summary: Open a role message.
+      parameters:
+        - name: message_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: project
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [ArqonZero]
+        - name: role
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [PM_AI, CODER_AI, AUDITOR_AI, HELPER_AI, EXPLORER_AI, HYPOTHESIZER_AI, DESIGNER_AI, SCIENCE_AUDITOR_AI, SCIENCE_EXECUTOR_AI, HUMAN]
+      responses:
+        "200":
+          description: Message payload.
+          content:
+            application/json:
+              schema:
+                type: object
+  /v1/messages/{message_id}/archive:
+    post:
+      operationId: archiveMessage
+      summary: Copy a message into the role archive.
+      parameters:
+        - name: message_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: project
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [ArqonZero]
+        - name: role
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [PM_AI, CODER_AI, AUDITOR_AI, HELPER_AI, EXPLORER_AI, HYPOTHESIZER_AI, DESIGNER_AI, SCIENCE_AUDITOR_AI, SCIENCE_EXECUTOR_AI, HUMAN]
+      responses:
+        "200":
+          description: Archived message reference.
+          content:
+            application/json:
+              schema:
+                type: object
+  /v1/artifacts/{artifact_id}:
+    get:
+      operationId: openArtifact
+      summary: Read one governed artifact body by artifact_id.
+      description: Read-only. Resolves only artifact IDs known through flow manifests; rejects path traversal, arbitrary repo paths, ambiguous artifact IDs, and secret-like artifact body content.
+      parameters:
+        - in: path
+          name: artifact_id
+          required: true
+          schema: { type: string }
+        - in: query
+          name: project
+          schema: { type: string, default: ArqonZero }
+        - in: query
+          name: flow_ref
+          required: false
+          schema: { type: string }
+          description: Optional flow id/name for deterministic low-subrequest artifact lookup.
+        - in: query
+          name: scan_limit
+          required: false
+          schema: { type: integer, minimum: 1, maximum: 8, default: 4 }
+          description: Optional bounded recent-flow scan limit when flow_ref is omitted.
+      responses:
+        '200': { description: Governed artifact body with truth-boundary warning }
+        '400': { description: Invalid or unsafe artifact_id }
+        '403': { description: Secret-like artifact body content refused with ARTIFACT_CONTENT_POLICY_DENIED }
+        '404': { description: Artifact not found, or ARTIFACT_FLOW_REF_REQUIRED when bounded scan cannot prove the artifact without flow_ref }
+        '409': { description: Ambiguous artifact id }
+  /v1/coder/work-plan:
+  post:
+    operationId: coderWorkPlan
+    summary: Create Coder work plan from PM tasking.
+    description: >
+      Creates a Coder-owned engineering work-plan artifact from validated PM tasking while
+      preserving source chain, uncertainty, forbidden claims, and diagnostic labels.
+      Does not create implementation bundle, Coder handoff, Helper execution, or Science behavior.
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [idempotency_key, work_plan_title, work_plan_body]
+            anyOf:
+              - required: [tasking_id]
+              - required: [pm_tasking_record_path]
+            properties:
+              project: { type: string, default: ArqonZero }
+              tasking_id: { type: string }
+              pm_tasking_record_path: { type: string }
+              idempotency_key: { type: string }
+              work_plan_title: { type: string }
+              work_plan_body: { type: string }
+    responses:
+      '201': { description: Coder work plan artifact created }
+      '200': { description: Idempotent replay of existing Coder work plan }
+      '403': { description: CODER_AI authority required }
+      '409': { description: Coder work plan precondition or idempotency conflict }
+
+  /v1/coder/tasks:
+    post:
+      operationId: coderTasks
+      summary: Create Coder implementation task decomposition from Coder work plan.
+      description: >
+        Creates a Coder-owned task decomposition artifact from a validated Coder work plan while
+        preserving source chain, uncertainty, forbidden claims, and diagnostic labels.
+        Does not create implementation bundle, Coder handoff, Helper execution, or Science behavior.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [idempotency_key, tasks_title, tasks_body]
+              anyOf:
+                - required: [coder_work_plan_id]
+                - required: [coder_work_plan_record_path]
+              properties:
+                project: { type: string, default: ArqonZero }
+                coder_work_plan_id: { type: string }
+                coder_work_plan_record_path: { type: string }
+                idempotency_key: { type: string }
+                tasks_title: { type: string }
+                tasks_body: { type: string }
+      responses:
+        '201': { description: Coder tasks artifact created }
+        '200': { description: Idempotent replay of existing Coder tasks }
+        '403': { description: CODER_AI authority required }
+        '409': { description: Coder tasks precondition or idempotency conflict }
+
+  /v1/coder/implementation-bundle:
+    post:
+      operationId: coderImplementationBundle
+      summary: Create Coder implementation bundle proposal from Coder tasks.
+      description: >
+        Creates a Coder-owned implementation proposal/package from validated coder_tasks while
+        preserving source chain, uncertainty, forbidden claims, and diagnostic labels.
+        Does not create Coder handoff, Helper execution, audit, promotion, or Science behavior.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [idempotency_key, bundle_title, bundle_body]
+              anyOf:
+                - required: [coder_tasks_id]
+                - required: [coder_tasks_record_path]
+              properties:
+                project: { type: string, default: ArqonZero }
+                coder_tasks_id: { type: string }
+                coder_tasks_record_path: { type: string }
+                idempotency_key: { type: string }
+                bundle_title: { type: string }
+                bundle_body: { type: string }
+      responses:
+        '201': { description: Implementation bundle artifact created }
+        '200': { description: Idempotent replay of existing implementation bundle }
+        '403': { description: CODER_AI authority required }
+        '409': { description: Implementation bundle precondition or idempotency conflict }
+
+  /v1/pm/tasking:
+    post:
+      operationId: pmTasking
+      summary: Create PM tasking / work order from PM plan.
+      description: >
+        Creates a PM-controlled tasking/work-order artifact from a validated PM plan while
+        preserving source chain, uncertainty, forbidden claims, and diagnostic labels.
+        Does not create generic implementation tasks, Coder handoff, Helper execution, or Science behavior.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [idempotency_key, tasking_title, tasking_body]
+              anyOf:
+                - required: [plan_id]
+                - required: [pm_plan_record_path]
+              properties:
+                project: { type: string, default: ArqonZero }
+                plan_id: { type: string }
+                pm_plan_record_path: { type: string }
+                idempotency_key: { type: string }
+                tasking_title: { type: string }
+                tasking_body: { type: string }
+      responses:
+        '201': { description: PM tasking artifact created }
+        '200': { description: Idempotent replay of existing PM tasking }
+        '403': { description: PM_AI authority required }
+        '409': { description: PM tasking precondition or idempotency conflict }
+
+  /v1/pm/plan:
+    post:
+      operationId: pmPlan
+      summary: Create PM plan from PM specification.
+      description: Creates a PM-controlled plan artifact from validated PM specification without creating tasks, Coder handoff, Helper execution, or Science behavior.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [idempotency_key, plan_title, plan_body]
+              anyOf:
+                - required: [specification_id]
+                - required: [pm_specification_record_path]
+              properties:
+                project: { type: string, default: ArqonZero }
+                specification_id: { type: string }
+                pm_specification_record_path: { type: string }
+                idempotency_key: { type: string }
+                plan_title: { type: string }
+                plan_body: { type: string }
+      responses:
+        '201': { description: Plan artifact created }
+        '200': { description: Idempotent replay of existing PM plan }
+        '403': { description: PM_AI authority required }
+        '409': { description: PM plan precondition or idempotency conflict }
+
+  /v1/pm/specify:
+    post:
+      operationId: pmSpecify
+      summary: Create PM specification candidate from PM intake.
+      description: >
+        Creates a PM-controlled specification artifact from validated PM intake while
+        preserving source chain, uncertainty, forbidden claims, and diagnostic labels.
+        Does not create plan, tasks, Coder handoff, Helper execution, or Science behavior.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [idempotency_key, specification_title, specification_body]
+              anyOf:
+                - required: [intake_id]
+                - required: [pm_intake_record_path]
+              properties:
+                project: { type: string, default: ArqonZero }
+                intake_id: { type: string }
+                pm_intake_record_path: { type: string }
+                idempotency_key: { type: string }
+                specification_title: { type: string }
+                specification_body: { type: string }
+      responses:
+        '201': { description: Specification artifact created }
+        '200': { description: Idempotent replay of existing PM specification }
+        '403': { description: PM_AI authority required }
+        '409': { description: PM specify precondition or idempotency conflict }
+
+  /v1/pm/intake:
+    post:
+      operationId: pmCodeMonkeysIntake
+      summary: Code Monkeys PM intake from audited handoff.
+      description: >
+        Consumes a Science to Code handoff record and creates PM-side pm_dossier
+        and pm_gate_definition artifacts on a code_flow without generating specs,
+        tasks, implementation work, or new Science behavior.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [idempotency_key]
+              anyOf:
+                - required: [handoff_id]
+                - required: [handoff_record_path]
+              properties:
+                project: { type: string, default: ArqonZero }
+                handoff_id: { type: string }
+                handoff_record_path: { type: string }
+                idempotency_key: { type: string }
+                pm_notes: { type: string }
+      responses:
+        '201': { description: PM intake dossier and gate definition created }
+        '200': { description: Idempotent replay of existing PM intake }
+        '403': { description: PM_AI authority required }
+        '409': { description: PM intake precondition or idempotency conflict }
+
+  /v1/pm/handoff:
+    post:
+      operationId: pmScienceToCodeHandoff
+      summary: PM Science to Code handoff intake.
+      description: >
+        Consumes a Human-approved Science share context and creates PM-side handoff_intake
+        and dossier_seed artifacts on a code_flow without adding new Science behavior or
+        laundering evidence claims.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [share_id, idempotency_key]
+              properties:
+                project: { type: string, default: ArqonZero }
+                share_id: { type: string }
+                share_packet_path: { type: string }
+                idempotency_key: { type: string }
+                code_flow_ref: { type: string }
+                code_flow_name: { type: string }
+                code_flow_title: { type: string }
+                pm_notes: { type: string }
+      responses:
+        '201': { description: PM handoff intake and dossier seed created }
+        '200': { description: Idempotent replay of existing PM handoff }
+        '403': { description: PM_AI authority required }
+        '409': { description: Handoff precondition or idempotency conflict }
+
+  /v1/coder/handoff:
+    post:
+      operationId: coderHandoff
+      summary: Create a Coder-owned handoff artifact from an audited implementation bundle.
+      description: Development diagnostic only. Creates coder_handoff only; does not authorize Helper execution, patch application, certification, or promotion.
+      responses:
+        "201":
+          description: Coder handoff created.
+        "403":
+          description: Non-Coder role denied.
+        "409":
+          description: Source boundary, idempotency, promotion, or execution-authority precondition failed.
+
+  /v1/flows:
+    get:
+      summary: List flows
+      description: Lists Flow Core v0.3 flow summaries. Project defaults to ArqonZero when omitted.
+      parameters:
+        - in: query
+          name: project
+          schema: { type: string, default: ArqonZero }
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum: [science_flow, code_flow, audit_flow, governance_flow]
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [active, blocked, completed, archived]
+      responses:
+        '200': { description: Flow list }
+    post:
+      summary: Create flow
+      description: Creates an official Flow Core v0.3 flow manifest and index entry.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, type, title]
+              properties:
+                project: { type: string, default: ArqonZero }
+                name: { type: string, description: Human-friendly flow alias }
+                type:
+                  type: string
+                  enum: [science_flow, code_flow, audit_flow, governance_flow]
+                title: { type: string }
+                summary: { type: string }
+                initial_gate:
+                  type: string
+                  enum: [DRAFT, PLAN_READY, DEV_EVIDENCE_READY, INTEGRITY_GATE_PASSED, CLAIM_OR_PROMOTION_CANDIDATE, HUMAN_APPROVED]
+                  default: DRAFT
+      responses:
+        '201': { description: Flow created }
+  /v1/flows/{flow_ref}:
+    get:
+      summary: Load flow
+      description: Loads a flow manifest by canonical flow_id or human-friendly name.
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema: { type: string }
+        - in: query
+          name: project
+          schema: { type: string, default: ArqonZero }
+      responses:
+        '200': { description: Flow manifest }
+  /v1/flows/{flow_ref}/status:
+    get:
+      summary: Flow status
+      description: Returns a compact flow status by canonical flow_id or human-friendly name.
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema: { type: string }
+        - in: query
+          name: project
+          schema: { type: string, default: ArqonZero }
+      responses:
+        '200': { description: Flow status }
+  /v1/flows/{flow_ref}/resume:
+    get:
+      operationId: resumeFlow
+      summary: Return role-specific resume packet for a flow by ID or friendly name.
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema: { type: string }
+        - in: query
+          name: project
+          schema: { type: string, default: ArqonZero }
+      responses:
+        '200': { description: Flow resume packet }
+  /v1/flows/{flow_ref}/history:
+    get:
+      operationId: getFlowHistory
+      summary: Return flow history, artifact events, gate events, Human decisions, and audit events.
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema: { type: string }
+        - in: query
+          name: project
+          schema: { type: string, default: ArqonZero }
+      responses:
+        '200': { description: Flow history }
+  /v1/flows/{flow_ref}/latest:
+    get:
+      operationId: getFlowLatestArtifacts
+      summary: Return latest governed artifacts by artifact type and role.
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema: { type: string }
+        - in: query
+          name: project
+          schema: { type: string, default: ArqonZero }
+      responses:
+        '200': { description: Latest flow artifacts }
+  /v1/flows/{flow_ref}/next:
+    get:
+      operationId: getFlowNextAction
+      summary: Recommend next allowed action without mutating state.
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema: { type: string }
+        - in: query
+          name: project
+          schema: { type: string, default: ArqonZero }
+      responses:
+        '200': { description: Next allowed action recommendation }
+  /v1/flows/{flow_ref}/stop-conditions:
+    get:
+      operationId: getFlowStopConditions
+      summary: Return global, role-specific, and flow-specific stop/quarantine conditions.
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema: { type: string }
+        - in: query
+          name: project
+          schema: { type: string, default: ArqonZero }
+      responses:
+        '200': { description: Stop and quarantine conditions }
+  /v1/flows/{flow_ref}/artifacts:
+    get:
+      operationId: listFlowArtifacts
+      summary: List governed artifacts on a flow without returning artifact bodies; unsafe source paths are hidden as UNKNOWN_UNSAFE_PATH.
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema: { type: string }
+        - in: query
+          name: project
+          schema: { type: string, default: ArqonZero }
+      responses:
+        '200': { description: Flow artifact metadata list }
+    post:
+      summary: Write flow artifact
+      description: Writes an official flow artifact. Artifact types are role-gated.
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [artifact_type, title, body]
+              properties:
+                project: { type: string, default: ArqonZero }
+                artifact_type: { type: string }
+                title: { type: string }
+                body: { type: string }
+      responses:
+        '201': { description: Flow artifact written }
+  /v1/flows/{flow_ref}/advance:
+    post:
+      summary: Advance flow
+      description: Human-only gate/status advancement in Flow Core v0.3.
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [gate_state]
+              properties:
+                project: { type: string, default: ArqonZero }
+                gate_state:
+                  type: string
+                  enum: [DRAFT, PLAN_READY, DEV_EVIDENCE_READY, INTEGRITY_GATE_PASSED, CLAIM_OR_PROMOTION_CANDIDATE, HUMAN_APPROVED]
+                status:
+                  type: string
+                  enum: [active, blocked, completed, archived]
+                  default: active
+                note: { type: string }
+      responses:
+        '200': { description: Flow advanced }
+
+  /v1/science/queue:
+    get:
+      operationId: listScienceQueue
+      summary: Read-only Science queue visibility list.
+      description: Read-only diagnostic queue visibility. Must not mutate state.
+      responses:
+        '200': { description: Queue list response }
+
+  /v1/science/queue/{queue_item_id}:
+    get:
+      operationId: getScienceQueueItem
+      summary: Read one queue item.
+      parameters:
+        - in: path
+          name: queue_item_id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Queue item response }
+
+  /v1/science/queue/by-flow/{flow_ref}:
+    get:
+      operationId: listScienceQueueByFlow
+      summary: Read queue items for one flow reference.
+      parameters:
+        - in: path
+          name: flow_ref
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Queue-by-flow response }
+
+  /v1/science/queue/next:
+    get:
+      operationId: getScienceQueueNext
+      summary: Recommend next queue item/action without execution.
+      responses:
+        '200': { description: Queue next response }
+
+  /v1/science/queue/blocked:
+    get:
+      operationId: listScienceQueueBlocked
+      summary: Read blocked queue items.
+      responses:
+        '200': { description: Queue blocked response }
+
+  /v1/science/queue/quarantined:
+    get:
+      operationId: listScienceQueueQuarantined
+      summary: Read quarantined queue items.
+      responses:
+        '200': { description: Queue quarantined response }
+
+  /v1/science/queue/handoffs:
+    get:
+      operationId: listScienceQueueHandoffs
+      summary: Read queue handoff visibility records.
+      responses:
+        '200': { description: Queue handoffs response }
+
+  /v1/science/queue/history/{queue_item_id}:
+    get:
+      operationId: getScienceQueueHistory
+      summary: Read queue item history.
+      parameters:
+        - in: path
+          name: queue_item_id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Queue history response }
+
+  /v1/science/queue/{queue_item_id}/claim:
+    post:
+      operationId: claimScienceQueueItem
+      summary: Claim a queue item for the authenticated Science role.
+      description: Bounded governance queue mutation. Queue records are not scientific truth or evidence by themselves.
+      parameters:
+        - in: path
+          name: queue_item_id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [project, idempotency_key]
+              properties:
+                project: { type: string, enum: [ArqonZero], default: ArqonZero }
+                reason: { type: string }
+                idempotency_key: { type: string }
+      responses:
+        '201': { description: Queue item claimed }
+
+  /v1/science/queue/{queue_item_id}/complete:
+    post:
+      operationId: completeScienceQueueItem
+      summary: Mark a claimed or owned queue step complete.
+      description: Bounded governance queue mutation. Queue records are not scientific truth or evidence by themselves.
+      parameters:
+        - in: path
+          name: queue_item_id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [project, completion_summary, idempotency_key]
+              properties:
+                project: { type: string, enum: [ArqonZero], default: ArqonZero }
+                completion_summary: { type: string }
+                evidence_refs:
+                  type: array
+                  items: { type: string }
+                idempotency_key: { type: string }
+      responses:
+        '201': { description: Queue step completed }
+
+  /v1/science/queue/{queue_item_id}/block:
+    post:
+      operationId: blockScienceQueueItem
+      summary: Mark a queue item blocked with a required reason.
+      description: Bounded governance queue mutation. Queue records are not scientific truth or evidence by themselves.
+      parameters:
+        - in: path
+          name: queue_item_id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [project, blocked_reason, idempotency_key]
+              properties:
+                project: { type: string, enum: [ArqonZero], default: ArqonZero }
+                blocked_reason: { type: string }
+                severity: { type: string, enum: [LOW, MEDIUM, HIGH] }
+                idempotency_key: { type: string }
+      responses:
+        '201': { description: Queue item blocked }
+
+  /v1/science/queue/{queue_item_id}/quarantine:
+    post:
+      operationId: quarantineScienceQueueItem
+      summary: Quarantine an unsafe or invalid queue item.
+      description: Bounded governance queue mutation. Queue records are not scientific truth or evidence by themselves.
+      parameters:
+        - in: path
+          name: queue_item_id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [project, quarantine_reason, idempotency_key]
+              properties:
+                project: { type: string, enum: [ArqonZero], default: ArqonZero }
+                quarantine_reason: { type: string }
+                risk_type: { type: string, enum: [scope, evidence, safety, authority, secret, other] }
+                idempotency_key: { type: string }
+      responses:
+        '201': { description: Queue item quarantined }
+
+  /v1/science/queue/{queue_item_id}/handoff:
+    post:
+      operationId: handoffScienceQueueItem
+      summary: Request handoff of a queue item to an allowed next role.
+      description: Bounded governance queue mutation. Queue records are not scientific truth or evidence by themselves.
+      parameters:
+        - in: path
+          name: queue_item_id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [project, target_role, handoff_reason, idempotency_key]
+              properties:
+                project: { type: string, enum: [ArqonZero], default: ArqonZero }
+                target_role:
+                  type: string
+                  enum: [EXPLORER_AI, HYPOTHESIZER_AI, DESIGNER_AI, SCIENCE_AUDITOR_AI, HUMAN]
+                handoff_reason: { type: string }
+                idempotency_key: { type: string }
+      responses:
+        '201': { description: Queue item handoff requested }
+
+  /v1/science/research:
+    post:
+      operationId: scienceResearch
+      summary: Science Monkeys research command.
+      description: Creates or updates a science_flow by writing Explorer-owned research artifacts. May create a science_flow when flow_ref is omitted.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScienceCommandRequest'
+      responses:
+        '201': { description: Science research artifact written }
+  /v1/science/hypothesize:
+    post:
+      operationId: scienceHypothesize
+      summary: Science Monkeys hypothesize command.
+      description: Writes Hypothesizer-owned hypothesis artifacts to an existing science_flow.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScienceCommandRequest'
+      responses:
+        '201': { description: Science hypothesis artifact written }
+  /v1/science/design-experiment:
+    post:
+      operationId: scienceDesignExperiment
+      summary: Science Monkeys design experiment command.
+      description: Writes Designer-owned experiment design artifacts to an existing science_flow.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScienceCommandRequest'
+      responses:
+        '201': { description: Science design artifact written }
+  /v1/science/execute-experiment:
+    post:
+      operationId: scienceExecuteExperiment
+      summary: Science Monkeys execute experiment command.
+      description: Writes SCIENCE_EXECUTOR_AI-owned execution artifacts to an existing science_flow.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScienceCommandRequest'
+      responses:
+        '201': { description: Science execution artifact written }
+  /v1/science/audit-experiment:
+    post:
+      operationId: scienceAuditExperiment
+      summary: Science Monkeys audit experiment command.
+      description: Writes SCIENCE_AUDITOR_AI-owned audit artifacts to an existing science_flow.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScienceCommandRequest'
+      responses:
+        '201': { description: Science audit artifact written }
+  /v1/science/interpret:
+    post:
+      operationId: scienceInterpret
+      summary: Science Monkeys interpret command.
+      description: Writes Hypothesizer-owned interpretation artifacts to an existing science_flow.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScienceCommandRequest'
+      responses:
+        '201': { description: Science interpretation artifact written }
+  /v1/science/iterate:
+    post:
+      operationId: scienceIterate
+      summary: Science Monkeys iterate command.
+      description: Writes Hypothesizer or Designer revision artifacts to an existing science_flow.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScienceCommandRequest'
+      responses:
+        '201': { description: Science iteration artifact written }
+  /v1/science/record-finding:
+    post:
+      operationId: scienceRecordFinding
+      summary: Science Monkeys record finding command.
+      description: Writes SCIENCE_AUDITOR_AI-owned finding records to an existing science_flow.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScienceCommandRequest'
+      responses:
+        '201': { description: Science finding artifact written }
+  /v1/science/share:
+    post:
+      operationId: scienceShare
+      summary: Science Monkeys Human-approved share command.
+      description: Creates a Human-approved official science share packet, writes PM notification/context artifacts, preserves source references and share hash, and supports idempotent replay.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201': { description: Human-approved science share packet written }
+        '200': { description: Idempotent replay of an existing science share packet }
+components:
+  schemas:
+    ScienceCommandRequest:
+      type: object
+      required: [body]
+      properties:
+        project:
+          type: string
+          default: ArqonZero
+        flow_ref:
+          type: string
+          description: Existing science flow id or alias. Optional only for /v1/science/research.
+        name:
+          type: string
+          description: Human-friendly science_flow alias used by /v1/science/research when creating a new flow.
+        title:
+          type: string
+          description: Flow title for new research flows or artifact title fallback.
+        summary:
+          type: string
+        artifact_type:
+          type: string
+          description: Optional route-allowed artifact type override.
+        artifact_title:
+          type: string
+        body:
+          type: string
+
+
+# PM tasks route retirement note:
+# /v1/pm/tasks is retired and must not be used for PM authority.
+# Use /v1/pm/tasking for PM tasking/work-order artifacts.
+# Coder-side implementation decomposition remains separate.
+# Expected retired route error: PM_TASKS_ROUTE_RETIRED_USE_PM_TASKING.
+
+
+# Route-only boundary: implementation_bundle artifacts are route-only across flow types and must use /v1/coder/implementation-bundle. Direct generic artifact writes return FLOW_ARTIFACT_ROUTE_REQUIRED.
+
+
+  /v1/helper/execution-intake:
+    post:
+      operationId: helperExecutionIntake
+      summary: Create a Helper execution-intake artifact from an audited Coder handoff
+      description: Development diagnostic only. Creates helper_execution_intake only; does not run commands, apply patches, deploy, certify, or promote.
+      responses:
+        '201':
+          description: Helper execution intake created
+        '403':
+          description: Non-Helper role denied
+        '409':
+          description: Source boundary, idempotency, promotion, or execution-claim precondition failed
+
+
+  /v1/helper/execution-report:
+    post:
+      operationId: helperExecutionReport
+      summary: Record Helper execution evidence from an audited Helper intake
+      description: Development diagnostic only. Records execution_report, command_log, and evidence_manifest. The Worker does not execute shell commands, deploy, certify, or promote.
+      responses:
+        '201':
+          description: Helper execution evidence recorded
+        '403':
+          description: Non-Helper role denied
+        '409':
+          description: Source boundary, idempotency, or forbidden-claim precondition failed
+
+
+  /v1/auditor/helper-execution-review:
+    post:
+      operationId: auditorHelperExecutionReview
+      summary: Create an Auditor-owned review from Helper execution evidence
+      description: Development diagnostic only. Creates helper_execution_review only; does not authorize Human advancement, deployment, certification, or promotion.
+      responses:
+        '201':
+          description: Auditor helper execution review created
+        '403':
+          description: Non-Auditor role denied
+        '409':
+          description: Source boundary, idempotency, secret, or forbidden-claim precondition failed
+
+
+  /v1/human/advancement-decision:
+    post:
+      operationId: humanAdvancementDecision
+      summary: Create a Human-only advancement decision from an Auditor helper-execution review
+      description: Development diagnostic only. Creates human_advancement_decision only; does not deploy, certify, promote, or claim production readiness.
+      responses:
+        '201':
+          description: Human advancement decision created
+        '403':
+          description: Non-Human role denied
+        '409':
+          description: Source boundary, idempotency, unresolved blocker, secret, or forbidden-claim precondition failed

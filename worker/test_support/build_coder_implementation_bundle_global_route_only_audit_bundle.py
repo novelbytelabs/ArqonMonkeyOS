@@ -41,7 +41,7 @@ def main():
     if missing:
         raise SystemExit(json.dumps({"ok": False, "missing": missing}, indent=2))
     records = [{"path": path, "bytes": (root / path).stat().st_size, "sha256": sha(root / path)} for path in FILES]
-    out = root / "temps" / f"coder_impl_bundle_global_route_only_audit_bundle_{commit[:12]}.zip"
+    out = root / "artifacts" / f"coder_impl_bundle_global_route_only_audit_bundle_{commit[:12]}.zip"
     out.parent.mkdir(parents=True, exist_ok=True)
     manifest = {
         "schema_version": "coder_impl_bundle_global_route_only_audit_bundle.v0.1",

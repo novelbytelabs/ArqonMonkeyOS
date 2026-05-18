@@ -4,7 +4,7 @@
 - commit before: `c8f2d0cacf74dfe3813ae110fa8af8ec44ec2161`
 - source commit: `386f9f441b572624fb437906623ed3b079b4abc8`
 - current HEAD: `4f8469953195d7fcfbc1f3051ef9d26ca0aa9b3e`
-- refreshed bundle path: `temps/arqonmonkeyos_coder_handoff_001_refreshed_pm_bundle.zip`
+- refreshed bundle path: `artifacts/arqonmonkeyos_coder_handoff_001_refreshed_pm_bundle.zip`
 - refreshed bundle SHA256: `067cffab237fb01857c153a30e0ecd13780d6a5ee58bdf43a0e90ece8cae7ea3`
 - apply script path: `runtime/coder_handoff_001_refreshed_pm_bundle/pm_apply_coder_handoff_001.py`
 - apply result: `PASS`
@@ -74,7 +74,7 @@
 - `python3 worker/test_support/build_coder_handoff_audit_bundle.py` PASS
 
 ## Audit Bundle (Final HEAD)
-- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/temps/coder_handoff_audit_bundle_29ab195c254a.zip`
+- bundle path: `/home/irbsurfer/Projects/arqon/ArqonMonkeyOS/artifacts/coder_handoff_audit_bundle_29ab195c254a.zip`
 - bundle SHA256: `a04b84d0c5227b7925edd5ad607cb4017c53d6043ce9134eaf701ae27b20aa20`
 
 ## Sequencing Note
