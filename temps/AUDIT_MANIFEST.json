@@ -1,13 +1,18 @@
 {
-  "slice": "SCIENCE_MONKEYS_OPTION_C_QUEUE_CORE_PLANNING_001",
+  "slice": "SCIENCE_MONKEYS_OPTION_C_QUEUE_CORE_IMPLEMENTATION_PLAN_001",
   "status_labels": [
     "REQUIRES_HUMAN_REVIEW",
     "development diagnostic only",
     "NOT SEALED-TEST CERTIFIED",
     "not promotable"
   ],
-  "planning_only": true,
+  "implementation_planning_only": true,
   "no_queue_mutation_activation": true,
-  "commit": "409e022ea0e139bd3a7fb3cb9d177d90258eae53",
-  "closeout_carry_forward_status": "Stage 2 closed as PASS_WITH_WARNINGS"
+  "commit": "6bc4a50a630b26148c24565c7c157d624a8e8d47",
+  "carry_forward": {
+    "prior_planning_audit_verdict": "PASS_WITH_WARNINGS",
+    "prior_planning_audit_zip_sha256": "61b38a0a54142419d04ddb255d9736dff17224ea8a0dbbeabe9f43dc5a533785",
+    "prior_planning_doc_commit": "409e022ea0e139bd3a7fb3cb9d177d90258eae53",
+    "audit_manifest_lock_commit": "8c99786f0dd2f483aa2cc5719bbca04e4f9f9a13"
+  }
 }
