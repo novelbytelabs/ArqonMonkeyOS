@@ -1,0 +1,18 @@
+{
+  "slice": "SCIENCE_MONKEYS_COMMAND_SURFACE_CLOSEOUT_001_PROVENANCE_REPAIR",
+  "status_labels": [
+    "REQUIRES_HUMAN_REVIEW",
+    "development diagnostic only",
+    "NOT SEALED-TEST CERTIFIED",
+    "not promotable"
+  ],
+  "controlling_schema_sha256": "6deda9e76e39a677cd5ea956f8b1449dffc634cf3325ae8f3b9c6b2cfc9d890d",
+  "true_closeout_commit": "6f337c7c6fe2afaa3bc466a7cc96645684bdff87",
+  "provenance_repair": {
+    "requested_commit": "6f337c7c8d7f38df1ec4dc05507350f7bf41e402",
+    "packaged_commit": "6f337c7c6fe2afaa3bc466a7cc96645684bdff87",
+    "correction_basis": "git history proof"
+  },
+  "closeout_recommendation": "PASS_WITH_WARNINGS",
+  "broader_smoke_status": "already completed as Stage 2B PASS_WITH_WARNINGS"
+}
