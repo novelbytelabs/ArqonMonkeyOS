@@ -14,6 +14,7 @@ Provenance repair metadata lock:
 - true_closeout_commit: 6f337c7c6fe2afaa3bc466a7cc96645684bdff87
 - provenance_repair_commit: 2b9bdcdf5dceb02c114ec3ed749b3254559d5e9d
 - provenance_repair_metadata_lock_slice: SCIENCE_MONKEYS_COMMAND_SURFACE_CLOSEOUT_001_PROVENANCE_REPAIR_METADATA_LOCK
+- metadata_lock_repair_commit: 047ff18df881f7af7f88f3172051758ea4586f90
 - correction_basis: git history proof
 
 Verification basis commands:
