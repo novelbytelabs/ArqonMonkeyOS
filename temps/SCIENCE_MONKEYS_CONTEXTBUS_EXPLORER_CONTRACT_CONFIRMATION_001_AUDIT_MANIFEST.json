@@ -1,0 +1,14 @@
+{
+  "packet_id": "SCIENCE_MONKEYS_CONTEXTBUS_EXPLORER_CONTRACT_CONFIRMATION_001_EVIDENCE_LOCK",
+  "status_labels": [
+    "REQUIRES_HUMAN_REVIEW",
+    "development diagnostic only",
+    "NOT SEALED-TEST CERTIFIED",
+    "not promotable"
+  ],
+  "schema_sha": "6deda9e76e39a677cd5ea956f8b1449dffc634cf3325ae8f3b9c6b2cfc9d890d",
+  "verdict": "PASS_WITH_WARNINGS",
+  "files": [
+    "temps/SCIENCE_MONKEYS_CONTEXTBUS_EXPLORER_CONTRACT_CONFIRMATION_001_EVIDENCE_LOCK.md"
+  ]
+}
