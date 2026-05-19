@@ -6,10 +6,11 @@ import type { Env, Role } from "./types";
 import {
   SCIENCE_QUEUE_ROLES,
   TRUTH_BOUNDARY,
-  buildQueueItems,
+  buildQueueItemByRef,
   readQueueMutationState,
   getParam,
   requiredStatusLabels,
+  type QueueItem,
   type QueueTruthBoundary
 } from "./science_queue_read";
 
@@ -272,9 +273,8 @@ async function resolveQueueState(
   queueItemId: string,
   role: Role,
   store: RepoStore
-): Promise<{ item: Awaited<ReturnType<typeof buildQueueItems>>[number]; state: MutationStateRecord }> {
-  const items = await buildQueueItems(env, projectName, role, store);
-  const item = items.find(candidate => candidate.queue_item_id === queueItemId || candidate.flow_id === queueItemId || candidate.flow_ref === queueItemId);
+): Promise<{ item: QueueItem; state: MutationStateRecord }> {
+  const item = await buildQueueItemByRef(env, projectName, role, queueItemId, store);
   if (!item) throw mutationError("QUEUE_ITEM_NOT_FOUND", `Unknown or invisible queue item: ${queueItemId}`, 404);
 
   const existingMutationState = await readQueueMutationState(env, projectName, item.queue_item_id, store);

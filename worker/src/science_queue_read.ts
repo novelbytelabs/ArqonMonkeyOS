@@ -315,6 +315,67 @@ export async function buildQueueItems(env: Env, projectName: string, role: Role,
   return items.sort((a, b) => a.flow_id.localeCompare(b.flow_id));
 }
 
+function flowIdFromQueueRef(queueRef: string): string | null {
+  if (/^Q-FLOW-\d{4}-\d{4}$/.test(queueRef)) return queueRef.slice(2);
+  if (/^FLOW-\d{4}-\d{4}$/.test(queueRef)) return queueRef;
+  return null;
+}
+
+export async function buildQueueItemByRef(
+  env: Env,
+  projectName: string,
+  role: Role,
+  queueRef: string,
+  store: RepoStore
+): Promise<QueueItem | null> {
+  const trimmedRef = (queueRef || "").trim();
+  if (!trimmedRef) return null;
+
+  let flowId = flowIdFromQueueRef(trimmedRef);
+  let entryName = "";
+
+  if (!flowId) {
+    const flowIndex = await loadFlowIndex(env, projectName, store);
+    const entry = flowIndex.flows.find(candidate =>
+      candidate.type === "science_flow" &&
+      (candidate.flow_id === trimmedRef || candidate.name === trimmedRef)
+    );
+    if (!entry) return null;
+    flowId = entry.flow_id;
+    entryName = entry.name;
+  }
+
+  const manifest = await loadManifest(env, projectName, flowId, store);
+  if (!manifest || manifest.type !== "science_flow") return null;
+
+  const currentGate = manifest.current_gate || "UNKNOWN";
+  const state = readState(manifest.status || "UNKNOWN", currentGate);
+  const nextRole = roleFromGate(currentGate);
+  const queueItemId = `Q-${manifest.flow_id}`;
+
+  const baseItem: QueueItem = {
+    queue_item_id: queueItemId,
+    project: projectName,
+    flow_id: manifest.flow_id,
+    flow_ref: manifest.name || entryName || manifest.flow_id,
+    queue_lane: "diagnostic",
+    current_state: state,
+    current_role_owner: nextRole,
+    allowed_next_role: nextRole,
+    allowed_next_action: allowedNextActionForQueueItem(role, state, nextRole, nextRole),
+    blocked_reason: state === "BLOCKED" ? "UNKNOWN" : null,
+    stop_condition: state === "QUARANTINED" ? "QUARANTINE_CONDITION_PRESENT" : null,
+    related_artifacts: safeArtifacts(manifest.artifacts),
+    evidence_requirements: [],
+    audit_status: "UNKNOWN",
+    human_decision_status: "UNKNOWN",
+    truth_boundary: TRUTH_BOUNDARY
+  };
+
+  const overlayed = await overlayMutationStateForItem(env, projectName, role, baseItem, store);
+  return visibilityFilter(role, overlayed) ? overlayed : null;
+}
+
 function queueResponseBase(projectName: string, role: Role): Record<string, unknown> {
   return {
     ok: true,
@@ -382,8 +443,33 @@ export async function handleScienceQueueReadRequest(
   if (!getProject(projectName)) return errorResponse("UNKNOWN_PROJECT", `Unknown project: ${projectName}`, 404);
 
   const store = repoStore || githubRepoStore;
-  const items = await buildQueueItems(env, projectName, role, store);
   const base = queueResponseBase(projectName, role);
+
+  if (route === "item" || route === "history") {
+    const queueItemId = args.queueItemId || "";
+    const match = await buildQueueItemByRef(env, projectName, role, queueItemId, store);
+    if (!match) return errorResponse("QUEUE_ITEM_NOT_FOUND", `Unknown queue item: ${queueItemId}`, 404);
+    if (route === "item") return jsonResponse({ ...base, queue_item: match });
+
+    const manifest = await loadManifest(env, projectName, match.flow_id, store);
+    const history = (manifest?.history || []).map(event => ({
+      event_id: event.event_id || "UNKNOWN",
+      event_type: event.event_type || "UNKNOWN",
+      role: event.role || "UNKNOWN",
+      created_at: event.created_at || "UNKNOWN",
+      note: event.note || ""
+    }));
+    return jsonResponse({ ...base, queue_item: match, history });
+  }
+
+  if (route === "by_flow") {
+    const flowRef = args.flowRef || "";
+    const match = await buildQueueItemByRef(env, projectName, role, flowRef, store);
+    if (!match) return errorResponse("QUEUE_FLOW_NOT_FOUND", `No queue items for flow ref: ${flowRef}`, 404);
+    return jsonResponse({ ...base, queue_items: [match] });
+  }
+
+  const items = await buildQueueItems(env, projectName, role, store);
 
   if (route === "list") return jsonResponse({ ...base, queue_items: items });
 
@@ -403,31 +489,6 @@ export async function handleScienceQueueReadRequest(
       handoff_note: "READ_ONLY_HANDOFF_VISIBILITY_ONLY"
     }));
     return jsonResponse({ ...base, handoffs });
-  }
-
-  if (route === "by_flow") {
-    const flowRef = args.flowRef || "";
-    const matches = items.filter(item => item.flow_id === flowRef || item.flow_ref === flowRef);
-    if (matches.length === 0) return errorResponse("QUEUE_FLOW_NOT_FOUND", `No queue items for flow ref: ${flowRef}`, 404);
-    return jsonResponse({ ...base, queue_items: matches });
-  }
-
-  if (route === "item" || route === "history") {
-    const queueItemId = args.queueItemId || "";
-    const baseMatch = items.find(item => item.queue_item_id === queueItemId || item.flow_id === queueItemId || item.flow_ref === queueItemId);
-    if (!baseMatch) return errorResponse("QUEUE_ITEM_NOT_FOUND", `Unknown queue item: ${queueItemId}`, 404);
-    const match = await overlayMutationStateForItem(env, projectName, role, baseMatch, store);
-    if (route === "item") return jsonResponse({ ...base, queue_item: match });
-
-    const manifest = await loadManifest(env, projectName, match.flow_id, store);
-    const history = (manifest?.history || []).map(event => ({
-      event_id: event.event_id || "UNKNOWN",
-      event_type: event.event_type || "UNKNOWN",
-      role: event.role || "UNKNOWN",
-      created_at: event.created_at || "UNKNOWN",
-      note: event.note || ""
-    }));
-    return jsonResponse({ ...base, queue_item: match, history });
   }
 
   return errorResponse("QUEUE_ROUTE_NOT_IMPLEMENTED", `Unsupported queue route: ${route}`, 404);
