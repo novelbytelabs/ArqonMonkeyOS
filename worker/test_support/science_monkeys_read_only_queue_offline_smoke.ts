@@ -161,6 +161,54 @@ async function main(): Promise<void> {
   assert(history.status === 200, `queue history expected 200, got ${history.status}`);
   pass("GET /v1/science/queue/history/{queue_item_id} reads only");
 
+  files.set("governance/queues/mutations/state/Q-FLOW-2026-0001.json", "{ invalid-state-json");
+  files.set("governance/flows/FLOW-2026-0999/flow_manifest.json", "{ invalid-manifest-json");
+  files.set("governance/flows/flow_index.json", JSON.stringify({
+    schema_version: "flow_index.v0.3",
+    project: "ArqonZero",
+    updated_at: "2026-05-18T00:00:00.000Z",
+    flows: [
+      {
+        flow_id: "FLOW-2026-0001",
+        name: "science-read-only-smoke",
+        type: "science_flow",
+        title: "Science Read-only Smoke",
+        status: "active",
+        current_gate: "DRAFT",
+        created_at: "2026-05-18T00:00:00.000Z",
+        updated_at: "2026-05-18T00:00:00.000Z",
+        source_path: "governance/flows/FLOW-2026-0001/flow_manifest.json"
+      },
+      {
+        flow_id: "FLOW-2026-0999",
+        name: "science-broken-smoke",
+        type: "science_flow",
+        title: "Science Broken Smoke",
+        status: "active",
+        current_gate: "DRAFT",
+        created_at: "2026-05-18T00:00:00.000Z",
+        updated_at: "2026-05-18T00:00:00.000Z",
+        source_path: "governance/flows/FLOW-2026-0999/flow_manifest.json"
+      }
+    ]
+  }));
+  const failSoft = await request("/v1/science/queue?scan_limit=20", { headers: { authorization: auth("BROKER_KEY_EXPLORER") } });
+  assert(failSoft.status === 200, `queue fail-soft list expected 200, got ${failSoft.status}`);
+  assert(failSoft.body.ok === true, "queue fail-soft list must return ok=true JSON");
+  assert(Array.isArray(failSoft.body.queue_read_errors), "queue fail-soft list must include queue_read_errors array");
+  assert(failSoft.body.queue_read_errors.length >= 1, "queue fail-soft list must report at least one queue_read_error");
+  pass("malformed manifest/state fail soft to JSON with queue_read_errors");
+
+  const boundedLargeScan = await request("/v1/science/queue?scan_limit=999", { headers: { authorization: auth("BROKER_KEY_EXPLORER") } });
+  assert(boundedLargeScan.status === 200, `large queue scan expected 200, got ${boundedLargeScan.status}`);
+  assert(typeof boundedLargeScan.body === "object" && boundedLargeScan.body !== null, "large queue scan must return JSON object body");
+  assert(boundedLargeScan.body.ok === true, "large queue scan must return ok=true JSON");
+  assert(
+    boundedLargeScan.body.bounded_scan?.max_flows === 20,
+    `large queue scan must clamp max_flows to 20, got ${String(boundedLargeScan.body.bounded_scan?.max_flows)}`
+  );
+  pass("large queue scan is bounded and returns JSON");
+
   const unknownItem = await request("/v1/science/queue/Q-UNKNOWN", { headers: { authorization: auth("BROKER_KEY_EXPLORER") } });
   assert(unknownItem.status === 404, `unknown queue item expected 404, got ${unknownItem.status}`);
   pass("unknown queue item fails closed");

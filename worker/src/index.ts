@@ -24,6 +24,7 @@ import { handleReadResumeRequest } from "./read_resume";
 import { handleScienceQueueReadRequest } from "./science_queue_read";
 import { handleScienceQueueMutationRequest } from "./science_queue_mutation";
 import type { RepoStore } from "./repo_store";
+import { STATUS_LABELS } from "./policy";
 
 function getParam(url: URL, name: string): string | null {
   const value = url.searchParams.get(name);
@@ -236,6 +237,26 @@ export async function handleWorkerFetch(
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
-    return handleWorkerFetch(request, env);
+    try {
+      return await handleWorkerFetch(request, env);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      return jsonResponse({
+        ok: false,
+        error: {
+          code: "UNCAUGHT_WORKER_EXCEPTION",
+          message
+        },
+        no_mutation: true,
+        required_status_labels: [...STATUS_LABELS],
+        truth_boundary: {
+          queue_record_is_truth: false,
+          queue_record_is_evidence: false,
+          raw_gpt_output_is_evidence: false,
+          contextbus_notes_messages_are_evidence: false,
+          requires_harness: true
+        }
+      }, 500);
+    }
   }
 };

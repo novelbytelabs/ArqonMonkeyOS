@@ -62,6 +62,12 @@ interface MutationStateRecord {
   latest_mutation_id: string;
 }
 
+interface QueueReadError {
+  flow_id: string;
+  queue_item_id: string;
+  error: string;
+}
+
 export interface QueueTruthBoundary {
   queue_record_is_truth: false;
   queue_record_is_evidence: false;
@@ -89,6 +95,19 @@ export interface QueueItem {
   truth_boundary: QueueTruthBoundary;
 }
 
+interface QueueBuildResult {
+  queue_items: QueueItem[];
+  queue_read_errors: QueueReadError[];
+  bounded_scan: {
+    applied: boolean;
+    max_flows: number;
+    total_science_flows: number;
+    scanned_science_flows: number;
+    stopped_early: boolean;
+    stop_reason: string | null;
+  };
+}
+
 export const TRUTH_BOUNDARY: QueueTruthBoundary = {
   queue_record_is_truth: false,
   queue_record_is_evidence: false,
@@ -113,6 +132,13 @@ export function getParam(url: URL, name: string): string | null {
 
 export function requiredStatusLabels(): string[] {
   return [...STATUS_LABELS];
+}
+
+function parseBoundedScanLimit(url: URL): number {
+  const raw = getParam(url, "scan_limit") || getParam(url, "limit") || "";
+  const parsed = Number.parseInt(raw, 10);
+  if (!Number.isFinite(parsed)) return 8;
+  return Math.min(Math.max(parsed, 1), 20);
 }
 
 function flowIndexPath(): string {
@@ -280,39 +306,85 @@ export async function loadManifest(env: Env, projectName: string, flowId: string
   }
 }
 
-export async function buildQueueItems(env: Env, projectName: string, role: Role, store: RepoStore): Promise<QueueItem[]> {
+export async function buildQueueItems(
+  env: Env,
+  projectName: string,
+  role: Role,
+  store: RepoStore,
+  options: { maxFlows?: number } = {}
+): Promise<QueueBuildResult> {
+  const SUBREQUEST_BUDGET_UNITS = 20;
+  const SUBREQUEST_UNITS_PER_FLOW = 2;
   const flowIndex = await loadFlowIndex(env, projectName, store);
   const scienceFlows = flowIndex.flows.filter(entry => entry.type === "science_flow");
+  const maxFlows = options.maxFlows && Number.isFinite(options.maxFlows) ? Math.max(1, Math.floor(options.maxFlows)) : scienceFlows.length;
+  const cappedFlows = scienceFlows.slice(0, maxFlows);
   const items: QueueItem[] = [];
+  const queueReadErrors: QueueReadError[] = [];
+  let stoppedEarly = false;
+  let stopReason: string | null = null;
+  let subrequestUnitsUsed = 0;
 
-  for (const entry of scienceFlows) {
-    const manifest = await loadManifest(env, projectName, entry.flow_id, store);
-    const currentGate = manifest?.current_gate || entry.current_gate || "UNKNOWN";
-    const state = readState(manifest?.status || entry.status || "UNKNOWN", currentGate);
-    const nextRole = roleFromGate(currentGate);
+  for (const entry of cappedFlows) {
     const queueItemId = `Q-${entry.flow_id}`;
-    const item: QueueItem = {
-      queue_item_id: queueItemId,
-      project: projectName,
-      flow_id: entry.flow_id,
-      flow_ref: manifest?.name || entry.name || entry.flow_id,
-      queue_lane: "diagnostic",
-      current_state: state,
-      current_role_owner: nextRole,
-      allowed_next_role: nextRole,
-      allowed_next_action: allowedNextActionForQueueItem(role, state, nextRole, nextRole),
-      blocked_reason: state === "BLOCKED" ? "UNKNOWN" : null,
-      stop_condition: state === "QUARANTINED" ? "QUARANTINE_CONDITION_PRESENT" : null,
-      related_artifacts: safeArtifacts(manifest?.artifacts),
-      evidence_requirements: [],
-      audit_status: "UNKNOWN",
-      human_decision_status: "UNKNOWN",
-      truth_boundary: TRUTH_BOUNDARY
-    };
-    if (visibilityFilter(role, item)) items.push(item);
+    if (subrequestUnitsUsed + SUBREQUEST_UNITS_PER_FLOW > SUBREQUEST_BUDGET_UNITS) {
+      stoppedEarly = true;
+      stopReason = "SUBREQUEST_BUDGET_GUARD";
+      break;
+    }
+    try {
+      subrequestUnitsUsed += SUBREQUEST_UNITS_PER_FLOW;
+      const manifest = await loadManifest(env, projectName, entry.flow_id, store);
+      const currentGate = manifest?.current_gate || entry.current_gate || "UNKNOWN";
+      const state = readState(manifest?.status || entry.status || "UNKNOWN", currentGate);
+      const nextRole = roleFromGate(currentGate);
+      const baseItem: QueueItem = {
+        queue_item_id: queueItemId,
+        project: projectName,
+        flow_id: entry.flow_id,
+        flow_ref: manifest?.name || entry.name || entry.flow_id,
+        queue_lane: "diagnostic",
+        current_state: state,
+        current_role_owner: nextRole,
+        allowed_next_role: nextRole,
+        allowed_next_action: allowedNextActionForQueueItem(role, state, nextRole, nextRole),
+        blocked_reason: state === "BLOCKED" ? "UNKNOWN" : null,
+        stop_condition: state === "QUARANTINED" ? "QUARANTINE_CONDITION_PRESENT" : null,
+        related_artifacts: safeArtifacts(manifest?.artifacts),
+        evidence_requirements: [],
+        audit_status: "UNKNOWN",
+        human_decision_status: "UNKNOWN",
+        truth_boundary: TRUTH_BOUNDARY
+      };
+      const item = await overlayMutationStateForItem(env, projectName, role, baseItem, store);
+      if (visibilityFilter(role, item)) items.push(item);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      queueReadErrors.push({
+        flow_id: entry.flow_id || "UNKNOWN",
+        queue_item_id: queueItemId,
+        error: message.slice(0, 280)
+      });
+      if (/subrequest|1101|too many/i.test(message)) {
+        stoppedEarly = true;
+        stopReason = "SUBREQUEST_PRESSURE_SUSPECTED";
+        break;
+      }
+    }
   }
 
-  return items.sort((a, b) => a.flow_id.localeCompare(b.flow_id));
+  return {
+    queue_items: items.sort((a, b) => a.flow_id.localeCompare(b.flow_id)),
+    queue_read_errors: queueReadErrors,
+    bounded_scan: {
+      applied: cappedFlows.length < scienceFlows.length,
+      max_flows: maxFlows,
+      total_science_flows: scienceFlows.length,
+      scanned_science_flows: cappedFlows.length,
+      stopped_early: stoppedEarly,
+      stop_reason: stopReason
+    }
+  };
 }
 
 function flowIdFromQueueRef(queueRef: string): string | null {
@@ -428,68 +500,87 @@ export async function handleScienceQueueReadRequest(
   args: { queueItemId?: string; flowRef?: string } = {},
   repoStore?: RepoStore
 ): Promise<Response> {
-  const methodError = methodGuard(request);
-  if (methodError) return methodError;
+  let projectName = "ArqonZero";
+  let role: Role = "HUMAN";
+  try {
+    const methodError = methodGuard(request);
+    if (methodError) return methodError;
 
-  const role = requireRole(request, env);
-  const roleError = assertScienceQueueRole(role);
-  if (roleError) return roleError;
+    role = requireRole(request, env);
+    const roleError = assertScienceQueueRole(role);
+    if (roleError) return roleError;
 
-  const url = new URL(request.url);
-  const roleQueryError = enforceRoleQuery(url, role);
-  if (roleQueryError) return roleQueryError;
+    const url = new URL(request.url);
+    const roleQueryError = enforceRoleQuery(url, role);
+    if (roleQueryError) return roleQueryError;
 
-  const projectName = getParam(url, "project") || "ArqonZero";
-  if (!getProject(projectName)) return errorResponse("UNKNOWN_PROJECT", `Unknown project: ${projectName}`, 404);
+    projectName = getParam(url, "project") || "ArqonZero";
+    if (!getProject(projectName)) return errorResponse("UNKNOWN_PROJECT", `Unknown project: ${projectName}`, 404);
 
-  const store = repoStore || githubRepoStore;
-  const base = queueResponseBase(projectName, role);
+    const store = repoStore || githubRepoStore;
+    const base = queueResponseBase(projectName, role);
 
-  if (route === "item" || route === "history") {
-    const queueItemId = args.queueItemId || "";
-    const match = await buildQueueItemByRef(env, projectName, role, queueItemId, store);
-    if (!match) return errorResponse("QUEUE_ITEM_NOT_FOUND", `Unknown queue item: ${queueItemId}`, 404);
-    if (route === "item") return jsonResponse({ ...base, queue_item: match });
+    if (route === "item" || route === "history") {
+      const queueItemId = args.queueItemId || "";
+      const match = await buildQueueItemByRef(env, projectName, role, queueItemId, store);
+      if (!match) return errorResponse("QUEUE_ITEM_NOT_FOUND", `Unknown queue item: ${queueItemId}`, 404);
+      if (route === "item") return jsonResponse({ ...base, queue_item: match });
 
-    const manifest = await loadManifest(env, projectName, match.flow_id, store);
-    const history = (manifest?.history || []).map(event => ({
-      event_id: event.event_id || "UNKNOWN",
-      event_type: event.event_type || "UNKNOWN",
-      role: event.role || "UNKNOWN",
-      created_at: event.created_at || "UNKNOWN",
-      note: event.note || ""
-    }));
-    return jsonResponse({ ...base, queue_item: match, history });
+      const manifest = await loadManifest(env, projectName, match.flow_id, store);
+      const history = (manifest?.history || []).map(event => ({
+        event_id: event.event_id || "UNKNOWN",
+        event_type: event.event_type || "UNKNOWN",
+        role: event.role || "UNKNOWN",
+        created_at: event.created_at || "UNKNOWN",
+        note: event.note || ""
+      }));
+      return jsonResponse({ ...base, queue_item: match, history });
+    }
+
+    if (route === "by_flow") {
+      const flowRef = args.flowRef || "";
+      const match = await buildQueueItemByRef(env, projectName, role, flowRef, store);
+      if (!match) return errorResponse("QUEUE_FLOW_NOT_FOUND", `No queue items for flow ref: ${flowRef}`, 404);
+      return jsonResponse({ ...base, queue_items: [match] });
+    }
+
+    const queueBuild = await buildQueueItems(env, projectName, role, store, { maxFlows: parseBoundedScanLimit(url) });
+    const items = queueBuild.queue_items;
+
+    if (route === "list") return jsonResponse({ ...base, ...queueBuild });
+
+    if (route === "next") {
+      const nextItem = items.find(item => item.allowed_next_role === role) || items[0] || null;
+      return jsonResponse({ ...base, ...queueBuild, queue_item: nextItem });
+    }
+
+    if (route === "blocked") return jsonResponse({ ...base, ...queueBuild, queue_items: items.filter(item => item.current_state === "BLOCKED") });
+    if (route === "quarantined") return jsonResponse({ ...base, ...queueBuild, queue_items: items.filter(item => item.current_state === "QUARANTINED") });
+    if (route === "handoffs") {
+      const handoffs = items.filter(item => item.allowed_next_role !== "UNKNOWN").map(item => ({
+        queue_item_id: item.queue_item_id,
+        flow_id: item.flow_id,
+        from_role: item.current_role_owner,
+        to_role: item.allowed_next_role,
+        handoff_note: "READ_ONLY_HANDOFF_VISIBILITY_ONLY"
+      }));
+      return jsonResponse({ ...base, ...queueBuild, handoffs });
+    }
+
+    return errorResponse("QUEUE_ROUTE_NOT_IMPLEMENTED", `Unsupported queue route: ${route}`, 404);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    return jsonResponse({
+      ok: false,
+      project: projectName,
+      authenticated_role: role,
+      no_mutation: true,
+      truth_boundary: TRUTH_BOUNDARY,
+      required_status_labels: requiredStatusLabels(),
+      error: {
+        code: "INTERNAL_QUEUE_LIST_ERROR",
+        message
+      }
+    }, 500);
   }
-
-  if (route === "by_flow") {
-    const flowRef = args.flowRef || "";
-    const match = await buildQueueItemByRef(env, projectName, role, flowRef, store);
-    if (!match) return errorResponse("QUEUE_FLOW_NOT_FOUND", `No queue items for flow ref: ${flowRef}`, 404);
-    return jsonResponse({ ...base, queue_items: [match] });
-  }
-
-  const items = await buildQueueItems(env, projectName, role, store);
-
-  if (route === "list") return jsonResponse({ ...base, queue_items: items });
-
-  if (route === "next") {
-    const nextItem = items.find(item => item.allowed_next_role === role) || items[0] || null;
-    return jsonResponse({ ...base, queue_item: nextItem });
-  }
-
-  if (route === "blocked") return jsonResponse({ ...base, queue_items: items.filter(item => item.current_state === "BLOCKED") });
-  if (route === "quarantined") return jsonResponse({ ...base, queue_items: items.filter(item => item.current_state === "QUARANTINED") });
-  if (route === "handoffs") {
-    const handoffs = items.filter(item => item.allowed_next_role !== "UNKNOWN").map(item => ({
-      queue_item_id: item.queue_item_id,
-      flow_id: item.flow_id,
-      from_role: item.current_role_owner,
-      to_role: item.allowed_next_role,
-      handoff_note: "READ_ONLY_HANDOFF_VISIBILITY_ONLY"
-    }));
-    return jsonResponse({ ...base, handoffs });
-  }
-
-  return errorResponse("QUEUE_ROUTE_NOT_IMPLEMENTED", `Unsupported queue route: ${route}`, 404);
 }
