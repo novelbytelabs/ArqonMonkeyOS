@@ -7,6 +7,7 @@ import {
   SCIENCE_QUEUE_ROLES,
   TRUTH_BOUNDARY,
   buildQueueItems,
+  readQueueMutationState,
   getParam,
   requiredStatusLabels,
   type QueueTruthBoundary
@@ -223,6 +224,48 @@ function nextState(route: MutationRoute): QueueState {
   return "HANDOFF_REQUESTED";
 }
 
+function asQueueState(value: string): QueueState {
+  if (
+    value === "READY" ||
+    value === "CLAIMED" ||
+    value === "IN_PROGRESS" ||
+    value === "COMPLETED_STEP" ||
+    value === "BLOCKED" ||
+    value === "QUARANTINED" ||
+    value === "HANDOFF_REQUESTED" ||
+    value === "WAITING_FOR_HUMAN" ||
+    value === "WAITING_FOR_EXECUTOR" ||
+    value === "UNKNOWN"
+  ) {
+    return value;
+  }
+  return "UNKNOWN";
+}
+
+function normalizeExistingMutationState(value: {
+  queue_item_id: string;
+  flow_ref: string;
+  flow_id: string;
+  project: string;
+  current_state: string;
+  claimed_by: Role | null;
+  handoff_target_role: string | null;
+  updated_at: string;
+  latest_mutation_id: string;
+}): MutationStateRecord {
+  return {
+    queue_item_id: value.queue_item_id,
+    flow_ref: value.flow_ref,
+    flow_id: value.flow_id,
+    project: value.project,
+    current_state: asQueueState(value.current_state),
+    claimed_by: value.claimed_by,
+    handoff_target_role: value.handoff_target_role,
+    updated_at: value.updated_at,
+    latest_mutation_id: value.latest_mutation_id
+  };
+}
+
 async function resolveQueueState(
   env: Env,
   projectName: string,
@@ -234,13 +277,13 @@ async function resolveQueueState(
   const item = items.find(candidate => candidate.queue_item_id === queueItemId || candidate.flow_id === queueItemId || candidate.flow_ref === queueItemId);
   if (!item) throw mutationError("QUEUE_ITEM_NOT_FOUND", `Unknown or invisible queue item: ${queueItemId}`, 404);
 
-  const stateRef = await readJsonIfExists<MutationStateRecord>(env, projectName, statePath(item.queue_item_id), store);
-  const state: MutationStateRecord = stateRef.value || {
+  const existingMutationState = await readQueueMutationState(env, projectName, item.queue_item_id, store);
+  const state: MutationStateRecord = existingMutationState ? normalizeExistingMutationState(existingMutationState) : {
     queue_item_id: item.queue_item_id,
     flow_ref: item.flow_ref,
     flow_id: item.flow_id,
     project: projectName,
-    current_state: item.current_state as QueueState,
+    current_state: asQueueState(item.current_state),
     claimed_by: null,
     handoff_target_role: null,
     updated_at: new Date().toISOString(),

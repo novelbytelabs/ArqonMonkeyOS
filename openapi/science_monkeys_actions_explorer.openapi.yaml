@@ -890,14 +890,6 @@ paths:
         schema:
           type: string
         description: Queue item id returned by queue read routes.
-      - in: query
-        name: project
-        schema:
-          type: string
-          enum:
-          - ArqonZero
-          default: ArqonZero
-        description: Project scope. Defaults to ArqonZero.
       requestBody:
         required: true
         content:
@@ -947,14 +939,6 @@ paths:
         schema:
           type: string
         description: Queue item id returned by queue read routes.
-      - in: query
-        name: project
-        schema:
-          type: string
-          enum:
-          - ArqonZero
-          default: ArqonZero
-        description: Project scope. Defaults to ArqonZero.
       requestBody:
         required: true
         content:
@@ -1004,14 +988,6 @@ paths:
         schema:
           type: string
         description: Queue item id returned by queue read routes.
-      - in: query
-        name: project
-        schema:
-          type: string
-          enum:
-          - ArqonZero
-          default: ArqonZero
-        description: Project scope. Defaults to ArqonZero.
       requestBody:
         required: true
         content:
@@ -1061,14 +1037,6 @@ paths:
         schema:
           type: string
         description: Queue item id returned by queue read routes.
-      - in: query
-        name: project
-        schema:
-          type: string
-          enum:
-          - ArqonZero
-          default: ArqonZero
-        description: Project scope. Defaults to ArqonZero.
       requestBody:
         required: true
         content:

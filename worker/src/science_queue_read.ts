@@ -127,7 +127,7 @@ function queueMutationStatePath(queueItemId: string): string {
   return `governance/queues/mutations/state/${queueItemId.replace(/[^A-Za-z0-9._-]+/g, "_")}.json`;
 }
 
-async function readQueueMutationState(
+export async function readQueueMutationState(
   env: Env,
   projectName: string,
   queueItemId: string,
@@ -227,6 +227,31 @@ function visibilityFilter(role: Role, item: QueueItem): boolean {
   return false;
 }
 
+async function overlayMutationStateForItem(
+  env: Env,
+  projectName: string,
+  role: Role,
+  item: QueueItem,
+  store: RepoStore
+): Promise<QueueItem> {
+  const mutationState = await readQueueMutationState(env, projectName, item.queue_item_id, store);
+  if (!mutationState) return item;
+
+  const effectiveState = mutationState.current_state;
+  const effectiveOwner = mutationState.claimed_by || item.current_role_owner;
+  const effectiveNextRole = mutationState.handoff_target_role || item.allowed_next_role;
+
+  return {
+    ...item,
+    current_state: effectiveState,
+    current_role_owner: effectiveOwner,
+    allowed_next_role: effectiveNextRole,
+    allowed_next_action: allowedNextActionForQueueItem(role, effectiveState, effectiveOwner, effectiveNextRole),
+    blocked_reason: effectiveState === "BLOCKED" ? "UNKNOWN" : null,
+    stop_condition: effectiveState === "QUARANTINED" ? "QUARANTINE_CONDITION_PRESENT" : null
+  };
+}
+
 async function loadFlowIndex(env: Env, projectName: string, store: RepoStore): Promise<FlowIndex> {
   const project = getProject(projectName);
   if (!project) throw new Error(`Unknown project: ${projectName}`);
@@ -266,22 +291,18 @@ export async function buildQueueItems(env: Env, projectName: string, role: Role,
     const state = readState(manifest?.status || entry.status || "UNKNOWN", currentGate);
     const nextRole = roleFromGate(currentGate);
     const queueItemId = `Q-${entry.flow_id}`;
-    const mutationState = await readQueueMutationState(env, projectName, queueItemId, store);
-    const effectiveState = mutationState?.current_state || state;
-    const effectiveOwner = mutationState?.claimed_by || nextRole;
-    const effectiveNextRole = mutationState?.handoff_target_role || nextRole;
     const item: QueueItem = {
       queue_item_id: queueItemId,
       project: projectName,
       flow_id: entry.flow_id,
       flow_ref: manifest?.name || entry.name || entry.flow_id,
       queue_lane: "diagnostic",
-      current_state: effectiveState,
-      current_role_owner: effectiveOwner,
-      allowed_next_role: effectiveNextRole,
-      allowed_next_action: allowedNextActionForQueueItem(role, effectiveState, effectiveOwner, effectiveNextRole),
-      blocked_reason: effectiveState === "BLOCKED" ? "UNKNOWN" : null,
-      stop_condition: effectiveState === "QUARANTINED" ? "QUARANTINE_CONDITION_PRESENT" : null,
+      current_state: state,
+      current_role_owner: nextRole,
+      allowed_next_role: nextRole,
+      allowed_next_action: allowedNextActionForQueueItem(role, state, nextRole, nextRole),
+      blocked_reason: state === "BLOCKED" ? "UNKNOWN" : null,
+      stop_condition: state === "QUARANTINED" ? "QUARANTINE_CONDITION_PRESENT" : null,
       related_artifacts: safeArtifacts(manifest?.artifacts),
       evidence_requirements: [],
       audit_status: "UNKNOWN",
@@ -393,8 +414,9 @@ export async function handleScienceQueueReadRequest(
 
   if (route === "item" || route === "history") {
     const queueItemId = args.queueItemId || "";
-    const match = items.find(item => item.queue_item_id === queueItemId || item.flow_id === queueItemId || item.flow_ref === queueItemId);
-    if (!match) return errorResponse("QUEUE_ITEM_NOT_FOUND", `Unknown queue item: ${queueItemId}`, 404);
+    const baseMatch = items.find(item => item.queue_item_id === queueItemId || item.flow_id === queueItemId || item.flow_ref === queueItemId);
+    if (!baseMatch) return errorResponse("QUEUE_ITEM_NOT_FOUND", `Unknown queue item: ${queueItemId}`, 404);
+    const match = await overlayMutationStateForItem(env, projectName, role, baseMatch, store);
     if (route === "item") return jsonResponse({ ...base, queue_item: match });
 
     const manifest = await loadManifest(env, projectName, match.flow_id, store);
