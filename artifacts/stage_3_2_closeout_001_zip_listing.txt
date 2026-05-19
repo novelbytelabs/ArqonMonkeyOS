@@ -1,0 +1,18 @@
+Archive:  artifacts/stage_3_2_closeout_001.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  2026-05-18 20:33   stage_3_2_closeout_001/
+      208  2026-05-18 20:33   stage_3_2_closeout_001/git_status.txt
+      591  2026-05-18 20:33   stage_3_2_closeout_001/helper_report.md
+        0  2026-05-18 20:33   stage_3_2_closeout_001/no_source_change_paths.txt
+     1237  2026-05-18 20:33   stage_3_2_closeout_001/verification_summary.md
+      382  2026-05-18 20:33   stage_3_2_closeout_001/reconstruction_reference.txt
+      225  2026-05-18 20:33   stage_3_2_closeout_001/boundary_attestations.txt
+       41  2026-05-18 20:33   stage_3_2_closeout_001/planning_commit.txt
+       41  2026-05-18 20:33   stage_3_2_closeout_001/implementation_packet_commit.txt
+       41  2026-05-18 20:33   stage_3_2_closeout_001/reconstruction_baseline_commit.txt
+     4875  2026-05-18 20:33   stage_3_2_closeout_001/SCIENCE_MONKEYS_OPTION_C_QUEUE_MUTATION_STAGE_3_2_CLOSEOUT_001.md
+       41  2026-05-18 20:33   stage_3_2_closeout_001/execution_commit.txt
+     1537  2026-05-18 20:33   stage_3_2_closeout_001/closeout_doc_verification_grep.txt
+---------                     -------
+     9219                     13 files
