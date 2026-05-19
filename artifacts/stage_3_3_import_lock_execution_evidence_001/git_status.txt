@@ -1,0 +1,6 @@
+## main...origin/main
+?? artifacts/stage_3_2_execution_reconstruction_002/
+?? artifacts/stage_3_3_import_lock_execution_evidence_001.sha256
+?? artifacts/stage_3_3_import_lock_execution_evidence_001/
+?? artifacts/stage_3_3_import_lock_execution_evidence_001_zip_listing.txt
+?? artifacts/stage_3_3_schema_instruction_import_lock_packet_001_input/

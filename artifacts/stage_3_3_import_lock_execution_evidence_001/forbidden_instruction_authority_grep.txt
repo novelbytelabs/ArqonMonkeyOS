@@ -1,0 +1,12 @@
+# forbidden instruction authority grep (raw)
+artifacts/stage_3_3_import_lock_execution_evidence_001/canonical_gpt_instructions/arqon_zero_explorer_ai.md:46:- approve deployment
+artifacts/stage_3_3_import_lock_execution_evidence_001/canonical_gpt_instructions/arqon_zero_designer_ai.md:46:- approve deployment
+artifacts/stage_3_3_import_lock_execution_evidence_001/canonical_gpt_instructions/arqon_zero_science_auditor_ai.md:46:- approve deployment
+artifacts/stage_3_3_import_lock_execution_evidence_001/canonical_gpt_instructions/arqon_zero_science_auditor_ai.md:91:Science Auditor may perform audit/verification-scoped review and approved queue operations only. Science Auditor must not create missing evidence, modify files, certify production readiness, approve deployment, execute experiments, or perform Human decisions.
+artifacts/stage_3_3_import_lock_execution_evidence_001/canonical_gpt_instructions/arqon_zero_hypothesizer_ai.md:46:- approve deployment
+
+# forbidden instruction authority grep (positive authority violations only)
+artifacts/stage_3_3_import_lock_execution_evidence_001/canonical_gpt_instructions/arqon_zero_explorer_ai.md:46:- approve deployment
+artifacts/stage_3_3_import_lock_execution_evidence_001/canonical_gpt_instructions/arqon_zero_designer_ai.md:46:- approve deployment
+artifacts/stage_3_3_import_lock_execution_evidence_001/canonical_gpt_instructions/arqon_zero_science_auditor_ai.md:46:- approve deployment
+artifacts/stage_3_3_import_lock_execution_evidence_001/canonical_gpt_instructions/arqon_zero_hypothesizer_ai.md:46:- approve deployment

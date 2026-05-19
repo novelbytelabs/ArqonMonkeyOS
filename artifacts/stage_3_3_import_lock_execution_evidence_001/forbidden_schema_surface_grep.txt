@@ -1,0 +1,23 @@
+# forbidden schema surface grep (raw)
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_hypothesizer.openapi.yaml:414:        Context is not Science evidence, not a finding, and not certification.
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_hypothesizer.openapi.yaml:486:        are not Science artifacts, not evidence, not findings, not certification,
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_hypothesizer.openapi.yaml:487:        not promotion, not deploy-approval, and not prod-readiness.
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_hypothesizer.openapi.yaml:516:        role notes only. They are not Science evidence, not findings, not promotion,
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_hypothesizer.openapi.yaml:621:        findings, promotion, deploy-approval, or prod-readiness.
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_explorer.openapi.yaml:414:        Context is not Science evidence, not a finding, and not certification.
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_explorer.openapi.yaml:486:        are not Science artifacts, not evidence, not findings, not certification,
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_explorer.openapi.yaml:487:        not promotion, not deploy-approval, and not prod-readiness.
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_explorer.openapi.yaml:516:        role notes only. They are not Science evidence, not findings, not promotion,
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_explorer.openapi.yaml:621:        findings, promotion, deploy-approval, or prod-readiness.
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_designer.openapi.yaml:414:        Context is not Science evidence, not a finding, and not certification.
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_designer.openapi.yaml:486:        are not Science artifacts, not evidence, not findings, not certification,
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_designer.openapi.yaml:487:        not promotion, not deploy-approval, and not prod-readiness.
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_designer.openapi.yaml:516:        role notes only. They are not Science evidence, not findings, not promotion,
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_designer.openapi.yaml:621:        findings, promotion, deploy-approval, or prod-readiness.
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_science_auditor.openapi.yaml:414:        Context is not Science evidence, not a finding, and not certification.
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_science_auditor.openapi.yaml:486:        are not Science artifacts, not evidence, not findings, not certification,
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_science_auditor.openapi.yaml:487:        not promotion, not deploy-approval, and not prod-readiness.
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_science_auditor.openapi.yaml:516:        role notes only. They are not Science evidence, not findings, not promotion,
+artifacts/stage_3_3_import_lock_execution_evidence_001/schemas/science_monkeys_actions_science_auditor.openapi.yaml:621:        findings, promotion, deploy-approval, or prod-readiness.
+
+# forbidden schema surface grep (positive route/authority violations)
