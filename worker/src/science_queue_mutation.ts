@@ -375,10 +375,8 @@ async function handleScienceQueueMutationRequestUnchecked(
   if (!getProject(payload.project)) return mutationError("UNKNOWN_PROJECT", `Unknown project: ${payload.project}`, 404);
 
   const store = repoStore || githubRepoStore;
-  const { item, state } = await resolveQueueState(env, payload.project, queueItemId, authenticatedRole, store);
-
   const timestamp = new Date().toISOString();
-  const recordPath = mutationRecordPath(timestamp, item.queue_item_id, route, authenticatedRole, payload.idempotency_key);
+  const recordPath = mutationRecordPath(timestamp, queueItemId, route, authenticatedRole, payload.idempotency_key);
   const signature = payloadSignature(route, payload);
   const existing = await readJsonIfExists<MutationRecord>(env, payload.project, recordPath, store);
   if (existing.value) {
@@ -386,6 +384,16 @@ async function handleScienceQueueMutationRequestUnchecked(
       return mutationError("IDEMPOTENCY_CONFLICT", `Existing idempotency_key ${payload.idempotency_key} conflicts with a different payload`, 409);
     }
     return jsonResponse(buildResponse(payload.project, authenticatedRole, existing.value, recordPath, existing.sha || "UNKNOWN", true));
+  }
+
+  const { item, state } = await resolveQueueState(env, payload.project, queueItemId, authenticatedRole, store);
+  const canonicalRecordPath = mutationRecordPath(timestamp, item.queue_item_id, route, authenticatedRole, payload.idempotency_key);
+  const canonicalExisting = canonicalRecordPath === recordPath ? { value: null, sha: null } : await readJsonIfExists<MutationRecord>(env, payload.project, canonicalRecordPath, store);
+  if (canonicalExisting.value) {
+    if (canonicalExisting.value.payload_signature !== signature) {
+      return mutationError("IDEMPOTENCY_CONFLICT", `Existing idempotency_key ${payload.idempotency_key} conflicts with a different payload`, 409);
+    }
+    return jsonResponse(buildResponse(payload.project, authenticatedRole, canonicalExisting.value, canonicalRecordPath, canonicalExisting.sha || "UNKNOWN", true));
   }
 
   const authorityCheck = validateRouteAuthority(route, authenticatedRole, state, item.current_role_owner, payload);
@@ -415,7 +423,7 @@ async function handleScienceQueueMutationRequestUnchecked(
   const writtenRecord = await writeJson(
     env,
     payload.project,
-    recordPath,
+    canonicalRecordPath,
     record,
     `science queue mutation ${route}: ${item.queue_item_id}`,
     store
