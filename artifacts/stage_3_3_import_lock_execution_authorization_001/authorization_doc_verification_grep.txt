@@ -1,0 +1,42 @@
+4:- REQUIRES_HUMAN_REVIEW
+5:- development diagnostic only
+6:- NOT SEALED-TEST CERTIFIED
+7:- not promotable
+13:This packet is authorization/planning only.
+15:It does not perform GPT Action import.
+17:It does not modify GPT configurations.
+19:It does not run live routes.
+21:It does not certify, promote, approve deployment, claim production readiness, or authorize autonomous Science operation.
+86:  `6e00bbcabf2b9a517d8d5d019739fe60347423e1dd1feb1d730f8735f1e1ed8b`
+88:  `ae6556d2b2792fb6a7ceb963da638bbbc9a4ce8e964d6e786c29e99220be504f`
+90:  `af505087b67a6ac5e9b711b4405d0a4f73f5758b32fb352d17c4fefde4c2df58`
+92:  `04f5612ac78a0440a504e3929dafe11bbc278b496f3b8b0510cdd8247161f708`
+99:  `330b922eeb1d1a8be8d08f8ea0116277ef910859e638d4d7e0c73340129cbe8f`
+101:  `a4396f01934cf67d26b239363a5ff651ae4b5518db71dd3161534e7ff3063d25`
+103:  `8eca7851392ae801d6ae5e23468472cbf08c5d1419c8cad6c3627c8cfe519c4f`
+105:  `e11cb20234834a3e4d901067a953761ce010459418598f8e5817db3743e83c03`
+111:- Explorer: 27
+112:- Hypothesizer: 29
+113:- Designer: 28
+114:- Science Auditor: 28
+120:## Forbidden schema surface
+133:## Forbidden instruction/config authority
+145:- claim production readiness
+146:- authorize autonomous Science operation
+151:## Future import execution evidence requirements
+177:## Manual UI edit handling
+187:## Import execution stop conditions
+204:- any GPT instruction claims production readiness
+205:- any GPT instruction authorizes autonomous Science operation
+212:## Future import execution package contents
+243:- certify
+244:- promote
+245:- claim production readiness
+246:- authorize autonomous Science operation
+248:## Human decision options
+264:That future approval would still not authorize live route smoke, deployment, certification, promotion, production-readiness claims, or autonomous Science operation.
+274:- REQUIRES_HUMAN_REVIEW
+275:- development diagnostic only
+276:- NOT SEALED-TEST CERTIFIED
+277:- not promotable
+279:This packet does not certify, promote, approve deployment, claim production readiness, authorize GPT Action import, authorize live routes, or authorize autonomous Science operation.

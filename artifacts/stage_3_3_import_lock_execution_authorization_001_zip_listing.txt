@@ -1,0 +1,12 @@
+Archive:  artifacts/stage_3_3_import_lock_execution_authorization_001.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  2026-05-18 21:36   stage_3_3_import_lock_execution_authorization_001/
+      334  2026-05-18 21:36   stage_3_3_import_lock_execution_authorization_001/git_status.txt
+      628  2026-05-18 21:36   stage_3_3_import_lock_execution_authorization_001/helper_report.md
+        0  2026-05-18 21:36   stage_3_3_import_lock_execution_authorization_001/no_source_change_paths.txt
+     1375  2026-05-18 21:36   stage_3_3_import_lock_execution_authorization_001/verification_summary.md
+     8252  2026-05-18 21:36   stage_3_3_import_lock_execution_authorization_001/SCIENCE_MONKEYS_OPTION_C_QUEUE_MUTATION_STAGE_3_3_IMPORT_LOCK_EXECUTION_AUTHORIZATION_001.md
+     2114  2026-05-18 21:36   stage_3_3_import_lock_execution_authorization_001/authorization_doc_verification_grep.txt
+---------                     -------
+    12703                     7 files
