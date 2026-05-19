@@ -223,7 +223,7 @@ function visibilityFilter(role: Role, item: QueueItem): boolean {
     return item.current_state === "WAITING_FOR_EXECUTOR" || item.allowed_next_role === "SCIENCE_EXECUTOR_AI";
   }
   if (item.current_role_owner === role || item.allowed_next_role === role) return true;
-  if (["READY", "UNKNOWN", "BLOCKED", "QUARANTINED", "COMPLETED_STEP", "WAITING_FOR_HUMAN"].includes(item.current_state)) return true;
+  if (["READY", "UNKNOWN", "BLOCKED", "QUARANTINED", "HANDOFF_REQUESTED", "COMPLETED_STEP", "WAITING_FOR_HUMAN"].includes(item.current_state)) return true;
   return false;
 }
 
