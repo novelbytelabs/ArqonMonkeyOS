@@ -38,6 +38,13 @@ Current execution is in Stage 2A.
 - Stage 2C follows Stage 2B smoke and closes the Science command surface.
 - Option C queue work remains blocked until Stage 2A/2B/2C are complete and Human-closed.
 
+Bounded later-stage note:
+
+- Stage 3.5 is closed for the bounded Option C queue workflow objective only by Human decision.
+- This does not certify, promote, productionize, deploy, or sealed-test certify the system.
+- Deployed Worker commit proof remains UNKNOWN in the bounded Stage 3.5 closeout evidence.
+- Stage 3.6 is later and is not authorized by the bounded Stage 3.5 closeout.
+
 ## Current control point
 
 The current command surface for Science GPTs is governed by the ContextBus command schema import-lock workflow.
