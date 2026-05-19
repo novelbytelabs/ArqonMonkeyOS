@@ -1,0 +1,7 @@
+# forbidden routes
+
+# code-monkey/human/science-executor markers
+artifacts/stage_3_3_schema_instruction_import_lock_packet_001/schemas/science_monkeys_actions_science_auditor.openapi.yaml:7:    Required status labels: REQUIRES_HUMAN_REVIEW; development diagnostic only; NOT SEALED-TEST CERTIFIED; not promotable. Raw GPT output is not evidence. Queue records
+artifacts/stage_3_3_schema_instruction_import_lock_packet_001/schemas/science_monkeys_actions_hypothesizer.openapi.yaml:7:    Required status labels: REQUIRES_HUMAN_REVIEW; development diagnostic only; NOT SEALED-TEST CERTIFIED; not promotable. Raw GPT output is not evidence. Queue records
+artifacts/stage_3_3_schema_instruction_import_lock_packet_001/schemas/science_monkeys_actions_explorer.openapi.yaml:7:    Required status labels: REQUIRES_HUMAN_REVIEW; development diagnostic only; NOT SEALED-TEST CERTIFIED; not promotable. Raw GPT output is not evidence. Queue records
+artifacts/stage_3_3_schema_instruction_import_lock_packet_001/schemas/science_monkeys_actions_designer.openapi.yaml:7:    Required status labels: REQUIRES_HUMAN_REVIEW; development diagnostic only; NOT SEALED-TEST CERTIFIED; not promotable. Raw GPT output is not evidence. Queue records

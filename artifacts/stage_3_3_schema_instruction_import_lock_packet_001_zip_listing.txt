@@ -1,0 +1,25 @@
+Archive:  artifacts/stage_3_3_schema_instruction_import_lock_packet_001.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  2026-05-18 21:05   stage_3_3_schema_instruction_import_lock_packet_001/
+        0  2026-05-18 21:04   stage_3_3_schema_instruction_import_lock_packet_001/canonical_gpt_instructions/
+     2920  2026-05-18 21:04   stage_3_3_schema_instruction_import_lock_packet_001/canonical_gpt_instructions/arqon_zero_explorer_ai.md
+     2875  2026-05-18 21:04   stage_3_3_schema_instruction_import_lock_packet_001/canonical_gpt_instructions/arqon_zero_designer_ai.md
+     2929  2026-05-18 21:04   stage_3_3_schema_instruction_import_lock_packet_001/canonical_gpt_instructions/arqon_zero_science_auditor_ai.md
+     2870  2026-05-18 21:04   stage_3_3_schema_instruction_import_lock_packet_001/canonical_gpt_instructions/arqon_zero_hypothesizer_ai.md
+      346  2026-05-18 21:04   stage_3_3_schema_instruction_import_lock_packet_001/git_status.txt
+      723  2026-05-18 21:05   stage_3_3_schema_instruction_import_lock_packet_001/helper_report.md
+     1279  2026-05-18 21:05   stage_3_3_schema_instruction_import_lock_packet_001/verification_summary.md
+     1224  2026-05-18 21:04   stage_3_3_schema_instruction_import_lock_packet_001/forbidden_schema_surface_grep.txt
+      735  2026-05-18 21:04   stage_3_3_schema_instruction_import_lock_packet_001/instruction_config_sha256.txt
+        0  2026-05-18 21:04   stage_3_3_schema_instruction_import_lock_packet_001/forbidden_instruction_authority_grep.txt
+      207  2026-05-18 21:04   stage_3_3_schema_instruction_import_lock_packet_001/schema_operation_counts.txt
+        0  2026-05-18 21:04   stage_3_3_schema_instruction_import_lock_packet_001/schemas/
+    39719  2026-05-18 21:04   stage_3_3_schema_instruction_import_lock_packet_001/schemas/science_monkeys_actions_hypothesizer.openapi.yaml
+    38151  2026-05-18 21:04   stage_3_3_schema_instruction_import_lock_packet_001/schemas/science_monkeys_actions_explorer.openapi.yaml
+    38949  2026-05-18 21:04   stage_3_3_schema_instruction_import_lock_packet_001/schemas/science_monkeys_actions_designer.openapi.yaml
+    38925  2026-05-18 21:04   stage_3_3_schema_instruction_import_lock_packet_001/schemas/science_monkeys_actions_science_auditor.openapi.yaml
+      739  2026-05-18 21:04   stage_3_3_schema_instruction_import_lock_packet_001/schema_sha256.txt
+     3672  2026-05-18 21:04   stage_3_3_schema_instruction_import_lock_packet_001/schema_route_lists.txt
+---------                     -------
+   176263                     20 files

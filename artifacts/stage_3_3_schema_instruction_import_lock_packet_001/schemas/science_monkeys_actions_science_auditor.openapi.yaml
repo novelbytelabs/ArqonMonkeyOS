@@ -1,0 +1,1332 @@
+openapi: 3.1.0
+info:
+  title: Arqon Science Monkeys Actions — Science Auditor
+  version: 0.3.3-read-only-queue-role-scoped-operation-budget
+  description: 'Role-scoped Science Monkeys Action surface for science_auditor. Generated
+    from the audited all-in-one schema to satisfy the 30-operation GPT Action limit.
+    Required status labels: REQUIRES_HUMAN_REVIEW; development diagnostic only; NOT SEALED-TEST CERTIFIED; not promotable. Raw GPT output is not evidence. Queue records
+    are governance coordination records, not scientific truth. No harness = No truth.'
+x-arqon_schema_id: SCIENCE_MONKEYS_READ_ONLY_QUEUE_ROLE_SCOPED_SCIENCE_AUDITOR_SCHEMA_001
+x-arqon_schema_status: CANDIDATE_UNTIL_GATE_PASS_AND_HASH_LOCKED_IMPORT
+x-arqon_import_rule: Import only this exact role-scoped schema into the matching Science
+  GPT after Human approval. Record schema SHA, operator, timestamp, route presence,
+  and forbidden route absence. No live smoke is authorized by this schema candidate.
+servers:
+- url: https://arqon-contextos-broker.sonarum.workers.dev
+security:
+- bearerAuth: []
+paths:
+  /v1/whoami:
+    get:
+      operationId: whoami
+      summary: Show authenticated role, status labels, allowed write routes, and forbidden
+        authorities.
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      responses:
+        '200':
+          description: Authenticated role and governance capability summary.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/capabilities:
+    get:
+      operationId: capabilities
+      summary: Show role-specific read/write permissions, forbidden routes, and non-authorizations.
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      responses:
+        '200':
+          description: Capability response for the bearer-token-authenticated role.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/show:
+    get:
+      operationId: showFlows
+      summary: List active, recent, blocked, and Human-review flows by friendly name.
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      - in: query
+        name: status
+        schema:
+          type: string
+        description: Optional flow status filter.
+      - in: query
+        name: type
+        schema:
+          type: string
+        description: Optional flow type filter.
+      responses:
+        '200':
+          description: Read-only flow overview.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/resume:
+    get:
+      operationId: resumeMostRelevantFlow
+      summary: Return the most relevant role-specific resume packet without mutating
+        state.
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      - in: query
+        name: flow_ref
+        schema:
+          type: string
+        description: Optional flow id/name. If omitted, backend selects the most relevant
+          active flow.
+      - in: query
+        name: name
+        schema:
+          type: string
+        description: Optional friendly flow name alias.
+      responses:
+        '200':
+          description: Read-only resume packet.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/flows/{flow_ref}/resume:
+    get:
+      operationId: resumeFlowByRef
+      summary: Return a role-specific resume packet for a flow id or friendly name.
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: flow_ref
+        required: true
+        schema:
+          type: string
+        description: Existing flow id or friendly flow name.
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      responses:
+        '200':
+          description: Role-specific flow resume packet.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/flows/{flow_ref}/history:
+    get:
+      operationId: getFlowHistory
+      summary: Return flow history and decision trace without mutating state.
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: flow_ref
+        required: true
+        schema:
+          type: string
+        description: Existing flow id or friendly flow name.
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      responses:
+        '200':
+          description: Flow history response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/flows/{flow_ref}/artifacts:
+    get:
+      operationId: listFlowArtifacts
+      summary: List artifact metadata for a flow. Unsafe source paths are hidden as
+        UNKNOWN_UNSAFE_PATH.
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: flow_ref
+        required: true
+        schema:
+          type: string
+        description: Existing flow id or friendly flow name.
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      responses:
+        '200':
+          description: Flow artifact metadata list; artifact bodies are not returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/flows/{flow_ref}/latest:
+    get:
+      operationId: getFlowLatestArtifacts
+      summary: Return latest artifact summaries for a flow, optionally filtered by
+        artifact_type.
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: flow_ref
+        required: true
+        schema:
+          type: string
+        description: Existing flow id or friendly flow name.
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      - in: query
+        name: artifact_type
+        schema:
+          type: string
+        description: Optional artifact type filter.
+      responses:
+        '200':
+          description: Latest artifact summaries.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/flows/{flow_ref}/next:
+    get:
+      operationId: getFlowNextAction
+      summary: Recommend the next allowed action for the authenticated role without
+        executing it.
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: flow_ref
+        required: true
+        schema:
+          type: string
+        description: Existing flow id or friendly flow name.
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      responses:
+        '200':
+          description: Next allowed action recommendation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/flows/{flow_ref}/stop-conditions:
+    get:
+      operationId: getFlowStopConditions
+      summary: Return current stop/quarantine conditions for the flow and role.
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: flow_ref
+        required: true
+        schema:
+          type: string
+        description: Existing flow id or friendly flow name.
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      responses:
+        '200':
+          description: Stop and quarantine conditions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/artifacts/{artifact_id}:
+    get:
+      operationId: openArtifact
+      summary: Read one governed artifact body by artifact_id.
+      description: 'Read artifact body by known artifact_id only. Rejects unsafe paths,
+        ambiguous IDs, and secret-like content. 403 ARTIFACT_CONTENT_POLICY_DENIED
+        means body access is refused by policy.
+
+        '
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: artifact_id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      - in: query
+        name: flow_ref
+        required: false
+        description: Optional flow id/name for deterministic low-subrequest artifact
+          lookup.
+        schema:
+          type: string
+      - in: query
+        name: scan_limit
+        required: false
+        description: Optional bounded recent-flow scan limit when flow_ref is omitted.
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 8
+          default: 4
+      responses:
+        '200':
+          description: Governed artifact body with truth-boundary warning.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          description: Artifact content refused by policy, including ARTIFACT_CONTENT_POLICY_DENIED.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Artifact not found, or ARTIFACT_FLOW_REF_REQUIRED when bounded
+            scan cannot prove the artifact without flow_ref.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Ambiguous artifact_id; backend refuses duplicate artifact matches.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/context:
+    get:
+      operationId: syncContext
+      summary: Sync project and role context for the authenticated role.
+      description: 'Shared ContextBus read command. Returns project/role context only.
+        Context is not Science evidence, not a finding, and not certification.
+
+        '
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      - in: query
+        name: role
+        schema:
+          type: string
+        description: Optional requested role context. Backend bearer-token role remains
+          authoritative.
+      responses:
+        '200':
+          description: Role-scoped project context response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /v1/constitution:
+    get:
+      operationId: syncConstitution
+      summary: Sync active shared/role constitution for the authenticated role.
+      description: 'Shared ContextBus read command. Constitution text is governance
+        context, not Science evidence and not a runtime authority grant.
+
+        '
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      - in: query
+        name: role
+        schema:
+          type: string
+        description: Optional requested role constitution. Backend bearer-token role
+          remains authoritative.
+      responses:
+        '200':
+          description: Constitution response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /v1/notes:
+    post:
+      operationId: saveContextNote
+      summary: Save a non-official ContextBus note.
+      description: 'Shared ContextBus write command for non-official notes only. Notes
+        are not Science artifacts, not evidence, not findings, not certification,
+        not promotion, not deploy-approval, and not prod-readiness.
+
+        '
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContextNoteRequest'
+      responses:
+        '201':
+          description: Non-official context note saved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /v1/messages:
+    post:
+      operationId: sendRoleMessage
+      summary: Send a non-official ContextBus role message.
+      description: 'Shared ContextBus message command. Messages are directed non-official
+        role notes only. They are not Science evidence, not findings, not promotion,
+        not Human approval, and not authority grants.
+
+        '
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContextMessageRequest'
+      responses:
+        '201':
+          description: Non-official role message sent.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /v1/messages/inbox:
+    get:
+      operationId: readRoleInbox
+      summary: Read the authenticated role inbox.
+      description: 'Shared ContextBus inbox command. Non-Human roles may read only
+        their own role inbox as enforced by backend bearer-token auth.
+
+        '
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      - in: query
+        name: role
+        schema:
+          type: string
+        description: Optional role filter. Backend bearer-token role remains authoritative.
+      responses:
+        '200':
+          description: Role inbox response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /v1/messages/{message_id}:
+    get:
+      operationId: openRoleMessage
+      summary: Open one message visible to the authenticated role.
+      description: 'Shared ContextBus message-read command. Message contents are non-official
+        context and must not be treated as Science evidence.
+
+        '
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: message_id
+        required: true
+        schema:
+          type: string
+        description: Message id to open.
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      responses:
+        '200':
+          description: Message body/metadata response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/messages/{message_id}/archive:
+    post:
+      operationId: archiveRoleMessageByArchivePath
+      summary: Archive one message visible to the authenticated role.
+      description: 'Shared ContextBus cleanup command for message archival only. Must
+        not create Science artifacts, advance flows, or authorize evidence claims.
+        Messages are non-official context notes only and are not Science evidence,
+        findings, promotion, deploy-approval, or prod-readiness.
+
+        '
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: message_id
+        required: true
+        schema:
+          type: string
+        description: Message id to archive.
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      responses:
+        '200':
+          description: Message archived response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/science/queue:
+    get:
+      operationId: listScienceQueue
+      summary: Read-only queue listing for role-visible Science workflow coordination
+        items.
+      description: 'Read-only Option C diagnostic queue visibility. Queue records
+        are governance coordination records, not Science evidence or scientific truth.
+        Route must not mutate state.
+
+        '
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      - in: query
+        name: role
+        schema:
+          type: string
+        description: Optional requested role filter. Backend bearer-token role remains
+          authoritative.
+      responses:
+        '200':
+          description: Read-only queue item list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /v1/science/queue/{queue_item_id}:
+    get:
+      operationId: getScienceQueueItem
+      summary: Read one role-visible queue item.
+      description: 'Read-only Option C diagnostic queue visibility. Queue records
+        are governance coordination records, not Science evidence or scientific truth.
+        Route must not mutate state.
+
+        '
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: queue_item_id
+        required: true
+        schema:
+          type: string
+        description: Queue item id.
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      responses:
+        '200':
+          description: Read-only queue item response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/science/queue/by-flow/{flow_ref}:
+    get:
+      operationId: listScienceQueueByFlow
+      summary: Read role-visible queue items for one flow reference.
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: flow_ref
+        required: true
+        schema:
+          type: string
+        description: Existing flow id or friendly flow name.
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      responses:
+        '200':
+          description: Read-only queue list filtered by flow.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/science/queue/next:
+    get:
+      operationId: getScienceQueueNext
+      summary: Recommend next queue item/action without executing it.
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      responses:
+        '200':
+          description: Read-only next recommendation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /v1/science/queue/blocked:
+    get:
+      operationId: listScienceQueueBlocked
+      summary: List read-only blocked queue items visible to authenticated role.
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      responses:
+        '200':
+          description: Read-only blocked queue list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /v1/science/queue/quarantined:
+    get:
+      operationId: listScienceQueueQuarantined
+      summary: List read-only quarantined queue items visible to authenticated role.
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      responses:
+        '200':
+          description: Read-only quarantined queue list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /v1/science/queue/handoffs:
+    get:
+      operationId: listScienceQueueHandoffs
+      summary: List read-only queue handoff visibility records.
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      responses:
+        '200':
+          description: Read-only handoff visibility list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /v1/science/queue/history/{queue_item_id}:
+    get:
+      operationId: getScienceQueueHistory
+      summary: Read one queue item's history without mutation.
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: queue_item_id
+        required: true
+        schema:
+          type: string
+        description: Queue item id.
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      responses:
+        '200':
+          description: Read-only queue history response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/science/audit-experiment:
+    post:
+      operationId: scienceAuditExperiment
+      summary: Science Auditor-only audit route.
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScienceAuditExperimentRequest'
+      responses:
+        '201':
+          description: Audit artifact created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScienceArtifactResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /v1/science/record-finding:
+    post:
+      operationId: scienceRecordFinding
+      summary: Science Auditor-only finding record route.
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScienceRecordFindingRequest'
+      responses:
+        '201':
+          description: Finding artifact created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScienceArtifactResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  parameters:
+    ProjectQuery:
+      in: query
+      name: project
+      schema:
+        type: string
+        enum:
+        - ArqonZero
+        default: ArqonZero
+      description: Project scope. Defaults to ArqonZero.
+    FlowRefPath:
+      in: path
+      name: flow_ref
+      required: true
+      schema:
+        type: string
+      description: Existing flow id or friendly flow name.
+  responses:
+    BadRequest:
+      description: Bad request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Role forbidden or policy denied.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    GenericObjectResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        ok:
+          type: boolean
+        status:
+          type: string
+        version:
+          type: string
+        required_status_labels:
+          type: array
+          items:
+            type: string
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - ok
+      - error
+      properties:
+        ok:
+          type: boolean
+        error:
+          type: object
+          additionalProperties: false
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+    ContextNoteRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - project
+      - title
+      - body
+      - tags
+      - visibility
+      properties:
+        project:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        title:
+          type: string
+          description: Non-official note title.
+        body:
+          type: string
+          description: Non-official context note body. Must not contain secrets.
+        tags:
+          type: array
+          items:
+            type: string
+          description: Required non-authoritative tags. Use exact request-shape fields
+            only during Stage 2B command smoke.
+        visibility:
+          type: string
+          enum:
+          - team
+          default: team
+          description: Required note visibility. Current backend accepts only `team`.
+    ContextMessageRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - project
+      - to
+      - subject
+      - body
+      properties:
+        project:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        to:
+          type: string
+          description: Required target role inbox. Current backend expects `to`.
+        subject:
+          type: string
+          description: Non-official message subject.
+        body:
+          type: string
+          description: Non-official message body. Must not contain secrets.
+        flow_ref:
+          type: string
+          description: Optional flow reference for context only; does not create evidence.
+    ScienceArtifactSummary:
+      type: object
+      additionalProperties: true
+      properties:
+        artifact_id:
+          type: string
+        artifact_type:
+          type: string
+        title:
+          type: string
+        role:
+          type: string
+        created_at:
+          type: string
+        source_path:
+          type: string
+        source_sha:
+          type: string
+    ScienceArtifactResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        ok:
+          type: boolean
+        project:
+          type: string
+        flow_id:
+          type: string
+        flow_ref:
+          type: string
+        artifact:
+          $ref: '#/components/schemas/ScienceArtifactSummary'
+        manifest_path:
+          type: string
+        manifest_sha:
+          type: string
+        source_path:
+          type: string
+        source_sha:
+          type: string
+        required_status_labels:
+          type: array
+          items:
+            type: string
+    ScienceResearchRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - title
+      - body
+      properties:
+        project:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        name:
+          type: string
+          description: Fresh science flow name if creating a new science_flow.
+        title:
+          type: string
+          description: Flow title if creating a new science_flow.
+        summary:
+          type: string
+        flow_ref:
+          type: string
+          description: Optional existing science flow id/name.
+        artifact_type:
+          type: string
+          enum:
+          - research_dossier
+          - source_map
+          - contradiction_map
+          - open_questions
+          default: research_dossier
+        artifact_title:
+          type: string
+        body:
+          type: string
+          description: Markdown/text body for the research artifact.
+    ScienceHypothesizeRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - flow_ref
+      - body
+      properties:
+        project:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        flow_ref:
+          type: string
+          description: Existing science flow id/name.
+        artifact_type:
+          type: string
+          enum:
+          - hypothesis_card
+          - null_hypothesis
+          - prediction_record
+          default: hypothesis_card
+        artifact_title:
+          type: string
+        body:
+          type: string
+    ScienceInterpretRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - flow_ref
+      - body
+      properties:
+        project:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        flow_ref:
+          type: string
+        artifact_type:
+          type: string
+          enum:
+          - interpretation_draft
+          - alternative_explanation_review
+          default: interpretation_draft
+        artifact_title:
+          type: string
+        body:
+          type: string
+    ScienceDesignExperimentRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - flow_ref
+      - body
+      properties:
+        project:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        flow_ref:
+          type: string
+          description: Existing science flow id/name.
+        artifact_type:
+          type: string
+          enum:
+          - experiment_protocol
+          - metric_plan
+          - control_plan
+          - execution_packet
+          - sealed_boundary_plan
+          default: experiment_protocol
+        artifact_title:
+          type: string
+        body:
+          type: string
+    ScienceIterateRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - flow_ref
+      - body
+      properties:
+        project:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        flow_ref:
+          type: string
+        artifact_type:
+          type: string
+          enum:
+          - iteration_proposal
+          - revised_hypothesis_card
+          - revised_experiment_protocol
+        artifact_title:
+          type: string
+        body:
+          type: string
+    ScienceAuditExperimentRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - flow_ref
+      - body
+      properties:
+        project:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        flow_ref:
+          type: string
+          description: Existing science flow id/name.
+        artifact_type:
+          type: string
+          enum:
+          - science_checklist
+          - protocol_audit
+          - evidence_audit
+          - claim_scope_audit
+          - audit_report
+          - quarantine_recommendation
+          default: audit_report
+        artifact_title:
+          type: string
+        body:
+          type: string
+    ScienceRecordFindingRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - flow_ref
+      - body
+      properties:
+        project:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        flow_ref:
+          type: string
+        artifact_type:
+          type: string
+          enum:
+          - finding_record
+          - negative_finding_record
+          - inconclusive_finding_record
+          - finding_boundary_record
+          - share_recommendation
+          default: finding_record
+        artifact_title:
+          type: string
+        body:
+          type: string
+x-arqon_role_scope: science_auditor
+x-arqon_operation_budget_limit: 30
+x-arqon_operation_count: 28

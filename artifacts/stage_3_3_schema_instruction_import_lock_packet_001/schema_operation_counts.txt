@@ -1,0 +1,4 @@
+science_monkeys_actions_designer.openapi.yaml 28
+science_monkeys_actions_explorer.openapi.yaml 27
+science_monkeys_actions_hypothesizer.openapi.yaml 29
+science_monkeys_actions_science_auditor.openapi.yaml 28

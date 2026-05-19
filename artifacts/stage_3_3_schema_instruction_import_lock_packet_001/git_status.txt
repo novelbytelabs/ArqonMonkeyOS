@@ -1,0 +1,5 @@
+## main...origin/main
+?? artifacts/stage_3_2_execution_reconstruction_002/
+?? artifacts/stage_3_3_schema_instruction_import_lock_packet_001/
+?? artifacts/stage_3_3_schema_instruction_import_lock_packet_001_input/
+?? docs/04_flows_and_spec_kit/SCIENCE_MONKEYS_OPTION_C_QUEUE_MUTATION_STAGE_3_3_SCHEMA_AND_GPT_INSTRUCTION_IMPORT_LOCK_PACKET_001.md
