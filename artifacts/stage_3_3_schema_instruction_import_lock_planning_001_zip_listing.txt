@@ -1,0 +1,15 @@
+Archive:  artifacts/stage_3_3_schema_instruction_import_lock_planning_001.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  2026-05-18 20:51   stage_3_3_schema_instruction_import_lock_planning_001/
+      278  2026-05-18 20:51   stage_3_3_schema_instruction_import_lock_planning_001/git_status.txt
+     2488  2026-05-18 20:51   stage_3_3_schema_instruction_import_lock_planning_001/planning_doc_verification_grep.txt
+      659  2026-05-18 20:51   stage_3_3_schema_instruction_import_lock_planning_001/helper_report.md
+        0  2026-05-18 20:51   stage_3_3_schema_instruction_import_lock_planning_001/no_source_change_paths.txt
+     1292  2026-05-18 20:51   stage_3_3_schema_instruction_import_lock_planning_001/verification_summary.md
+    11504  2026-05-18 20:51   stage_3_3_schema_instruction_import_lock_planning_001/SCIENCE_MONKEYS_OPTION_C_QUEUE_MUTATION_STAGE_3_3_SCHEMA_AND_GPT_INSTRUCTION_IMPORT_LOCK_PLANNING_001.md
+      966  2026-05-18 20:51   stage_3_3_schema_instruction_import_lock_planning_001/forbidden_surface_observations.txt
+      239  2026-05-18 20:51   stage_3_3_schema_instruction_import_lock_planning_001/schema_operation_counts.txt
+      491  2026-05-18 20:51   stage_3_3_schema_instruction_import_lock_planning_001/schema_sha256.txt
+---------                     -------
+    17917                     10 files

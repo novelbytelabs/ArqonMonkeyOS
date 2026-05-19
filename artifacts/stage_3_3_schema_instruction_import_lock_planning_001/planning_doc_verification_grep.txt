@@ -1,0 +1,52 @@
+4:- REQUIRES_HUMAN_REVIEW
+5:- development diagnostic only
+6:- NOT SEALED-TEST CERTIFIED
+7:- not promotable
+13:This packet is planning only.
+17:1. Role-scoped GPT Action OpenAPI schemas.
+18:2. Role-scoped GPT instructions/configuration text.
+20:This packet does not import GPT Actions, modify GPTs, run live routes, deploy, certify, promote, claim production readiness, or authorize autonomous Science operation.
+36:- verdict: `PASS_WITH_WARNINGS`
+44:- actual GPT Action import
+46:- live route smoke
+51:- autonomous Science operation
+72:- `openapi/science_monkeys_actions_explorer.openapi.yaml`
+73:- `openapi/science_monkeys_actions_hypothesizer.openapi.yaml`
+74:- `openapi/science_monkeys_actions_designer.openapi.yaml`
+75:- `openapi/science_monkeys_actions_science_auditor.openapi.yaml`
+82:- forbidden route absence proof for each role-scoped schema
+113:- REQUIRES_HUMAN_REVIEW
+114:- development diagnostic only
+115:- NOT SEALED-TEST CERTIFIED
+116:- not promotable
+155:- grant HUMAN authority
+156:- grant SCIENCE_EXECUTOR_AI authority
+163:- claim production readiness
+164:- authorize autonomous Science operation
+180:- queue mutation does not certify results
+182:- queue mutation does not authorize autonomous Science operation
+186:### Explorer
+196:- claim certification/deployment/production readiness
+199:### Hypothesizer
+209:- claim certification/deployment/production readiness
+212:### Designer
+222:- claim certification/deployment/production readiness
+225:### Science Auditor
+235:- certify production readiness
+248:- schema SHA256
+251:- forbidden route absence proof
+276:- autonomous Science operation claims
+283:A future import-lock packet must compute operation counts for:
+309:- `AUDIT_MANIFEST.json`
+315:- forbidden route absence proof
+339:- any GPT instruction claims production readiness
+340:- any GPT instruction authorizes autonomous Science operation
+350:After this planning packet is audited, Human may choose one:
+364:`SCIENCE_MONKEYS_OPTION_C_QUEUE_MUTATION_STAGE_3_3_SCHEMA_AND_GPT_INSTRUCTION_IMPORT_LOCK_PACKET_001`
+366:That future packet would still not authorize actual GPT Action import unless Human separately approves import execution.
+372:`PASS_WITH_WARNINGS`
+376:- REQUIRES_HUMAN_REVIEW
+377:- development diagnostic only
+378:- NOT SEALED-TEST CERTIFIED
+379:- not promotable
+381:This packet does not certify, promote, approve deployment, claim production readiness, authorize GPT Action import, authorize live routes, or authorize autonomous Science operation.

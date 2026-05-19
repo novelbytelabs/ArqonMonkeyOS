@@ -1,0 +1,7 @@
+# Forbidden route grep
+
+# Authority / route label grep
+openapi/science_monkeys_actions_science_auditor.openapi.yaml:7:    Required status labels: REQUIRES_HUMAN_REVIEW; development diagnostic only; NOT SEALED-TEST CERTIFIED; not promotable. Raw GPT output is not evidence. Queue records
+openapi/science_monkeys_actions_designer.openapi.yaml:7:    Required status labels: REQUIRES_HUMAN_REVIEW; development diagnostic only; NOT SEALED-TEST CERTIFIED; not promotable. Raw GPT output is not evidence. Queue records
+openapi/science_monkeys_actions_hypothesizer.openapi.yaml:7:    Required status labels: REQUIRES_HUMAN_REVIEW; development diagnostic only; NOT SEALED-TEST CERTIFIED; not promotable. Raw GPT output is not evidence. Queue records
+openapi/science_monkeys_actions_explorer.openapi.yaml:7:    Required status labels: REQUIRES_HUMAN_REVIEW; development diagnostic only; NOT SEALED-TEST CERTIFIED; not promotable. Raw GPT output is not evidence. Queue records
