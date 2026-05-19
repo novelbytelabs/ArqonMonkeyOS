@@ -1,0 +1,12 @@
+Archive:  artifacts/stage_3_3_import_lock_execution_packet_001.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  2026-05-18 21:46   stage_3_3_import_lock_execution_packet_001/
+      320  2026-05-18 21:46   stage_3_3_import_lock_execution_packet_001/git_status.txt
+     8877  2026-05-18 21:46   stage_3_3_import_lock_execution_packet_001/SCIENCE_MONKEYS_OPTION_C_QUEUE_MUTATION_STAGE_3_3_IMPORT_LOCK_EXECUTION_PACKET_001.md
+      612  2026-05-18 21:46   stage_3_3_import_lock_execution_packet_001/helper_report.md
+        0  2026-05-18 21:46   stage_3_3_import_lock_execution_packet_001/no_source_change_paths.txt
+     1296  2026-05-18 21:46   stage_3_3_import_lock_execution_packet_001/verification_summary.md
+     2211  2026-05-18 21:46   stage_3_3_import_lock_execution_packet_001/packet_doc_verification_grep.txt
+---------                     -------
+    13316                     7 files

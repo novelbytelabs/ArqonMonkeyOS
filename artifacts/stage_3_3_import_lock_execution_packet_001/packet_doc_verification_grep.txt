@@ -1,0 +1,41 @@
+4:- REQUIRES_HUMAN_REVIEW
+5:- development diagnostic only
+6:- NOT SEALED-TEST CERTIFIED
+7:- not promotable
+15:This packet does not perform GPT Action import.
+17:This packet does not modify GPT configurations.
+19:This packet does not run live routes.
+21:This packet does not certify, promote, approve deployment, claim production readiness, or authorize autonomous Science operation.
+77:  `6e00bbcabf2b9a517d8d5d019739fe60347423e1dd1feb1d730f8735f1e1ed8b`
+80:  `ae6556d2b2792fb6a7ceb963da638bbbc9a4ce8e964d6e786c29e99220be504f`
+83:  `af505087b67a6ac5e9b711b4405d0a4f73f5758b32fb352d17c4fefde4c2df58`
+86:  `04f5612ac78a0440a504e3929dafe11bbc278b496f3b8b0510cdd8247161f708`
+93:  `330b922eeb1d1a8be8d08f8ea0116277ef910859e638d4d7e0c73340129cbe8f`
+96:  `a4396f01934cf67d26b239363a5ff651ae4b5518db71dd3161534e7ff3063d25`
+99:  `8eca7851392ae801d6ae5e23468472cbf08c5d1419c8cad6c3627c8cfe519c4f`
+102:  `e11cb20234834a3e4d901067a953761ce010459418598f8e5817db3743e83c03`
+108:- Explorer: 27
+109:- Hypothesizer: 29
+110:- Designer: 28
+111:- Science Auditor: 28
+130:## Per-GPT checklist fields
+157:## Forbidden schema routes
+172:## Forbidden instruction/config authority
+185:- autonomous Science operation authorization
+192:## Manual UI edit handling
+205:- fail blocked if the edit authorizes live routes, deployment, certification, production readiness, or autonomous operation
+207:## Future import-lock execution stop conditions
+223:- any instruction/config claims production readiness
+224:- any instruction/config authorizes autonomous Science operation
+232:## Future import-lock execution package contents
+263:- certify
+264:- promote
+265:- claim production readiness
+266:- authorize autonomous Science operation
+268:## Human decision options
+284:That future execution would still not authorize live route smoke, certification, promotion, deployment approval, production-readiness claims, or autonomous Science operation.
+294:- REQUIRES_HUMAN_REVIEW
+295:- development diagnostic only
+296:- NOT SEALED-TEST CERTIFIED
+297:- not promotable
+299:This packet does not certify, promote, approve deployment, claim production readiness, authorize GPT Action import, authorize live routes, or authorize autonomous Science operation.
