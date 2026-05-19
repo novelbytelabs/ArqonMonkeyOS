@@ -1,12 +1,12 @@
 openapi: 3.1.0
 info:
   title: Arqon Science Monkeys Actions — Explorer
-  version: 0.3.3-read-only-queue-role-scoped-operation-budget
+  version: 0.3.4-option-c-queue-mutation-e2e-candidate
   description: 'Role-scoped Science Monkeys Action surface for explorer. Generated
     from the audited all-in-one schema to satisfy the 30-operation GPT Action limit.
     Required status labels: REQUIRES_HUMAN_REVIEW; development diagnostic only; NOT SEALED-TEST CERTIFIED; not promotable. Raw GPT output is not evidence. Queue records
     are governance coordination records, not scientific truth. No harness = No truth.'
-x-arqon_schema_id: SCIENCE_MONKEYS_READ_ONLY_QUEUE_ROLE_SCOPED_EXPLORER_SCHEMA_001
+x-arqon_schema_id: SCIENCE_MONKEYS_OPTION_C_QUEUE_MUTATION_EXPLORER_SCHEMA_001
 x-arqon_schema_status: CANDIDATE_UNTIL_GATE_PASS_AND_HASH_LOCKED_IMPORT
 x-arqon_import_rule: Import only this exact role-scoped schema into the matching Science
   GPT after Human approval. Record schema SHA, operator, timestamp, route presence,
@@ -762,32 +762,6 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
-  /v1/science/queue/next:
-    get:
-      operationId: getScienceQueueNext
-      summary: Recommend next queue item/action without executing it.
-      security:
-      - bearerAuth: []
-      parameters:
-      - in: query
-        name: project
-        schema:
-          type: string
-          enum:
-          - ArqonZero
-          default: ArqonZero
-        description: Project scope. Defaults to ArqonZero.
-      responses:
-        '200':
-          description: Read-only next recommendation.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericObjectResponse'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
   /v1/science/queue/blocked:
     get:
       operationId: listScienceQueueBlocked
@@ -900,6 +874,234 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+  /v1/science/queue/{queue_item_id}/claim:
+    post:
+      operationId: claimScienceQueueItem
+      summary: Claim one safe role-visible queue item for bounded diagnostic workflow coordination.
+      description: 'Option C queue mutation. Mutation records are governance coordination records only; they are not Science evidence or scientific truth. Requires idempotency_key. Does not certify, promote, deploy, approve production readiness, or authorize autonomy.
+
+        '
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: queue_item_id
+        required: true
+        schema:
+          type: string
+        description: Queue item id returned by queue read routes.
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueueMutationRequest'
+      responses:
+        '201':
+          description: Queue item claimed or mutation record created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '200':
+          description: Idempotent replay or policy-equivalent response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Invalid transition or idempotency conflict.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/science/queue/{queue_item_id}/handoff:
+    post:
+      operationId: handoffScienceQueueItem
+      summary: Handoff one safe role-visible queue item to an allowed non-Human Science role.
+      description: 'Option C queue mutation. Explorer handoff targets are limited by backend policy. Must not hand off to HUMAN or SCIENCE_EXECUTOR_AI. Mutation records are not Science evidence or scientific truth.
+
+        '
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: queue_item_id
+        required: true
+        schema:
+          type: string
+        description: Queue item id returned by queue read routes.
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueueMutationRequest'
+      responses:
+        '201':
+          description: Queue item handoff recorded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '200':
+          description: Idempotent replay or policy-equivalent response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Invalid transition or idempotency conflict.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/science/queue/{queue_item_id}/block:
+    post:
+      operationId: blockScienceQueueItem
+      summary: Block one safe role-visible queue item when policy allows.
+      description: 'Option C queue mutation. Blocking is governance coordination only; it is not Science evidence or scientific truth.
+
+        '
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: queue_item_id
+        required: true
+        schema:
+          type: string
+        description: Queue item id returned by queue read routes.
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueueMutationRequest'
+      responses:
+        '201':
+          description: Queue item block recorded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '200':
+          description: Idempotent replay or policy-equivalent response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Invalid transition or idempotency conflict.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/science/queue/{queue_item_id}/complete:
+    post:
+      operationId: completeScienceQueueItem
+      summary: Complete one safe claimed queue item when policy allows.
+      description: 'Option C queue mutation. Completion is workflow coordination only and does not certify, promote, deploy, approve production readiness, or authorize autonomous Science operation.
+
+        '
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: queue_item_id
+        required: true
+        schema:
+          type: string
+        description: Queue item id returned by queue read routes.
+      - in: query
+        name: project
+        schema:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        description: Project scope. Defaults to ArqonZero.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueueMutationRequest'
+      responses:
+        '201':
+          description: Queue item completion recorded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '200':
+          description: Idempotent replay or policy-equivalent response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericObjectResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Invalid transition or idempotency conflict.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /v1/science/research:
     post:
       operationId: scienceResearch
@@ -1064,6 +1266,45 @@ components:
         flow_ref:
           type: string
           description: Optional flow reference for context only; does not create evidence.
+    QueueMutationRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - project
+      - idempotency_key
+      properties:
+        project:
+          type: string
+          enum:
+          - ArqonZero
+          default: ArqonZero
+        idempotency_key:
+          type: string
+          description: Required idempotency key for safe replay detection.
+        reason:
+          type: string
+          description: Claim reason for claim requests.
+        handoff_reason:
+          type: string
+          description: Required for handoff requests.
+        target_role:
+          type: string
+          enum:
+          - HYPOTHESIZER_AI
+          - DESIGNER_AI
+          - SCIENCE_AUDITOR_AI
+          description: Handoff target role. Explorer must not hand off to HUMAN or SCIENCE_EXECUTOR_AI.
+        blocked_reason:
+          type: string
+          description: Required for block requests.
+        completion_summary:
+          type: string
+          description: Required for complete requests.
+        evidence_refs:
+          type: array
+          items:
+            type: string
+          description: Optional refs; queue mutation records are not evidence by themselves.
     ScienceArtifactSummary:
       type: object
       additionalProperties: true
@@ -1305,4 +1546,4 @@ components:
           type: string
 x-arqon_role_scope: explorer
 x-arqon_operation_budget_limit: 30
-x-arqon_operation_count: 27
+x-arqon_operation_count: 30

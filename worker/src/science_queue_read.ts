@@ -149,6 +149,28 @@ function roleFromGate(gate: string): string {
   return "UNKNOWN";
 }
 
+function isScienceQueueMutatingRole(role: Role): boolean {
+  return ["EXPLORER_AI", "HYPOTHESIZER_AI", "DESIGNER_AI", "SCIENCE_AUDITOR_AI"].includes(role);
+}
+
+function allowedNextActionForQueueItem(role: Role, state: string, currentRoleOwner: string, allowedNextRole: string): string {
+  if (!isScienceQueueMutatingRole(role)) return "READ_ONLY_RECOMMENDATION_ONLY";
+
+  if (state === "READY") {
+    if (currentRoleOwner === "UNKNOWN" || currentRoleOwner === role || allowedNextRole === role) {
+      return "CLAIM_ELIGIBLE";
+    }
+    return "CLAIM_POLICY_CHECK_REQUIRED";
+  }
+
+  if (state === "CLAIMED") return "CLAIMED_ITEM_REQUIRES_STATE_RECORD_CHECK";
+  if (state === "BLOCKED") return "BLOCKED_ITEM_POLICY_CHECK_REQUIRED";
+  if (state === "QUARANTINED") return "READ_ONLY_RECOMMENDATION_ONLY";
+  if (state === "COMPLETED_STEP") return "READ_ONLY_RECOMMENDATION_ONLY";
+
+  return "READ_ONLY_RECOMMENDATION_ONLY";
+}
+
 function safeArtifacts(artifacts: FlowArtifactSummary[] | undefined): Record<string, unknown>[] {
   return (artifacts || []).map(artifact => ({
     artifact_id: artifact.artifact_id || "UNKNOWN",
@@ -218,7 +240,7 @@ export async function buildQueueItems(env: Env, projectName: string, role: Role,
       current_state: state,
       current_role_owner: nextRole,
       allowed_next_role: nextRole,
-      allowed_next_action: "READ_ONLY_RECOMMENDATION_ONLY",
+      allowed_next_action: allowedNextActionForQueueItem(role, state, nextRole, nextRole),
       blocked_reason: state === "BLOCKED" ? "UNKNOWN" : null,
       stop_condition: state === "QUARANTINED" ? "QUARANTINE_CONDITION_PRESENT" : null,
       related_artifacts: safeArtifacts(manifest?.artifacts),
