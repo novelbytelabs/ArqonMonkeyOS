@@ -1,0 +1,33 @@
+4:- REQUIRES_HUMAN_REVIEW
+5:- development diagnostic only
+6:- NOT SEALED-TEST CERTIFIED
+7:- not promotable
+11:Record Human approval to proceed only to bounded Stage 3.3 import-lock execution evidence preparation.
+13:This approval does not authorize actual GPT Action import.
+15:This approval does not authorize GPT configuration changes.
+17:This approval does not authorize live routes.
+19:This approval does not certify, promote, approve deployment, claim production readiness, or authorize autonomous Science operation.
+65:- autonomous Science operation
+92:  `6e00bbcabf2b9a517d8d5d019739fe60347423e1dd1feb1d730f8735f1e1ed8b`
+95:  `ae6556d2b2792fb6a7ceb963da638bbbc9a4ce8e964d6e786c29e99220be504f`
+98:  `af505087b67a6ac5e9b711b4405d0a4f73f5758b32fb352d17c4fefde4c2df58`
+101:  `04f5612ac78a0440a504e3929dafe11bbc278b496f3b8b0510cdd8247161f708`
+108:  `330b922eeb1d1a8be8d08f8ea0116277ef910859e638d4d7e0c73340129cbe8f`
+111:  `a4396f01934cf67d26b239363a5ff651ae4b5518db71dd3161534e7ff3063d25`
+114:  `8eca7851392ae801d6ae5e23468472cbf08c5d1419c8cad6c3627c8cfe519c4f`
+117:  `e11cb20234834a3e4d901067a953761ce010459418598f8e5817db3743e83c03`
+123:- Explorer: 27
+124:- Hypothesizer: 29
+125:- Designer: 28
+126:- Science Auditor: 28
+134:`SCIENCE_MONKEYS_OPTION_C_QUEUE_MUTATION_STAGE_3_3_IMPORT_LOCK_EXECUTION_EVIDENCE_001`
+140:The next packet must include:
+166:The next packet must stop if:
+180:- any instruction/config claims production readiness
+181:- any instruction/config authorizes autonomous Science operation
+191:After this approval packet is audited, Human may choose one:
+206:- REQUIRES_HUMAN_REVIEW
+207:- development diagnostic only
+208:- NOT SEALED-TEST CERTIFIED
+209:- not promotable
+211:This approval does not certify, promote, approve deployment, claim production readiness, authorize GPT Action import, authorize live routes, authorize GPT configuration changes, or authorize autonomous Science operation.
