@@ -50,6 +50,18 @@ interface FlowManifest {
   history?: FlowHistoryEvent[];
 }
 
+interface MutationStateRecord {
+  queue_item_id: string;
+  flow_ref: string;
+  flow_id: string;
+  project: string;
+  current_state: string;
+  claimed_by: Role | null;
+  handoff_target_role: string | null;
+  updated_at: string;
+  latest_mutation_id: string;
+}
+
 export interface QueueTruthBoundary {
   queue_record_is_truth: false;
   queue_record_is_evidence: false;
@@ -109,6 +121,28 @@ function flowIndexPath(): string {
 
 function flowManifestPath(flowId: string): string {
   return `governance/flows/${flowId}/flow_manifest.json`;
+}
+
+function queueMutationStatePath(queueItemId: string): string {
+  return `governance/queues/mutations/state/${queueItemId.replace(/[^A-Za-z0-9._-]+/g, "_")}.json`;
+}
+
+async function readQueueMutationState(
+  env: Env,
+  projectName: string,
+  queueItemId: string,
+  store: RepoStore
+): Promise<MutationStateRecord | null> {
+  const project = getProject(projectName);
+  if (!project) throw new Error(`Unknown project: ${projectName}`);
+  try {
+    const file = await store.fetchFile(env, project, queueMutationStatePath(queueItemId));
+    return JSON.parse(file.content) as MutationStateRecord;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (message.includes("404")) return null;
+    throw error;
+  }
 }
 
 function emptyFlowIndex(project: string): FlowIndex {
@@ -231,18 +265,23 @@ export async function buildQueueItems(env: Env, projectName: string, role: Role,
     const currentGate = manifest?.current_gate || entry.current_gate || "UNKNOWN";
     const state = readState(manifest?.status || entry.status || "UNKNOWN", currentGate);
     const nextRole = roleFromGate(currentGate);
+    const queueItemId = `Q-${entry.flow_id}`;
+    const mutationState = await readQueueMutationState(env, projectName, queueItemId, store);
+    const effectiveState = mutationState?.current_state || state;
+    const effectiveOwner = mutationState?.claimed_by || nextRole;
+    const effectiveNextRole = mutationState?.handoff_target_role || nextRole;
     const item: QueueItem = {
-      queue_item_id: `Q-${entry.flow_id}`,
+      queue_item_id: queueItemId,
       project: projectName,
       flow_id: entry.flow_id,
       flow_ref: manifest?.name || entry.name || entry.flow_id,
       queue_lane: "diagnostic",
-      current_state: state,
-      current_role_owner: nextRole,
-      allowed_next_role: nextRole,
-      allowed_next_action: allowedNextActionForQueueItem(role, state, nextRole, nextRole),
-      blocked_reason: state === "BLOCKED" ? "UNKNOWN" : null,
-      stop_condition: state === "QUARANTINED" ? "QUARANTINE_CONDITION_PRESENT" : null,
+      current_state: effectiveState,
+      current_role_owner: effectiveOwner,
+      allowed_next_role: effectiveNextRole,
+      allowed_next_action: allowedNextActionForQueueItem(role, effectiveState, effectiveOwner, effectiveNextRole),
+      blocked_reason: effectiveState === "BLOCKED" ? "UNKNOWN" : null,
+      stop_condition: effectiveState === "QUARANTINED" ? "QUARANTINE_CONDITION_PRESENT" : null,
       related_artifacts: safeArtifacts(manifest?.artifacts),
       evidence_requirements: [],
       audit_status: "UNKNOWN",

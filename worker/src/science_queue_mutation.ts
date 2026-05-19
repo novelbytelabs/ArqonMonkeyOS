@@ -297,7 +297,7 @@ function buildResponse(projectName: string, role: Role, record: MutationRecord, 
   };
 }
 
-export async function handleScienceQueueMutationRequest(
+async function handleScienceQueueMutationRequestUnchecked(
   request: Request,
   env: Env,
   route: MutationRoute,
@@ -333,7 +333,6 @@ export async function handleScienceQueueMutationRequest(
 
   const store = repoStore || githubRepoStore;
   const { item, state } = await resolveQueueState(env, payload.project, queueItemId, authenticatedRole, store);
-  const authorityCheck = validateRouteAuthority(route, authenticatedRole, state, item.current_role_owner, payload);
 
   const timestamp = new Date().toISOString();
   const recordPath = mutationRecordPath(timestamp, item.queue_item_id, route, authenticatedRole, payload.idempotency_key);
@@ -345,6 +344,8 @@ export async function handleScienceQueueMutationRequest(
     }
     return jsonResponse(buildResponse(payload.project, authenticatedRole, existing.value, recordPath, existing.sha || "UNKNOWN", true));
   }
+
+  const authorityCheck = validateRouteAuthority(route, authenticatedRole, state, item.current_role_owner, payload);
 
   const record: MutationRecord = {
     mutation_id: `MUT-${sanitizeSegment(item.queue_item_id)}-${Date.parse(timestamp)}`,
@@ -393,4 +394,21 @@ export async function handleScienceQueueMutationRequest(
   await writeJson(env, payload.project, statePath(item.queue_item_id), newState, `science queue state ${route}: ${item.queue_item_id}`, store);
 
   return jsonResponse(buildResponse(payload.project, authenticatedRole, record, writtenRecord.path, writtenRecord.sha), 201);
+}
+
+
+export async function handleScienceQueueMutationRequest(
+  request: Request,
+  env: Env,
+  route: MutationRoute,
+  args: { queueItemId: string },
+  repoStore?: RepoStore
+): Promise<Response> {
+  try {
+    return await handleScienceQueueMutationRequestUnchecked(request, env, route, args, repoStore);
+  } catch (error) {
+    if (error instanceof Response) return error;
+    const message = error instanceof Error ? error.message : String(error);
+    return mutationError("SCIENCE_QUEUE_MUTATION_INTERNAL_ERROR", message, 500);
+  }
 }
