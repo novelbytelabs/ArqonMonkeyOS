@@ -6,6 +6,28 @@ development diagnostic only
 NOT SEALED-TEST CERTIFIED
 not promotable
 
+Control doctrine:
+
+- No evidence = no claim.
+- No audit = no promotion.
+- No human approval = no advancement.
+- No harness = no truth.
+
+## Doc freshness
+
+- Last reconciled: `2026-05-19`
+- Reconciled against recent repo evidence, including commits:
+  - `c482cd7` Stage 3.6 role-path observation packet
+  - `fe4d6bf` Stage 3.6 tripwire preflight record
+  - `43b0138` bounded Stage 3.5 closeout
+  - `874d2ef` queue read hardening
+  - `0b11255` idempotency replay before visibility checks
+  - `99d2e18` handoff visibility repair
+- Reconciled against later-stage closeout packet evidence:
+  - `docs/04_flows_and_spec_kit/SCIENCE_MONKEYS_COMMAND_SURFACE_CLOSEOUT_001.md`
+- This roadmap is authoritative for operator-facing execution state only after reconciliation against in-repo artifacts.
+- Historical planning language must not be treated as current execution state without matching evidence.
+
 ## Baseline
 
 ContextBus (legacy name: ContextOS) v0.2 is operational for:
@@ -15,9 +37,9 @@ ContextBus (legacy name: ContextOS) v0.2 is operational for:
 - notes
 - role messages/inbox/archive copy
 
-## Current phase
+## Current execution state
 
-The active delivery sequence is:
+The long-range delivery sequence remains:
 
 1. Stage 1: Read / resume surface
 2. Stage 2A: Science command schema/import/doc normalization
@@ -29,21 +51,29 @@ The active delivery sequence is:
 8. Stage 5: Unified Science + Code model
 9. Stage 6: Production hardening
 
-Current execution is in Stage 2A.
+The repo is not in a single clean linear stage. It is currently operating in two distinct tracks:
+
+- Core platform critical path:
+  - Stage 2A completed as bounded schema/import/doc normalization evidence.
+  - Stage 2B completed as `PASS_WITH_WARNINGS` role-smoke evidence.
+  - Stage 2C closeout packet exists and consolidates Stages 1, 2A, and 2B.
+  - Later Stage 3 planning docs treat Stage 2 as closed `PASS_WITH_WARNINGS`.
+- Bounded Option C queue workflow track:
+  - Stage 3 queue-route implementation and repair work has already occurred in code and docs.
+  - Stage 3.5 bounded closeout artifacts exist in-repo and are scoped to the bounded Option C queue workflow objective only.
+  - Stage 3.6 role-path observation and live evidence capture artifacts exist in-repo and are not closeout.
+  - Stage 3.6B semantic-split planning now exists as a bounded planning checkpoint for queue action semantics.
+
+Authoritative current-state summary:
 
 - Stage 1 is completed as bounded diagnostic `PASS_WITH_WARNINGS` evidence.
-- Stage 2A is the current active work.
-- Stage 2B starts only after Stage 2A audit.
-- Broad Stage 2B multi-role smoke is blocked behind a pre-Stage-2B contract-parity remediation slice for `/v1/notes` and `/v1/messages`.
-- Stage 2C follows Stage 2B smoke and closes the Science command surface.
-- Option C queue work remains blocked until Stage 2A/2B/2C are complete and Human-closed.
-
-Bounded later-stage note:
-
-- Stage 3.5 is closed for the bounded Option C queue workflow objective only by Human decision.
-- This does not certify, promote, productionize, deploy, or sealed-test certify the system.
-- Deployed Worker commit proof remains UNKNOWN in the bounded Stage 3.5 closeout evidence.
-- Stage 3.6 is later and is not authorized by the bounded Stage 3.5 closeout.
+- Stage 2A completed as bounded diagnostic `PASS_WITH_WARNINGS` evidence.
+- Stage 2B completed as bounded diagnostic `PASS_WITH_WARNINGS` evidence.
+- Stage 2C closed as `PASS_WITH_WARNINGS`.
+- Stage 3.5 is closed only for the bounded Option C queue workflow objective by Human decision.
+- Stage 3.6 produced observation/evidence packets and divergence analysis; it is not closed.
+- Stage 3.6B is in planning/package state only; no semantic-split implementation is complete.
+- Deployed Worker commit/build proof remains UNKNOWN in the bounded Stage 3.5 and Stage 3.6 evidence chain.
 
 ## Current control point
 
@@ -56,16 +86,21 @@ The current command surface for Science GPTs is governed by the ContextBus comma
 
 MonkeyOS doctrine reset and docs hierarchy migration are still underway, but they are not the active implementation milestone.
 
+Queue-path control note:
+
+- The Stage 3.6 evidence chain established that `allowed_next_action` is currently viewer-scoped in observed queue responses.
+- Stage 3.6B planning exists because the current field appears to mix objective item state with viewer-specific permission semantics.
+- Until an audited additive semantic split is implemented, `allowed_next_action` should be treated as legacy viewer-scoped output.
+
 ## Next implementation milestone
 
-The next milestone on the critical path is Stage 2B: Science ContextBus command smoke after Stage 2A schema/import/doc normalization is fully locked and audited.
+The next core-platform milestone is bounded Stage 3.6B semantic-split planning and then the next authorized implementation slice after that planning/audit chain is complete.
 
 Stage goals:
 
-- Stage 2A goal: lock all Science GPTs to reconciled schema SHA `c73bc8c331a5dda7bdb71ce22b272afa386c4eabf3cbb22ba31ddcf9cf2bc297`, align docs, and audit.
-- Pre-Stage-2B goal: close `SCIENCE_MONKEYS_CONTEXTBUS_COMMAND_CONTRACT_PARITY_001` for `/v1/notes` and `/v1/messages`, re-hash-lock the corrected candidate schema, and re-import it before any broad multi-role smoke.
-- Stage 2B goal: role-by-role smoke for `/sync-context`, `/sync-constitution`, `/save-context`, `/send-message`, `/inbox`, `/open-message`, and `/archive-message`.
-- Stage 2C goal: normalize evidence, audit, and Human-close Stage 2.
+- Preserve the Stage 2 closure state consistently across active-state docs.
+- Keep Stage 3.6B scoped to queue action semantic split planning until a later implementation packet is explicitly authorized.
+- Preserve the boundary that bounded queue-workflow artifacts do not imply certification, promotion, deployment approval, or production readiness.
 
 Flow Core remains a foundational workstream, but it is not the next operator-facing gating step.
 
@@ -87,6 +122,7 @@ Flow Core must support generic flow families:
 ## After current Stage 2 closeout
 
 1. Option C queue core planning and implementation.
+   - Stage 3.6B allowed-next-action semantic split: add objective `item_next_action` and viewer-scoped `viewer_allowed_action` / `viewer_can_mutate` fields before relying on role-path queue action semantics for closeout.
 2. Human decision ledger.
 3. Code Monkeys Spec-Kit Fidelity Alignment.
 4. Unified Science and Code workflow model.
@@ -94,6 +130,18 @@ Flow Core must support generic flow families:
 6. Context rebuild automation after broker writes.
 7. Multi-user identity progression (temporary labels to OAuth).
 8. Multi-repo swarm replication support.
+
+## Bounded completed milestones
+
+- Stage 3.5 bounded Option C queue workflow closeout exists by Human decision only.
+  - Boundary: not certification, not promotion, not deployment proof, not sealed-test certification.
+- Stage 2A schema/import/doc normalization evidence exists.
+- Stage 2B Science ContextBus command role-smoke evidence exists.
+- Stage 2C Science command surface closed as `PASS_WITH_WARNINGS`.
+- Stage 3.6 role-path observation packet exists.
+- Stage 3.6 role-path live evidence capture exists.
+- Stage 3.6 allowed-next-action divergence analysis exists.
+- These bounded later-stage artifacts do not by themselves imply broader certification, promotion, or production readiness.
 
 ## Stage 4.5 checkpoint
 
@@ -141,6 +189,10 @@ Routes 001 must carry forward:
 - adversarial tests
 - regression tests
 
+Historical note:
+
+- Earlier single-track roadmap language is preserved for traceability, but it no longer accurately describes the repo's full current state without the bounded queue-workflow exceptions documented above.
+
 ## NanoResearch-Inspired Post-Share Roadmap
 
 NanoResearch-style tri-level co-evolution is added as a post-share roadmap item, not a Routes 001 expansion.
@@ -185,3 +237,15 @@ REQUIRES_HUMAN_REVIEW
 development diagnostic only  
 NOT SEALED-TEST CERTIFIED  
 not promotable
+
+## Active Integrity Guardrails
+
+- [DECEPTION_TRIPWIRE_HARNESS_AND_GUARDRAILS_001](DECEPTION_TRIPWIRE_HARNESS_AND_GUARDRAILS_001.md)
+- [PM_INPUT_TRIPWIRE_HARNESS_001](PM_INPUT_TRIPWIRE_HARNESS_001.md)
+
+## Roadmap update gate
+
+- Do not advance the roadmap state from planning to execution without linked in-repo artifacts.
+- Do not mark any stage closed without matching Human decision evidence.
+- Do not let tripwire output alone decide roadmap truth; tripwire findings are clues that require manual review.
+- Reconcile this roadmap against `CURRENT_STATE.md` and active bounded flow/spec-kit artifacts whenever a new stage packet is added.
